@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style type="text/css">
+			* {
+				touch-action: pan-y;
+			}
+			
+			#header {
+				background-color: rgba(254, 6, 56, 0.8);
+			}
+			
+			.mui-title {
+				color: white;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: red;
+			}
+			
+			.qiao_wrap{
+				width: 100%;
+				height: 90vh;
+				margin-top: 50px;
+				background: white;
+			}
+			
+			
+		</style>
+		<script>
+			function getUrl(file) {
+				var photo_data = document.getElementById("photo_data");
+				var file_name = document.getElementById("file_name");
+				var img = document.getElementById("Image");
+				for(var intI = 0; intI < file.length; intI++) { //图片回显
+					console.log(file.length);
+					var tmpFile = file[intI];
+					file_name.value = tmpFile.name;
+					var reader = new FileReader();
+					reader.readAsDataURL(tmpFile);
+					reader.onload = function(e) {
+						var url = e.target.result;
+						img.src = url;
+						photo_data.value = url;
+					}
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">修改个人信息</h1>
+		</header>
+		<!--头部导航栏-->
+		
+		
+		<!--个人信息部分-->
+		<div class="qiao_wrap">
+			<div class="mui-input-row">
+						<label>用户名</label>
+						<input type="text" class="mui-input-clear" placeholder="请填写用户名">
+					</div>
+					<div class="mui-input-row">
+						<label>手机号</label>
+						<input type="text" placeholder="请输入手机号">
+					</div>
+					
+					<div class="mui-input-row">
+						<label></label>
+						<input type="text" placeholder="请输入手机号">
+					</div>
+
+			<label type="button" class="mui-btn mui-btn-danger qiao_submit">确认</label>
+		</div>
+		<!--个人信息部分-->
+		
+
+		<!--底部菜单栏-->
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item" id="qiao_index">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" id="qiao_select">
+				<span class="mui-icon mui-icon mui-icon-search"></span>
+				<span class="mui-tab-label">筛选</span>
+			</a>
+			<a class="mui-tab-item mui-active" id="qiao_me">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		<!--底部菜单栏-->
+
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+	</body>
+
+</html>

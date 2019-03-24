@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<style type="text/css">
+			* {
+				touch-action: pan-y;
+			}
+			
+			#header {
+				background-color: rgba(221, 39, 38, 0.8);
+			}
+			
+			.mui-title {
+				color: white;
+			}
+			
+			.mui-row.mui-fullscreen>[class*="mui-col-"] {
+				height: 80%;
+			}
+			
+			.mui-col-xs-3,
+			.mui-control-content {
+				overflow-y: auto;
+				height: 100%;
+			}
+			
+			.mui-segmented-control .mui-control-item {
+				line-height: 50px;
+				width: 80%;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				background-color: #fff;
+				color: #FE0638;
+			}
+			
+			.qiao_sort {
+				width: 80%;
+				margin-left: 10%;
+				text-align: center;
+				line-height: 40px;
+				border-radius: .5em;
+				height: 40px;
+				position: absolute;
+				bottom: 70px;
+				z-index: 10;
+				background: #CC4A4A;
+				margin-bottom: -10px;
+				box-sizing: border-box;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #FE0638;
+			}
+			
+			.mui-segmented-control .mui-control-item {
+    line-height: 50px;
+    width: 100%;
+}
+			
+			.cur {
+				background: url(img/icon/checked.svg) no-repeat;
+				background-size: 70% 70%;
+				background-position: 100px 5px;
+				box-sizing: border-box;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">筛选</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<div class="mui-content mui-row mui-fullscreen">
+			<div class="mui-col-xs-3">
+				<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+					<span id="qiao_type"><a class="mui-control-item mui-active" href="#content1">类型</a></span>
+					<span id="qiao_start"><a class="mui-control-item" href="#content2">星级</a></span>
+					<span id="qiao_facility"><a class="mui-control-item" href="#content3">设施</a></span>
+					<span id="qiao_price"><a class="mui-control-item" href="#content4">价格</a></span>
+					<span id="qiao_sort"><a class="mui-control-item" href="#content5">排序</a></span>
+				</div>
+			</div>
+			<div id="segmentedControlContents" class="mui-col-xs-9" style="border-left: 1px solid #c8c7cc;">
+				<div id="content1" class="mui-control-content mui-active">
+					<ul filter="category" class="mui-table-view">
+						<!--类型-->
+					</ul>
+				</div>
+				<div id="content2" class="mui-control-content">
+					<ul filter="level" class="mui-table-view">
+						<!--星级-->
+					</ul>
+				</div>
+				<div id="content3" class="mui-control-content">
+					<ul filter="facility" class="mui-table-view">
+						<!--设施-->
+					</ul>
+				</div>
+				<div id="content4" class="mui-control-content">
+					<ul filter="price" class="mui-table-view">
+						<!--价格-->
+						<li class="mui-table-view-cell cur" style="color: red;" ret="0">不限</li>
+						<li class="mui-table-view-cell" ret="0-50">￥50元以下</li>
+						<li class="mui-table-view-cell" ret="50-100">￥50~￥100</li>
+						<li class="mui-table-view-cell" ret="100-200">￥100~￥200</li>
+						<li class="mui-table-view-cell" ret="200-500">￥200~￥500</li>
+						<li class="mui-table-view-cell" ret="500-1000">￥500~￥1000</li>
+						<li class="mui-table-view-cell" ret="1000-0">￥1000元以上</li>
+					</ul>
+				</div>
+				<div id="content5" class="mui-control-content">
+					<ul filter="sort" class="mui-table-view">
+						<!--排序-->
+						<li class="mui-table-view-cell cur" style="color: red;" ret="1">默认</li>
+						<li class="mui-table-view-cell" ret="2">价格升序</li>
+						<li class="mui-table-view-cell" ret="3">价格降序</li>
+						<li class="mui-table-view-cell" ret="4">星级升序</li>
+						<li class="mui-table-view-cell" ret="5">星级降序</li>
+
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<form method="post" id="selectForm">
+			<div class="qiao_sort">
+				<input type="hidden" name="categoryid" id="input_category" value="">
+				<input type="hidden" name="level" id="input_level" value="">
+				<input type="hidden" name="facility" id="input_facility" value="">
+				<input type="hidden" name="price" id="input_price" value="">
+				<input type="hidden" name="orderby" id="input_sort" value="1">
+				<a href="javascript:void(0)" style="color: white;">确定</a>
+			</div>
+		</form>
+
+		<!--底部菜单栏-->
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item" id="qiao_index">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item mui-active" id="qiao_select">
+				<span class="mui-icon mui-icon mui-icon-search"></span>
+				<span class="mui-tab-label">筛选</span>
+			</a>
+			<a class="mui-tab-item" id="qiao_me">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		<!--底部菜单栏-->
+
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js" ></script>
+		<script>
+			//cur 选中样式(针对单选)
+			var currentCss = function(obj) {
+				$(obj).addClass("cur").siblings().removeClass("cur");
+				$(obj).css("color", "red").siblings().css("color", "black");
+				var ret = $(obj).attr("ret");
+				var filterType = $(obj).parent().attr("filter");
+				$('#input_' + filterType).val(ret);
+			}
+
+			//点击确定
+			$(".qiao_sort").click(function() {
+				clearFlag();
+				var data = $("#selectForm").serialize();
+				var bank_id = sessionStorage.getItem("bank_id");
+				var area_id = sessionStorage.getItem("area_id");
+				data = data + "&bank_id=" + bank_id + "&areaid=" + area_id;
+				sessionStorage.setItem("selectShopList", data);
+				window.location.href = "hotel_list.html?send=select";
+
+			})
+
+			//处理多选input框的","问题
+			var clearFlag = function() {
+				var str_temp = '';
+				if($('#input_level').val()) {
+					str_temp = $('#input_level').val().substring(1, $('#input_level').val().length - 1);
+					$('#input_level').val(str_temp);
+				}
+				if($('#input_facility').val()) {
+					str_temp = $('#input_facility').val().substring(1, $('#input_facility').val().length - 1);
+					$('#input_facility').val(str_temp);
+				}
+			}
+
+			//cur 选中样式（针对多选)
+			var currentCssMany = function(obj, content) { //content 指定父级容器div
+				var ret = $(obj).attr("ret");
+				var filter_type = $(obj).parent().attr("filter");
+				if(ret == 0) {
+					$(obj).addClass("cur");
+					$(obj).css("color", "red");
+					$(obj).siblings().removeClass("cur");
+					$(obj).siblings().css("color", "black");
+				} else {
+					if($(obj).is(".cur")) {
+						$(obj).removeClass("cur");
+						$(obj).css("color", "black");
+						var str_temp = $('#input_' + filter_type).val().replace(',' + ret + ',', ',');
+						str_temp = str_temp == ',' ? '' : str_temp;
+						$('#input_' + filter_type).val(str_temp);
+					} else {
+						$(obj).addClass("cur");
+						$(obj).css("color", "red");
+						$(content + " ul li:first").removeClass("cur");
+						$(content + " ul li:first").css("color", "black");
+						var str_temp = $('#input_' + filter_type).val() ? $('#input_' + filter_type).val() + ret + ',' : ',' + ret + ',';
+						$('#input_' + filter_type).val(str_temp);
+					}
+				}
+			}
+
+			//排序
+			$("#content5 ul li").click(function() {
+				currentCss(this);
+			});
+
+			//价格
+			$("#content4 ul li").click(function() {
+				currentCss(this);
+			});
+
+			//设施(需要在ajax请求成功才能正常展示)
+			var facility = function() {
+				$("#content3 ul li").click(function() {
+					currentCssMany(this, "#content3");
+				});
+			}
+
+			//星级
+			var starLevel = function() {
+				$("#content2 ul li").click(function() {
+					currentCssMany(this, "#content2");
+				});
+			}
+
+			//类型
+			var cateType = function() {
+				$("#content1 ul li").click(function() {
+					currentCss(this);
+				});
+			}
+
+			//所属分类（進入頁面就需要請求）
+			mui.showLoading("数据加载中..", "div"); //数据加载中
+			$.get("/Home/Hotel/getCategory", function(res) {
+				if(res.code = "200") {
+					var html = "<li ret=\"0\" class=\"mui-table-view-cell cur\" style=\"color: red;\">不限</li>";
+					$.each(res.data, function(k, v) {
+						html += '<li ret="' + v.id + '" class="mui-table-view-cell">' + v.name + '</li>';
+					});
+					$("#content1 ul").append(html);
+				} else if(res.code = "403") {
+					$info = "登陆失败";
+					mui.alert($info, function() {
+						hybrid_app.back();
+					});
+				} else {
+					mui.toast("网络异常");
+				}
+				cateType();
+				$info = '请求完成';
+				mui.hideLoading(callback($info, false));
+			}, "json").error(function() {
+				mui.toast("网络异常");
+			});
+
+			//所属星级
+			$.get("/Home/Index/getStarLevel", function(res) {
+				if(res.code = "200") {
+					var html = "<li ret=\"0\" class=\"mui-table-view-cell cur\" style=\"color: red;\">不限</li>";
+					$.each(res.data, function(k, v) {
+						html += '<li ret="' + v.Star_ID + '" class="mui-table-view-cell">' + v.Star_Name + '</li>';
+					});
+					$("#content2 ul").append(html);
+				} else if(res.code = "403") {
+					$info = "登陆失败";
+					mui.alert($info, function() {
+						hybrid_app.back();
+					});
+				} else {
+					mui.toast("请求异常");
+				}
+				starLevel();
+			}, "json").error(function() {
+				mui.toast("网络异常");
+			});
+
+			//设施
+			$.get("/Home/Hotel/getFacility", function(res) {
+				if(res.code = "200") {
+					var html = "<li ret=\"0\" class=\"mui-table-view-cell cur\" style=\"color: red;\">不限</li>";
+					$.each(res.data, function(k, v) {
+						html += '<li ret="' + v.id + '" class="mui-table-view-cell">' + v.name + '</li>';
+					});
+					$("#content3 ul").append(html);
+				} else if(res.code = "403") {
+					$info = "登陆失败";
+					mui.alert($info, function() {
+						hybrid_app.back();
+					});
+				} else {
+					mui.toast("请求异常");
+				}
+				facility();
+			}, "json").error(function() {
+				mui.toast("网络异常");
+			});
+		</script>
+	</body>
+
+</html>

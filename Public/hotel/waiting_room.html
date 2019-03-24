@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<link rel="stylesheet" href="css/myorder.css" />
+		<style>
+			* {
+				touch-action: pan-y;
+			}
+			
+			#header {
+				background-color: rgba(221, 39, 38, 0.8);
+			}
+			
+			
+			.mui-title {
+				color: white;
+			}
+			
+			.qiao_order_back {
+				width: 98%;
+				margin: auto;
+				background: white;
+				min-height: 84vh;
+				margin-top: 50px;
+			}
+			
+			.qiao_myorder_item {
+				width: 100%;
+				height: 160px;
+				padding: 0px 20px;
+				border-bottom: 1px solid #F0F0F5;
+				margin-bottom: 10px;
+			}
+			
+			.qiao_date {
+				margin-left: 10px;
+			}
+			
+			.qiao_hotel_title {
+				display: flex;
+				height: 40px;
+				line-height: 40px;
+			}
+			
+			.qiao_hotel_title label {
+				width: 70%;
+				text-align: left;
+			}
+			
+			.qiao_hotel_title p {
+				width: 30%;
+				text-align: right;
+				color: red;
+				font-size: 14px;
+				font-weight: bold;
+			}
+			
+			.qiao_hotel_center {
+				display: flex;
+			}
+			
+			.qiao_hotel_img {
+				width: 40%;
+			}
+			
+			.qiao_hotel_content {
+				width: 60%;
+				padding: 2px 0px 2px 10px;
+				min-height: 85px;
+			}
+			
+			.qiao_hotel_content p {
+				margin: 0px;
+				padding: 0px;
+				font-size: 12px;
+			}
+			
+			.qiao_hotel_img img {
+				width: 100%;
+				overflow: hidden;
+				max-height: 80px;
+				border-radius: 5px;
+			}
+			
+			.mui-scroll-wrapper {
+				bottom: 50px;
+				top: 50px;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #FE0638;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">我的待入住订单</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<div class="qiao_order_back">
+
+			<div id="scroll" class="mui-scroll-wrapper">
+				<div class="mui-scroll qiao_item_1">
+					<!--每一项-->
+				</div>
+				<!--我的撤销单-->
+
+				<!--底部菜单栏-->
+				<nav class="mui-bar mui-bar-tab">
+					<a class="mui-tab-item" id="qiao_index">
+						<span class="mui-icon mui-icon-home"></span>
+						<span class="mui-tab-label">首页</span>
+					</a>
+					<a class="mui-tab-item" id="qiao_select">
+						<span class="mui-icon mui-icon mui-icon-search"></span>
+						<span class="mui-tab-label">筛选</span>
+					</a>
+					<a class="mui-tab-item mui-active" id="qiao_me">
+						<span class="mui-icon mui-icon-gear"></span>
+						<span class="mui-tab-label">个人中心</span>
+					</a>
+				</nav>
+				<!--底部菜单栏-->
+
+				<script type="text/javascript" src="js/jquery.js"></script>
+				<script src="js/mui.min.js"></script>
+				<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+				<script type="text/javascript" src="js/hybrid_app.js"></script>
+				<script type="text/javascript" src="js/common.js"></script>
+				<script>
+					(function($) {
+						$('#scroll').scroll({
+							indicators: true //是否显示滚动条
+						});
+					})(mui);
+
+					var bank_id = sessionStorage.getItem("bank_id");
+					//ajax请求退款列表
+					mui.showLoading("数据加载中..", "div");
+					var state4 = 4;
+					$.get("/Home/UserOrder/GetUserOrderList?bank_id=" + bank_id + "&status=" + state4, function(res) {
+
+						if(res.code == "200") {
+
+							$info = "请求正常";
+							console.log(res);
+							if(res.data.length < 1) {
+								$(".qiao_item_1").html('<p style="color:#888;text-align:center;font-size:14px;margin: 10px;">暂无相关数据</p>');
+								mui.hideLoading(callback($info, false));
+								return false;
+							}
+
+							var html = '';
+							//拼接为键值对，键为时间 ，value为对象数组
+							var result = {};
+							$.each(res.data, function(k, v1) {
+								if(result[v1.month_day_order] === "" || result[v1.month_day_order] === undefined) {
+									result[v1.month_day_order] = [];
+									result[v1.month_day_order].push(v1);
+								} else {
+									result[v1.month_day_order].push(v1);
+								}
+							});
+
+							$.each(result, function(k1, v2) {
+								dateInfo = '<p class="qiao_date">预定日期：' + k1 + '</p>';
+								var tongHtml = returnHtml4(v2);
+								html += dateInfo + tongHtml;
+							});
+
+						} else if(res.code = "403") {
+							$info = "登陆失败";
+							mui.hideLoading(callback($info, false));
+							mui.alert($info, function() {
+								hybrid_app.back();
+							});
+						} else {
+							$info = "请求出错";
+						}
+
+						$(".qiao_item_1").html(html);
+						mui.hideLoading(callback("暂无数据", false));
+						bindClick();
+					}, "json").error(function(){
+						mui.hideLoading(callback("请求异常", true));
+					});
+
+					//点击图片跳转退款详情页
+					var bindClick = function() {
+						//跳转订单详情页
+						$(".qiao_hotel_center").click(function() {
+							//跳转订单详情页面
+							var OrderID = $(this).find(".qiao_hotel_img").attr("data_order_id");
+							window.location.href = "order_detail.html?OrderID=" + OrderID;
+						});
+					};
+
+					//状态为已完成（拼接返回参数）
+					var returnHtml4 = function(v) {
+						var htm = "";
+						$.each(v, function(k, item) {
+							//显示退款进度
+							var showBackBadge = "";
+							if(item.Back_Status == "0") {
+								showBackBadge = '<span class="mui-badge mui-badge-warning" style="padding: 5px;margin-top: 6px;">申请中</span>';
+							} else if(item.Back_Status == "4") {
+								showBackBadge = '<span class="mui-badge mui-badge-success" style="padding: 5px;margin-top: 6px;">完成</span>';
+							} else if(item.Back_Status == "5") {
+								showBackBadge = '<span class="mui-badge mui-badge-danger" style="padding: 5px;margin-top: 6px;">卖家拒绝</span>';
+							}
+
+							htm += '<div class="qiao_myorder_item"><div class="qiao_hotel_title">' +
+								'<label>' + item.Biz_Name + '</label>' +
+								'<p><span>￥' + item.Order_TotalPrice + '</span></p></div>' +
+
+								'<div class="qiao_hotel_center">' +
+								'<div class="qiao_hotel_img" data_order_id="' + item.Order_ID + '">' +
+								'<img src="' + item.ImgPath + '" />' +
+								'</div>' +
+								'<div class="qiao_hotel_content">' +
+								'<p>' + item.ProductsName + '</p>' +
+								'<p>' + item.DateFrom + ' 至</p>' +
+								'<p>' + item.DateEnd + ' ' + item.days + '晚  ' + item.Qty + '间</p>' +
+								'<p>' + showBackBadge + '</p>' +
+								'</div>' +
+								'</div>' +
+								'</div>';
+
+						});
+
+						return htm;
+					};
+				</script>
+	</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<style type="text/css">
+			* {
+				touch-action: pan-y;
+			}
+			
+			#header {
+				background-color: rgba(221, 39, 38, 0.8);
+			}
+			
+			.mui-title {
+				color: white;
+			}
+			
+			.show_abum_photos {
+				width: 96%;
+				margin: auto;
+				margin-top: 50px;
+				display: flex;
+			}
+			
+			.abum_item {
+				width: 50%;
+				height: 300px;
+			}
+			
+			.show_abum_photos img {
+				width: 100%;
+				padding: 2px;
+			}
+			
+			.show_abum_photos .mui-col-xs-6 {
+				position: relative;
+				z-index: 1;
+			}
+			
+			.show_abum_photos .abum_info {
+				position: absolute;
+				z-index: 2;
+				bottom: 10px;
+				width: 90%;
+				left: 5%;
+				background: rgba(10, 11, 12, 0.7);
+				color: white;
+				padding: 2px 2px;
+				text-align: center;
+				box-sizing: border-box;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">商家相册</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<div class="show_abum_photos">
+			<div class="mui-row qiao_abum_item">
+				<!--每一個相冊-->
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js" ></script>
+		<script>
+			//请求商家详情页
+			var urlString = window.location.search; //获取跳转过来的参数
+			mui.showLoading("数据加载中..", "div"); //数据加载中
+			$.get("/Home/Hotel/getAlbums" + urlString, function(res) {
+
+				if(res.code == "200") {
+					$info = "请求正常";
+
+					if(res.data.length < 1) {
+						var html = '<div style="text-align: center;line-height: 30px;height:30px;width: 100%;color:#888;">' +
+							'<span>暂无相关数据</span></div>';
+						$(".show_abum_photos").append(html);
+						mui.hideLoading(callback($info, false));
+						return false;
+					}
+
+					var html = "";
+					$.each(res.data, function(k, item) {
+						html += '<div class="mui-col-xs-6">' +
+							'<a class="item_abum_qiao" href="hotel_abum_photos.html?BizID=' +
+							item.Biz_ID + '&CategoryID=' + item.Category_ID + '">' +
+							'<img src="' + item.Category_ImgPath + '" />' +
+							'<div class="abum_info">' +
+							'<label>' + item.Category_Name + "(" + item.PhotoNum + ")" + '</label>' +
+							'</div></a></div>';
+						$(".qiao_abum_item").html(html);
+					});
+
+				} else if(res.code == "403") {
+					$info = "登陆失败";
+					mui.hideLoading(callback($info, false));
+					mui.alert($info, function() {
+						hybrid_app.back();
+					});
+				}else if(res.code=="500"){
+					mui.hideLoading(callback("商家暂无相册", true));
+					setTimeout(function(){
+						window.history.back(); //退回上一頁
+					},3000);
+				}else {
+					mui.toast("网络异常");
+				}
+				mui.hideLoading(callback($info, false));
+			}, "json").error(function() {
+				mui.toast("请求异常");
+				mui.hideLoading(callback("网络异常", false));
+			});
+		</script>
+	</body>
+
+</html>

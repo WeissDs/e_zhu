@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<style type="text/css">
+			.qiao_wrap{
+				width: 100%;
+				height: 100vh;
+				background: white;
+			}
+			.qiao_head{
+				width: 100%;
+				height: 50px;
+				background: red;
+				line-height:50px;
+				color: white;
+				text-align: center; 
+			}
+			
+			.qiao_center{
+				width: 110px;
+				margin: 100px auto 50px;
+			}
+			
+			.qiao_info{
+				width: 100%;
+				text-align: center;
+			}
+			
+			.qiao_center img{
+				width: 100%;
+			}
+			
+			.qiao_info p{
+				font-size: 20px;
+				margin-bottom: 40px;
+				text-align: center;
+			}
+			
+			.qiao_info label{
+				width: 90%;
+			}
+			
+		</style>
+	</head>
+	
+	<body>
+		
+		<div class="qiao_wrap">
+			<div class="qiao_head">
+				<span>支付结果</span>
+			</div>
+			
+			<div class="qiao_center">
+				<img src="img/icon/cancel.svg" />
+			</div>
+			
+			<div class="qiao_info">
+				<p>取消支付</p>
+				<label class="mui-btn mui-btn-success qiao_back">返回</label>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="js/jquery.js" ></script>
+		<script type="text/javascript" src="js/mui.min.js" ></script>
+		<script type="text/javascript">
+			$(".qiao_back").on("tap",function(){
+				window.location.href="index.html";
+			});
+		</script>
+	</body>
+</html>

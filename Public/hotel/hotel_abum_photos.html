@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<link rel="stylesheet" href="css/hotel_abum_photos.css?b=2" />
+	</head>
+
+	<body>
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">商家图片</h1>
+		</header>
+		<!--头部导航栏-->
+		<div class="show_abum_photos">
+			<!--相册图片-->
+		</div>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/mui.zoom.js"></script>
+		<script type="text/javascript" src="js/mui.previewimage.js"></script>
+		<script>
+			//请求商家相册页
+			var urlString = window.location.search; //获取跳转过来的参数
+			mui.showLoading("数据加载中..", "div"); //数据加载中
+			$.get("/Home/Hotel/getAlbumsPhoto" + urlString, function(res) {
+				if(res.code == "200") {
+					$info = "请求正常";
+					//设置商家名称
+					$(".mui-title").text(res.data.Category_Name.Category_Name);
+					var html = "";
+
+					$.each(res.data.lists, function(k, item) {
+						html += '<img src="' + item.Photo_ImgPath +
+							'" data-preview-src="" data-preview-group="1" />';
+					});
+					
+					console.log(html);
+					$(".show_abum_photos").html(html);
+				} else {
+					$info = "请求异常";
+					mui.hideLoading(callback($info, false));
+				}
+				
+				//判斷商家是否有圖片顯示
+				if(res.data.lists.length < 1) {
+					var html = '<p style="text-align:center;font-size:16px;color:#888;">暂无数据</p>';
+					$(".show_abum_photos").html(html);
+				}
+				
+				mui.hideLoading(callback($info, false));
+				mui.previewImage();
+			}, "json").error(function(){
+				$info = "请求异常";
+				mui.hideLoading(callback($info, true));
+			});
+		</script>
+	</body>
+
+</html>

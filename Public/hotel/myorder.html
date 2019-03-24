@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<link rel="stylesheet" href="css/myorder.css?a=1" />
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">我的订单</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<!--tab-->
+		<div class="mui-content">
+			<div style="padding: 10px 10px;">
+				<div id="segmentedControl" class="mui-segmented-control">
+					<a class="mui-control-item qiao_status_0 mui-active" href="#item1">待付款</a>
+					<a class="mui-control-item qiao_status_2" href="#item2">待确认</a>
+					<a class="mui-control-item qiao_status_3" href="#item3">已确认</a>
+					<a class="mui-control-item qiao_status_4" href="#item4">已完成</a>
+					<a class="mui-control-item qiao_status_6" href="#item5">已取消</a>
+				</div>
+			</div>
+			<div>
+				<div id="item1" class="mui-control-content mui-active qiao_item">
+					<div id="scroll" class="mui-scroll-wrapper">
+						<div class="mui-scroll qiao_item_1">
+							<!--每一项-->
+						</div>
+					</div>
+				</div>
+
+				<div id="item2" class="mui-control-content qiao_item qiao_item_2">
+					<!--每一项-->
+				</div>
+				<div id="item3" class="mui-control-content qiao_item qiao_item_3">
+					<!--每一项-->
+				</div>
+				<div id="item4" class="mui-control-content qiao_item qiao_item_4">
+					<!--每一项-->
+				</div>
+				<div id="item5" class="mui-control-content qiao_item qiao_item_5">
+					<!--每一项-->
+				</div>
+
+			</div>
+		</div>
+		<!--tab-->
+
+		<!--底部菜单栏-->
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item" id="qiao_index">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" id="qiao_select">
+				<span class="mui-icon mui-icon mui-icon-search"></span>
+				<span class="mui-tab-label">筛选</span>
+			</a>
+			<a class="mui-tab-item mui-active" id="qiao_me">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		<!--底部菜单栏-->
+
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			(function($) {
+				$('#scroll').scroll({
+					indicators: true //是否显示滚动条
+				});
+			})(mui);
+
+			var bank_id = sessionStorage.getItem("bank_id");
+
+			//如果是到店付则直接定位到待付款
+			var comfirmPay = getUrlParam("comfirmPay");
+			if(comfirmPay == "daodianfu") {
+
+				mui.showLoading("数据加载中..", "div");
+				var status2 = 2;
+				$.get("/Home/UserOrder/GetUserOrderList?bank_id=" + bank_id + "&status=" + status2, function(res) {
+					if(res.code == "200") {
+						$info = "请求正常";
+						if(res.data.length < 1) {
+							$(".qiao_item_2").html('<p style="color:#888;text-align:center;font-size:16px;margin: 10px;">暂无相关数据</p>');
+							mui.hideLoading(callback($info, false));
+							return false;
+						}
+
+						//显示待确认tab
+						$("#segmentedControl a").eq(1).addClass("mui-active").siblings().removeClass("mui-active");
+						$(".mui-control-content").eq(1).addClass("mui-active").siblings().removeClass("mui-active");
+
+						var html = '';
+						//拼接为键值对，键为时间 ，value为对象数组
+						var result = {};
+						$.each(res.data, function(k, v1) {
+							if(result[v1.month_day_order] === "" || result[v1.month_day_order] === undefined) {
+								result[v1.month_day_order] = [];
+								result[v1.month_day_order].push(v1);
+							} else {
+								result[v1.month_day_order].push(v1);
+							}
+						});
+
+						$.each(result, function(k1, v2) {
+							dateInfo = '<p class="qiao_date">预定日期：' + k1 + '</p>';
+							var tongHtml = returnHtml2(v2);
+							html += dateInfo + tongHtml;
+						});
+						$(".qiao_item_2").html(html);
+
+					} else if(res.code == "403") {
+						$info = "登陆信息失效";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+					}
+					mui.hideLoading(callback($info, false));
+					clickBind();
+				}, "json").error(function() {
+					mui.toast("网络异常");
+				});
+
+			} else {
+
+				//进入页面数据加载中（待付款）
+				mui.showLoading("数据加载中..", "div");
+				var status0 = 0;
+				$.get("/Home/UserOrder/GetUserOrderList?bank_id=" + bank_id + "&status=" + status0, function(res) {
+					if(res.code == "200") {
+						var html = "";
+						$info = "请求正常";
+						if(res.data.length < 1) {
+							$(".qiao_item_1").html('<p style="color:#888;text-align:center;font-size:14px;margin: 10px;">暂无相关数据</p>');
+							mui.hideLoading(callback("暂无数据", false));
+							return false;
+						}
+
+						//拼接为键值对，键为时间 ，value为对象数组
+						var result = {};
+						$.each(res.data, function(k, v1) {
+							if(result[v1.month_day_order] === "" || result[v1.month_day_order] === undefined) {
+								result[v1.month_day_order] = [];
+								result[v1.month_day_order].push(v1);
+							} else {
+								result[v1.month_day_order].push(v1);
+							}
+						});
+
+						$.each(result, function(k1, v2) {
+							dateInfo = '<p class="qiao_date">预定日期：' + k1 + '</p>';
+							var tongHtml = returnHtml0(v2);
+							html += dateInfo + tongHtml;
+
+						});
+
+						$(".qiao_item_1").html(html);
+					} else if(res.code == "403") {
+						$info = "登陆信息失效";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+					}
+					mui.hideLoading(callback("暂无数据", false));
+					clickBind();
+				}, "json").error(function() {
+					mui.toast("网络异常");
+				});
+			}
+
+			//已取消
+			mui(".mui-segmented-control").on('tap', '.qiao_status_6', function() {
+				var state6 = 6;
+				mui.showLoading("数据加载中..", "div");
+				$.get("/Home/UserOrder/GetUserOrderList?bank_id=" + bank_id + "&status=" + state6, function(res) {
+					if(res.code == "200") {
+						mui.hideLoading(callback("暂无数据", false));
+						$info = "请求正常";
+
+						if(res.data.length < 1) {
+							$(".qiao_item_5").html('<p style="color:#888;text-align:center;font-size:14px;margin: 10px;">暂无相关数据</p>');
+							mui.hideLoading(callback("暂无数据", false));
+							return false;
+						}
+
+						var html = '';
+						//拼接为键值对，键为时间 ，value为对象数组
+						var result = {};
+						$.each(res.data, function(k, v1) {
+							if(result[v1.month_day_order] === "" || result[v1.month_day_order] === undefined) {
+								result[v1.month_day_order] = [];
+								result[v1.month_day_order].push(v1);
+							} else {
+								result[v1.month_day_order].push(v1);
+							}
+						});
+
+						$.each(result, function(k1, v2) {
+							dateInfo = '<p class="qiao_date">预定日期：' + k1 + '</p>';
+							var tongHtml = returnHtml5(v2);
+							html += dateInfo + tongHtml;
+						});
+
+					} else if(res.code == "403") {
+						$info = "登陆失败";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+					}
+
+					$(".qiao_item_5").html(html);
+					mui.hideLoading(callback($info, false));
+					clickBind();
+				}, "json").error(function() {
+					mui.toast("网络异常");
+				});
+			});
+
+			//已完成
+			mui(".mui-segmented-control").on('tap', '.qiao_status_4', function() {
+				var state4 = 4;
+				mui.showLoading("数据加载中..", "div");
+				$.get("/Home/UserOrder/GetUserOrderList?bank_id=" + bank_id + "&status=" + state4, function(res) {
+
+					if(res.code == "200") {
+						$info = "请求正常";
+						if(res.data.length < 1) {
+							$(".qiao_item_4").html('<p style="color:#888;text-align:center;font-size:14px;margin: 10px;">暂无相关数据</p>');
+							mui.hideLoading(callback("暂无数据", false));
+							return false;
+						}
+
+						var html = '';
+						//拼接为键值对，键为时间 ，value为对象数组
+						var result = {};
+						$.each(res.data, function(k, v1) {
+							if(result[v1.month_day_order] === "" || result[v1.month_day_order] === undefined) {
+								result[v1.month_day_order] = [];
+								result[v1.month_day_order].push(v1);
+							} else {
+								result[v1.month_day_order].push(v1);
+							}
+						});
+						$.each(result, function(k1, v2) {
+							dateInfo = '<p class="qiao_date">预定日期：' + k1 + '</p>';
+							var tongHtml = returnHtml4(v2);
+							html += dateInfo + tongHtml;
+						});
+						$(".qiao_item_4").html(html);
+					} else if(res.code == "403") {
+						$info = "登陆失败";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+					}
+					mui.hideLoading(callback($info, false));
+					clickBind();
+				}, "json").error(function() {
+					mui.toast("网络异常");
+				});
+			});
+
+			//已确认
+			mui(".mui-segmented-control").on('tap', '.qiao_status_3', function() {
+				mui.showLoading("数据加载中..", "div");
+				var state3 = 3;
+				$.get("/Home/UserOrder/GetUserOrderList?bank_id=" + bank_id + "&status=" + state3, function(res) {
+//					alert(JSON.stringify(res));
+					if(res.code == "200") {
+						$info = "请求正常";
+						if(res.data.length < 1) {
+							$(".qiao_item_3").html('<p style="color:#888;text-align:center;font-size:14px;margin: 10px;">暂无相关数据</p>');
+							mui.hideLoading(callback("暂无数据", false));
+							return false;
+						}
+
+						var html = '';
+						//拼接为键值对，键为时间 ，value为对象数组
+						var result = {};
+						$.each(res.data, function(k, v1) {
+							if(result[v1.month_day_order] === "" || result[v1.month_day_order] === undefined) {
+								result[v1.month_day_order] = [];
+								result[v1.month_day_order].push(v1);
+							} else {
+								result[v1.month_day_order].push(v1);
+							}
+						});
+
+						$.each(result, function(k1, v2) {
+							dateInfo = '<p class="qiao_date">预定日期：' + k1 + '</p>';
+							var tongHtml = returnHtml3(v2);
+							html += dateInfo + tongHtml;
+						});
+
+						$(".qiao_item_3").html(html);
+
+					} else if(res.code == "403") {
+						$info = "登陆失败";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+					}
+					mui.hideLoading(callback($info, false));
+					clickBind();
+				}, "json").error(function() {
+					mui.toast("网络异常");
+				});
+			});
+
+			//待确认
+			mui(".mui-segmented-control").on('tap', '.qiao_status_2', function() {
+				mui.showLoading("数据加载中..", "div");
+				var status2 = 2;
+				$.get("/Home/UserOrder/GetUserOrderList?bank_id=" + bank_id + "&status=" + status2, function(res) {
+					
+					if(res.code == "200") {
+						$info = "请求正常";
+						if(res.data.length < 1) {
+							$(".qiao_item_2").html('<p style="color:#888;text-align:center;font-size:14px;margin: 10px;">暂无相关数据</p>');
+							mui.hideLoading(callback($info, false));
+							return false;
+						}
+
+						var html = '';
+						//拼接为键值对，键为时间 ，value为对象数组
+						var result = {};
+						$.each(res.data, function(k, v1) {
+							if(result[v1.month_day_order] === "" || result[v1.month_day_order] === undefined) {
+								result[v1.month_day_order] = [];
+								result[v1.month_day_order].push(v1);
+							} else {
+								result[v1.month_day_order].push(v1);
+							}
+						});
+
+						$.each(result, function(k1, v2) {
+							dateInfo = '<p class="qiao_date">预定日期：' + k1 + '</p>';
+							var tongHtml = returnHtml2(v2);
+							html += dateInfo + tongHtml;
+						});
+						$(".qiao_item_2").html(html);
+
+					} else if(res.code == "403") {
+						$info = "登陆失败";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+					}
+					mui.hideLoading(callback($info, false));
+					clickBind();
+				}, "json").error(function() {
+					mui.toast("网络异常");
+				});
+			});
+
+			//待付款
+			mui(".mui-segmented-control").on('tap', '.qiao_status_0', function() {
+				mui.showLoading("数据加载中..", "div");
+				var status0 = 0;
+				$.get("/Home/UserOrder/GetUserOrderList?bank_id=" + bank_id + "&status=" + status0, function(res) {
+					if(res.code == "200") {
+						var html = "";
+						$info = "请求正常";
+						if(res.data.length < 1) {
+							$(".qiao_item_1").html('<p style="color:#888;text-align:center;font-size:14px;margin: 10px;">暂无相关数据</p>');
+							mui.hideLoading(callback("暂无数据", false));
+							return false;
+						}
+
+						//拼接为键值对，键为时间 ，value为对象数组
+						var result = {};
+						$.each(res.data, function(k, v1) {
+							if(result[v1.month_day_order] === "" || result[v1.month_day_order] === undefined) {
+								result[v1.month_day_order] = [];
+								result[v1.month_day_order].push(v1);
+							} else {
+								result[v1.month_day_order].push(v1);
+							}
+						});
+
+						$.each(result, function(k1, v2) {
+							dateInfo = '<p class="qiao_date">预定日期：' + k1 + '</p>';
+							var tongHtml = returnHtml0(v2);
+							html += dateInfo + tongHtml;
+
+						});
+
+						$(".qiao_item_1").html(html);
+					} else if(res.code == "403") {
+						$info = "登陆失败";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+					}
+					mui.hideLoading(callback("暂无数据", false));
+					clickBind();
+				}, "json").error(function() {
+					mui.toast("网络异常");
+				});
+			});
+
+			//根据Order_PaymentMethod判断是否是e支付，还是到店付
+			var show_cancel_info = function(item) {
+				var btnInfo = "";
+				if(item.Order_PaymentMethod == "EPAY") {
+					btnInfo = "申请退款";
+				} else {
+					btnInfo = "申请撤销";
+				}
+				return btnInfo;
+			};
+
+			//绑定点击事件
+			var clickBind = function() {
+				//跳转订单详情页
+				$(".qiao_hotel_center").on("tap", function() {
+					//跳转订单详情页面
+					var order_id = $(this).find(".qiao_hotel_img").attr("data_order_id");
+					window.location.href = "order_detail.html?OrderID=" + order_id;
+				});
+
+				//待付款点击取消按钮
+				$(".qiao_cancel").click(function() {
+					var orderID = $(this).attr("order_id");
+					confirm_dialog(orderID);
+				});
+
+				//待确认点击取申请撤销
+				$(".qiao_waiting_confirm").click(function() {
+					var orderID 	= $(this).attr("order_id");
+					var back_status = $(this).attr("back_status");
+					var product_id 	= $(this).attr("product_id");
+					var paytype 	= $(this).attr("paytype");
+					
+					if(back_status>=0){
+						mui.toast("您已经申请过撤销");
+						return false;
+					}
+
+					if(paytype == "EPAY") {
+						window.location.href = "require_cancel_order.html?product_id=" +
+							product_id + "&OrderID=" + orderID;
+					} else {
+						confirm_dialog(orderID);
+					}
+
+				});
+
+				//已确认点击申请撤消
+				$(".qiao_has_confirm").click(function() {
+					var orderID 	= $(this).attr("order_id");
+					var product_id 	= $(this).attr("product_id");
+					var back_status = $(this).attr("back_status");
+					
+					if(back_status>=0){
+						mui.toast("您已经申请过撤销");
+						return false;
+					}
+
+					window.location.href = "require_cancel_order.html?product_id=" +
+						product_id + "&OrderID=" + orderID;
+				});
+
+			};
+
+			//取消订单弹出框
+			var confirm_dialog = function(orderID) {
+				var btnArray = ['否', '是'];
+				mui.confirm('确定取消该订单？', '酒店助手提示您', btnArray, function(e) {
+					if(e.index == 1) {
+						$.get("/Home/UserOrder/CancelOrder?OrderID=" + orderID, function(res) {
+							if(res.code == "200") {
+								window.location.href = "index.html";
+							} else {
+								mui.toast("取消失败");
+							}
+						}, "json");
+					}
+				});
+			};
+
+			//状态为已取消（拼接返回参数）
+			var returnHtml5 = function(v) {
+				var htm = "";
+				$.each(v, function(k, item) {
+					//显示退款进度
+					var showBackBadge = "";
+					if(item.Back_Status == "0") {
+						showBackBadge = '<span class="mui-badge mui-badge-warning" style="padding: 5px;margin-top: 6px;">申请中</span>';
+					} else if(item.Back_Status == "4") {
+						showBackBadge = '<span class="mui-badge mui-badge-success" style="padding: 5px;margin-top: 6px;">完成</span>';
+					} else if(item.Back_Status == "5") {
+						showBackBadge = '<span class="mui-badge mui-badge-danger" style="padding: 5px;margin-top: 6px;">卖家拒绝</span>';
+					}
+
+					htm += '<div class="qiao_myorder_item"><div class="qiao_hotel_title">' +
+						'<label>' + item.Biz_Name + '</label>' +
+						'<p><span>￥' + item.Order_TotalPrice + '</span></p></div>' +
+						'<div class="qiao_hotel_center">' +
+						'<div class="qiao_hotel_img" data_order_id="' + item.Order_ID + '">' +
+						'<img src="' + item.ImgPath + '" />' +
+						'</div>' +
+						'<div class="qiao_hotel_content">' +
+						'<p>' + item.ProductsName + '</p>' +
+						'<p>' + item.DateFrom + ' 至</p>' +
+						'<p>' + item.DateEnd + ' ' + item.days + '晚  ' + item.Qty + '间</p>' +
+						'<p>' + showBackBadge + '</p>' +
+						'</div>' +
+						'</div>' +
+						'<div class="qiao_hotel_sub" style="text-align: right;">' +
+						'<button type="button" class="mui-btn" style="color: #fff;border: 1px solid #aaa;background-color: #aaa;">商家取消' +
+						'</button>' +
+						'</div>' +
+						'</div>';
+
+				});
+
+				return htm;
+			};
+
+			//状态为已完成（拼接返回参数）
+			var returnHtml4 = function(v) {
+				var htm = "";
+				$.each(v, function(k, item) {
+					//显示退款进度
+					var showBackBadge = "";
+					if(item.Back_Status == "0") {
+						showBackBadge = '<span class="mui-badge mui-badge-warning" style="padding: 5px;margin-top: 6px;">申请中</span>';
+					} else if(item.Back_Status == "4") {
+						showBackBadge = '<span class="mui-badge mui-badge-success" style="padding: 5px;margin-top: 6px;">完成</span>';
+					} else if(item.Back_Status == "5") {
+						showBackBadge = '<span class="mui-badge mui-badge-danger" style="padding: 5px;margin-top: 6px;">卖家拒绝</span>';
+					}
+
+					htm += '<div class="qiao_myorder_item"><div class="qiao_hotel_title">' +
+						'<label>' + item.Biz_Name + '</label>' +
+						'<p><span>￥' + item.Order_TotalPrice + '</span></p></div>' +
+
+						'<div class="qiao_hotel_center">' +
+						'<div class="qiao_hotel_img" data_order_id="' + item.Order_ID + '">' +
+						'<img src="' + item.ImgPath + '" />' +
+						'</div>' +
+						'<div class="qiao_hotel_content">' +
+						'<p>' + item.ProductsName + '</p>' +
+						'<p>' + item.DateFrom + ' 至</p>' +
+						'<p>' + item.DateEnd + ' ' + item.days + '晚  ' + item.Qty + '间</p>' +
+						'<p>' + showBackBadge + '</p>' +
+						'</div>' +
+						'</div>' +
+						'</div>';
+
+				});
+				return htm;
+			};
+
+			//状态为已确认（拼接返回参数）
+			var returnHtml3 = function(v) {
+				var htm = "";
+				$.each(v, function(k, item) {
+					var btnInfo = show_cancel_info(item);
+
+					//显示退款进度
+					var showBackBadge = "";
+					if(item.Back_Status == "0") {
+						
+						showBackBadge = '<span class="mui-badge mui-badge-warning" style="padding: 5px;margin-top: 6px;">申请中</span>';
+					} else if(item.Back_Status == "4") {
+						showBackBadge = '<span class="mui-badge mui-badge-success" style="padding: 5px;margin-top: 6px;">完成</span>';
+					} else if(item.Back_Status == "5") {
+						showBackBadge = '<span class="mui-badge mui-badge-danger" style="padding: 5px;margin-top: 6px;">卖家拒绝</span>';
+					}
+
+					htm += '<div class="qiao_myorder_item"><div class="qiao_hotel_title">' +
+						'<label>' + item.Biz_Name + '</label>' +
+						'<p><span>￥' + item.Order_TotalPrice + '</span></p></div>' +
+
+						'<div class="qiao_hotel_center">' +
+						'<div class="qiao_hotel_img" data_order_id="' + item.Order_ID + '">' +
+						'<img src="' + item.ImgPath + '" />' +
+						'</div>' +
+						'<div class="qiao_hotel_content">' +
+						'<p>' + item.ProductsName + '</p>' +
+						'<p>' + item.DateFrom + ' 至</p>' +
+						'<p>' + item.DateEnd + ' ' + item.days + '晚  ' + item.Qty + '间</p>' +
+						'<p>' + showBackBadge + '</p>' +
+						'</div>' +
+						'</div>' +
+						'<div class="qiao_hotel_sub" style="text-align: right;">' +
+						'<a href="javascript:;" back_status="' + item.Back_Status + '" product_id="' + item.Products_ID + '" order_id="' + item.Order_ID + '" class="mui-btn mui-btn-outlined qiao_has_confirm">' + btnInfo + '</a>' +
+						'</div>' +
+						'</div>';
+
+				});
+
+				return htm;
+			};
+
+			//状态为待确认（拼接返回参数）
+			var returnHtml2 = function(v) {
+				var htm = "";
+				$.each(v, function(k, item) {
+					var btnInfo = show_cancel_info(item);
+					//显示退款进度
+					var showBackBadge = "";
+					if(item.Back_Status == "0") {
+						showBackBadge = '<span class="mui-badge mui-badge-warning" style="padding: 5px;margin-top: 6px;">申请中</span>';
+					} else if(item.Back_Status == "4") {
+						showBackBadge = '<span class="mui-badge mui-badge-success" style="padding: 5px;margin-top: 6px;">完成</span>';
+					} else if(item.Back_Status == "5") {
+						showBackBadge = '<span class="mui-badge mui-badge-danger" style="padding: 5px;margin-top: 6px;">卖家拒绝</span>';
+					}
+
+					htm += '<div class="qiao_myorder_item"><div class="qiao_hotel_title">' +
+						'<label>' + item.Biz_Name + '</label>' +
+						'<p><span>￥' + item.Order_TotalPrice + '</span></p></div>' +
+
+						'<div class="qiao_hotel_center">' +
+						'<div class="qiao_hotel_img" data_order_id="' + item.Order_ID + '">' +
+						'<img src="' + item.ImgPath + '" />' +
+						'</div>' +
+						'<div class="qiao_hotel_content">' +
+						'<p>' + item.ProductsName + '</p>' +
+						'<p>' + item.DateFrom + ' 至</p>' +
+						'<p>' + item.DateEnd + ' ' + item.days + '晚  ' + item.Qty + '间</p>' +
+						'<p>' + showBackBadge + '</p>' +
+						'</div>' +
+						'</div>' +
+						'<div class="qiao_hotel_sub" style="text-align: right;">' +
+						'<a href="javascript:;" paytype="'+item.Order_PaymentMethod+'" back_status="' + item.Back_Status + '" product_id="' + item.Products_ID + '" order_id="' + item.Order_ID + '" class="mui-btn mui-btn-outlined qiao_waiting_confirm">' + btnInfo + '</a>' +
+						'</div>' +
+						'</div>';
+
+				});
+
+				return htm;
+			};
+
+			//状态为待付款（拼接返回参数）
+			var returnHtml0 = function(v) {
+				var htm = "";
+				$.each(v, function(k, item) {
+
+					//显示退款进度
+					var showBackBadge = "";
+					if(item.Back_Status == "0") {
+						showBackBadge = '<span class="mui-badge mui-badge-warning" style="padding: 5px;margin-top: 6px;">申请中</span>';
+					} else if(item.Back_Status == "4") {
+						showBackBadge = '<span class="mui-badge mui-badge-success" style="padding: 5px;margin-top: 6px;">完成</span>';
+					} else if(item.Back_Status == "5") {
+						showBackBadge = '<span class="mui-badge mui-badge-danger" style="padding: 5px;margin-top: 6px;">卖家拒绝</span>';
+					}
+
+					htm += '<div class="qiao_myorder_item"><div class="qiao_hotel_title">' +
+						'<label>' + item.Biz_Name + '</label>' +
+						'<p><span>￥' + item.Order_TotalPrice + '</span></p></div>' +
+
+						'<div class="qiao_hotel_center">' +
+						'<div class="qiao_hotel_img" data_order_id="' + item.Order_ID + '">' +
+						'<img src="' + item.ImgPath + '" />' +
+						'</div>' +
+						'<div class="qiao_hotel_content">' +
+						'<p>' + item.ProductsName + '</p>' +
+						'<p>' + item.DateFrom + ' 至</p>' +
+						'<p>' + item.DateEnd + ' ' + item.days + '晚  ' + item.Qty + '间</p>' +
+						'<p>' + showBackBadge + '</p>' +
+						'</div>' +
+						'</div>' +
+						'<div class="qiao_hotel_sub" style="text-align: right;">' +
+						'<a href="javascript:;" order_id="' + item.Order_ID + '" class="mui-btn qiao_cancel">取消</a>' +
+						'<a href="confirm_pay.html?OrderID=' + item.Order_ID + '" class="mui-btn mui-btn-danger">付款</a>' +
+						'</div>' +
+						'</div>';
+
+				});
+
+				return htm;
+			};
+		</script>
+	</body>
+</html>

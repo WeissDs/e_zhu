@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<style type="text/css">
+			* {
+				touch-action: pan-y;
+			}
+			
+			#header {
+				background-color: rgba(221, 39, 38, 0.8);
+			}
+			
+			.mui-title {
+				color: white;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #FE0638;
+			}
+			
+			.qiao_shop_wrap {
+				background: white;
+				width: 100%;
+				margin-top: 50px;
+				padding: 10px;
+				box-sizing: border-box;
+				min-height: 90vh;
+			}
+			
+			.shop_head {
+				width: 98%;
+				display: flex;
+			}
+			
+			.qiao_head_img {
+				width: 40%;
+			}
+			
+			.qiao_head_img img {
+				width: 100%;
+				border-radius: 5px;
+			}
+			
+			.qiao_shop_content {
+				padding: 10px;
+			}
+			
+			.qiao_shop_content h4 {
+				font-size: 15px;
+			}
+			
+			.qiao_shop_content p {
+				color: #CC4A4A;
+				font-size: 16px;
+				font-weight: bold;
+			}
+			
+			.content_info h4 {
+				font-size: 14px;
+			}
+			
+			.shop_content {
+				width: 94%;
+				margin: 10px;
+			}
+			
+			.content_info textarea::-webkit-input-placeholder {
+				font-size: 13px;
+				color: #bbb;
+			}
+			
+			.sub_mit label {
+				width: 100%;
+			}
+			
+			.mui-btn-danger{
+			    color: #fff;
+			    height: 40px;
+			    line-height: 30px;
+			    border: 1px solid #CC4a4a;
+			    background-color: #CC4a4a;
+			}
+			
+			/*图片预览*/
+			.mui-preview-image.mui-fullscreen {
+		position: fixed;
+		z-index: 20;
+		background-color: #000000;
+	}
+	
+	.mui-preview-header,
+	.mui-preview-footer {
+		position: absolute;
+		width: 100%;
+		left: 45%;
+		top: 20px;
+		z-index: 10;
+	}
+	
+	.mui-preview-header {
+		height: 44px;
+		top: 0;
+	}
+	
+	.mui-preview-footer {
+		height: 50px;
+		bottom: 0px;
+	}
+	
+	.mui-preview-header .mui-preview-indicator {
+		display: block;
+		line-height: 25px;
+		color: #fff;
+		text-align: center;
+		margin: 15px auto 4;
+		width: 70px;
+		background-color: rgba(0, 0, 0, 0.4);
+		border-radius: 12px;
+		font-size: 16px;
+	}
+	
+	.mui-preview-image {
+		display: none;
+		-webkit-animation-duration: 0.5s;
+		animation-duration: 0.5s;
+		-webkit-animation-fill-mode: both;
+		animation-fill-mode: both;
+	}
+	
+	.mui-preview-image.mui-preview-in {
+		-webkit-animation-name: fadeIn;
+		animation-name: fadeIn;
+	}
+	
+	.mui-preview-image.mui-preview-out {
+		background: none;
+		-webkit-animation-name: fadeOut;
+		animation-name: fadeOut;
+	}
+	
+	.mui-preview-image.mui-preview-out .mui-preview-header,
+	.mui-preview-image.mui-preview-out .mui-preview-footer {
+		display: none;
+	}
+	
+	.mui-zoom-scroller {
+		position: absolute;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		align-items: center;
+		-webkit-box-pack: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		-webkit-backface-visibility: hidden;
+	}
+	
+	.mui-zoom {
+		-webkit-transform-style: preserve-3d;
+		transform-style: preserve-3d;
+	}
+	
+	.mui-slider .mui-slider-group .mui-slider-item img {
+		width: auto;
+		height: auto;
+		max-width: 100%;
+		max-height: 100%;
+	}
+	
+	.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+		width: 100%;
+	}
+	
+	.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+		display: inline-table;
+	}
+	
+	.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+		display: table-cell;
+		vertical-align: middle;
+	}
+	
+	.mui-preview-loading {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		display: none;
+	}
+	
+	.mui-preview-loading.mui-active {
+		display: block;
+	}
+	
+	.mui-preview-loading .mui-spinner-white {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-left: -25px;
+		margin-top: -25px;
+		height: 50px;
+		width: 50px;
+	}
+	
+	.mui-preview-image img.mui-transitioning {
+		-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+		transition: transform 0.5s ease, opacity 0.5s ease;
+	}
+	
+	@-webkit-keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	
+	@keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	
+	@-webkit-keyframes fadeOut {
+		0% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+	
+	@keyframes fadeOut {
+		0% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+		</style>
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">订单撤销说明</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<div class="qiao_shop_wrap">
+			<div class="shop_head">
+				<div class="qiao_head_img">
+					<img src="img/1.jpg"  data-preview-src="" data-preview-group="1" />
+				</div>
+				<div class="qiao_shop_content">
+					<h4></h4>
+					<p>￥<span></span></p>
+				</div>
+			</div>
+
+			<div class="shop_content">
+				<form id="myForm">
+					<div class="content_info">
+						<h4>取消原因<span style="color: #aaa;font-size: 13px;">(字数最少10字以上)</span></h4>
+						<div class="mui-input-row" style="margin: 10px 5px;">
+							<textarea id="textarea" class="mui-input-clear" name="reason" rows="5" placeholder="提出您的宝贵意见吧，我们一定会认真改进。"></textarea>
+						</div>
+						<!--金额-->
+						<input type="hidden" name="backAmount" class="qiao_money" value="" />
+						<!--订单编号-->
+						<input type="hidden" name="OrderID" class="qiao_orderID" value="" />
+						<!--产品ID-->
+						<input type="hidden" name="product_id" class="qiao_productID" value="" />
+						<!--房间数量-->
+						<input type="hidden" name="backQty" class="qiao_qty" value="" />
+
+						<div class="sub_mit">
+							<label class="mui-btn mui-btn-danger">提交</label>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/mui.zoom.js"></script>
+		<script type="text/javascript" src="js/mui.previewimage.js"></script>
+		<script>
+			//展示订单撤销信息
+			var OrderID = getUrlParam("OrderID");
+			var product_id = getUrlParam("product_id");
+			mui.showLoading("数据加载中..", "div"); //数据加载中
+			$.post("/Home/User/Backup", {
+				"OrderID": OrderID,
+				"product_id": product_id
+			}, function(res) {
+				if(res.code == "200") {
+					$info = "请求正常";
+					$(".qiao_head_img img").attr("src", res.data.ImgPath);
+					$(".qiao_shop_content h4").text(res.data.ProductsName);
+					$(".qiao_shop_content span").text(res.data.Order_TotalPrice);
+					$(".qiao_orderID").val(res.data.Order_ID);
+					$(".qiao_productID").val(res.data.ProductsID);
+					$(".qiao_qty").val(res.data.Qty);
+					$(".qiao_money").val(res.data.Order_TotalPrice);
+
+				} else if(res.code == "403") {
+					$info = "登陆失败";
+					mui.alert($info, function() {
+						hybrid_app.back();
+					});
+				} else {
+					$info = "请求异常";
+				}
+				mui.hideLoading(callback($info, false));
+				
+				mui.previewImage();//图片预览
+			}, "json").error(function() {
+				mui.toast("网络异常");
+			});
+
+			//提交撤消信息
+			$(".sub_mit").on("tap",function() {
+				//判断用户是否填写反馈信息
+				var reson = $("#textarea").val();
+				if(reson == "") {
+					mui.toast("原因不能为空");
+					return false;
+				} else {
+					if(reson.length < 10) {
+						mui.toast("不能少于10个字");
+						return false;
+					}
+				}
+				//ajax加载撤销信息				
+				mui.showLoading("数据提交中..", "div"); //数据加载中
+				var data = $("#myForm").serialize();
+				$.post("/Home/User/ApplyBackup", data, function(res) {
+					if(res.code == "200") {
+						$info = "请求成功";
+						mui.toast("感谢您的反馈");
+						window.location.href = "me.html";
+						mui.hideLoading(callback($info, false));
+					} else if(res.code == "403") {
+						$info = "登陆失败";
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求异常";
+						mui.hideLoading(callback($info, false));
+					}
+				}, "json").error(function() {
+					mui.toast("网络异常");
+				});
+			});
+		</script>
+	</body>
+
+</html>

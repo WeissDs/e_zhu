@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<!-- 新时间选择 引入-->
+		<link rel="stylesheet" href="css/calendar.css">
+		<link rel="stylesheet" href="css/detail.css?a=" />
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">酒店详情</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<!--酒店信息-->
+		<div class="hotel_info">
+			<div class="hotel_info_img">
+				<a class="qiao_hotel_abum" href="">
+					<img src="" />
+					<div class="hotel_info_ablum">
+						<span class="hotel_info_ablum_span"></span>
+					</div>
+				</a>
+			</div>
+
+			<div class="hotel_info_content">
+				<p class="hotel_tiel_qiao" style="color: #333;"></p>
+				<p class="hotel_content_qiao"></p>
+			</div>
+		</div>
+		<!--酒店信息-->
+
+		<!--定位坐标/酒店电话-->
+		<div class="localtion_hotelphone">
+
+			<a class="localtion_href" href="">
+				<div class="location">
+					<div style="width: 20%;">
+						<img src="img/icon/dingwei2.svg" style="margin-top:4px;width: 30px;margin-left: 20px;" />
+					</div>
+					<div style="width: 60%;font-size: 12px;">
+						<span class="hotel_address"></span>
+					</div>
+					<div class="" style="width: 20%;">
+						<img src="img/icon/dingweiright.svg?b=2" style="margin-top: 5px;margin-left: 30px;" />
+					</div>
+				</div>
+			</a>
+
+			<a class="tel_href" href="">
+				<div class="hotel_phone">
+					<div style="width: 20%;">
+						<img src="img/icon/dianhua.svg?a=1" style="margin-top:4px;width: 30px;margin-left: 20px;" />
+					</div>
+					<div style="width: 60%;font-size: 12px;">
+						<span class="hotel_telphone"></span>
+					</div>
+					<div class="" style="width: 20%;">
+						<img src="img/icon/goto.svg?b=1" style="margin-top: 5px;margin-left: 30px;" />
+					</div>
+				</div>
+			</a>
+
+			<div id="qiao_notice" style="line-height: 1.5;font-family: 'bradley hand itc';font-size: 12px;">
+				<!--通知模块-->
+			</div>
+
+		</div>
+		<!--定位坐标/酒店电话-->
+
+		<!-- 时间选择 代码 -->
+		<div id="checkinout">
+			<div id="firstSelect" style="width:100%;">
+				<div class="Date_lr" style="float:left;">
+					<P>入住</p>
+					<input id="startDate" type="text" value="" style="" readonly>
+				</div>
+				<div class="Date_lr" style="float:right;">
+					<p>离店</p>
+					<input id="endDate" type="text" value="" style="" readonly>
+				</div>
+				<span class="span21">共 <span class="NumDate">1</span> 晚</span>
+			</div>
+		</div>
+		<div class="mask_calendar">
+			<div class="calendar"></div>
+		</div>
+		<!-- 时间选择 代码 -->
+
+		<!--酒店房间-->
+		<div style="width: 100%;height: 10px;"></div>
+		<div class="qiao_inut_shopinfo">
+
+			<div class="qiao_shop_list">
+				<p>房间预定</p>
+			</div>
+
+			<div class="qiao_shop_room">
+				<!--每一项-->
+			</div>
+
+			<!--预定说明-->
+			<div class="qiao_pre_explain">
+				<div class="qiao_shop_list">
+					<p>预定说明</p>
+				</div>
+			</div>
+			<div class="Biz_PreIntroduce" style="padding-left: 10px;color: #888;font-size: 14px;"></div>
+			<!--预定说明-->
+
+			<!--酒店详情-->
+			<div class="qiao_pre_detail">
+				<div class="qiao_shop_list">
+					<p>详情描述</p>
+				</div>
+			</div>
+			<div class="qiao_shop_detail">
+				<span class="Biz_BriefIntroduce" style="color: #888;font-size: 14px;"></span>
+				<!--<a href="#">【更多】</a>-->
+			</div>
+			<!--酒店详情-->
+
+		</div>
+		<!--酒店房间-->
+
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/jquery.cookie.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/date.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js"></script>
+		<script>
+			//点击预定(因为需要在加载完房间信息后操作，所以封装成函数)
+			var clickSubmit = function() {
+				$(".room_sub").click(function() {
+					var Biz_ID = getUrlParam("BizID");
+					var Products_ID = $(this).attr("data-value");
+					var startDate = sessionStorage.getItem("inDate");
+					var endDate = sessionStorage.getItem("outDate");
+					window.location.href = "submit_order.html?BizID=" + Biz_ID +
+						"&product_id=" + Products_ID + "&start_date=" + startDate + "&end_date=" + endDate;
+				});
+			};
+
+			//点击显示 房间图片
+			var clickShowRoomPhoto = function() {
+				$(".qiao_shop_room_img").click(function(res) {
+					//房间相册数组
+					var data_abum = $(this).attr("data_abum");
+					var abum_arr = data_abum.split(",");
+
+					//房间名称
+					var room_title = $(this).attr("data_title");
+
+					var room_info = {
+						"data_abum": data_abum,
+						"data_title": room_title
+					};
+					var jsonstring = JSON.stringify(room_info);
+					//设置并跳转房间图片页查看房间图片信息
+					sessionStorage.setItem("room_photos", jsonstring);
+					window.location.href = "hotel_room_photos.html";
+				});
+			};
+
+			//请求商家详情页
+			var urlString = window.location.search; //获取跳转过来的参数
+			mui.showLoading("数据加载中..", "div"); //数据加载中
+			$.get("/Home/Hotel/getShopInfo" + urlString, function(res) {
+				if(res.code == "200") {
+					$info = "加載完成";
+					ajaxReturn(res);
+					//设置共多少晚
+					var inDiff = sessionStorage.getItem('inDate').replace(/-/g, '/');
+					var outDiff = sessionStorage.getItem('outDate').replace(/-/g, '/');
+					$('.NumDate').text(DateDiff(inDiff, outDiff));
+					sessionStorage.setItem('numDate', $('.NumDate').text());
+					mui.hideLoading(callback($info, false));
+				} else if(res.code == "403") {
+					$info = "登陆失败";
+					mui.hideLoading(callback($info, false));
+					mui.alert($info, function() {
+						hybrid_app.back();
+					});
+				} else if(res.code == "1000") {
+					ajaxReturn(res);
+					//设置共多少晚
+					var inDiff = sessionStorage.getItem('inDate').replace(/-/g, '/');
+					var outDiff = sessionStorage.getItem('outDate').replace(/-/g, '/');
+					$('.NumDate').text(DateDiff(inDiff, outDiff));
+					$info = "暂无可用房型";
+					mui.hideLoading(callback($info, true));
+				} else {
+					mui.toast("请求异常");
+				}
+			}, "json").error(function() {
+				mui.toast("网络异常");
+			});
+
+			//判斷是否緩存了時間
+			if(sessionStorage.getItem('inDate')) {
+				$('#startDate').val(sessionStorage.getItem('inDate'));
+				$('#endDate').val(sessionStorage.getItem('outDate'));
+				$('.NumDate').text(sessionStorage.getItem('numDate'));
+
+			} else {
+				var b = new Date();
+				var ye = b.getFullYear();
+				var mo = b.getMonth() + 1;
+				mo = mo < 10 ? "0" + mo : mo;
+				var da = b.getDate();
+				da = da < 10 ? "0" + da : da;
+				$('#startDate').val(ye + '-' + mo + '-' + da);
+
+				b = new Date(b.getTime() + 24 * 3600 * 1000);
+				var ye = b.getFullYear();
+				var mo = b.getMonth() + 1;
+				mo = mo < 10 ? "0" + mo : mo;
+				var da = b.getDate();
+				da = da < 10 ? "0" + da : da;
+				$('#endDate').val(ye + '-' + mo + '-' + da);
+
+				sessionStorage.setItem("inDate", $('#startDate').val());
+				sessionStorage.setItem("outDate", $('#endDate').val());
+			}
+
+			$(function() {
+				//時間選擇代碼	
+				$('#firstSelect').on('click', function() {
+					$('.mask_calendar').show();
+					setTimeout("$('.mask_calendar .calendar').css('overflow', 'auto')", 0);
+				});
+				$('.mask_calendar').on('click', function(e) {
+					if(e.target.className == "mask_calendar") {
+						$('.calendar').slideUp(200);
+						$('.mask_calendar').fadeOut(200);
+					}
+				});
+				$('#firstSelect').calendarSwitch({
+					selectors: {
+						sections: ".calendar"
+					},
+					index: 12, //展示的月份个数
+					animateFunction: "slideToggle", //动画效果
+					controlDay: true, //知否控制在daysnumber天之内，这个数值的设置前提是总显示天数大于90天
+					daysnumber: "200", //控制天数
+					comeColor: "#E42F46", //入住颜色
+					outColor: "#E42F46", //离店颜色
+					comeoutColor: "#efefef", //入住和离店之间的颜色
+					callback: function() { //回调函数
+						$('.mask_calendar').fadeOut(200);
+						var startDate = $('#startDate').val(); //入住的天数
+						var endDate = $('#endDate').val(); //离店的天数
+						var NumDate = $('.NumDate').text(); //共多少晚
+						if(NumDate == '') {
+							$('.NumDate').text(1);
+							NumDate = 1;
+						}
+						sessionStorage.setItem('inDate', startDate);
+						sessionStorage.setItem('outDate', endDate);
+						sessionStorage.setItem('numDate', NumDate);
+					},
+					comfireBtn: '.comfire' //确定按钮的class或者id
+
+				});
+
+				//用户再次选择时间之后
+				$(".comfire").click(function() {
+					var startDate = sessionStorage.getItem("inDate");
+					var endDate = sessionStorage.getItem("outDate");
+					var BizID = getUrlParam("BizID");
+					mui.showLoading("数据加载中..", "div"); //数据加载中
+					var urlInfo = "/Home/Hotel/getShopInfo?BizID=" + BizID + "&start_date=" + startDate + "&end_date=" + endDate;
+					$.get(urlInfo, function(res) {
+						ajaxReturn(res);
+						if(res.code == "200") {
+							mui.toast("已重新加载数据");
+						} else if(res.code == "403") {
+							$info = "登陆失败";
+							mui.alert($info, function() {
+								hybrid_app.back();
+							});
+						} else if(res.code == "1000") {
+							$info = "暂无可用房型";
+							mui.hideLoading(callback($info, true));
+						} else {
+							mui.toast("请求异常");
+						}
+						mui.hideLoading(callback($info, false));
+					}, "json").error(function() {
+						mui.toast("网络异常");
+					});
+				});
+
+			});
+
+			//请求数据返回的结果
+			var ajaxReturn = function(res) {
+				$(".hotel_tiel_qiao").text(res.data.Biz_Name); //酒店名称
+				$(".hotel_content_qiao").text(res.data.Category_Name); //酒店分类
+				$(".hotel_info_img img").attr("src", res.data.Biz_ImgPath); //酒店展示图
+				$(".hotel_address").text(res.data.Biz_Address); //酒店地址
+				$(".hotel_telphone").text("酒店电话：" + res.data.Biz_Phone); //酒店电话
+				$(".Biz_PreIntroduce").html(res.data.Biz_PreIntroduce); //酒店预定说明
+				//					$(".Biz_BriefIntroduce").html(res.data.Biz_BriefIntroduce); //酒店详情
+				$(".hotel_info_ablum_span").html(res.data.photo_num); //酒店相册数量
+
+				//设置跳转相册地址
+				var hotel_abum = "abum_photo.html?BizID=" + res.data.Biz_ID;
+				$(".qiao_hotel_abum").attr("href", hotel_abum);
+
+				//设置跳转详情页连接(经理说酒店的更多详情没有了，所以hotel_detail_info.html也不需要了，这个页面我先不删，你知道就好了)
+				//var qiao_hotel_detail_link = "hotel_detail_info.html?BizID=" + res.data.Biz_ID;
+				//$(".qiao_shop_detail a").attr("href", qiao_hotel_detail_link);
+
+				//获取详情			
+				$.get("/Home/Hotel/getShopIntroduce?BizID=" + res.data.Biz_ID, function(res) {
+					var html = unescapeHTML(res.data.Biz_Introduce);
+					$(".Biz_BriefIntroduce").html(html);
+				},"json");
+
+				//定位城市
+				var href = "http://api.map.baidu.com/marker?location=" +
+					res.data.Biz_PrimaryLat + "," + res.data.Biz_PrimaryLng + "&title=" +
+					res.data.Biz_Name + "&name=" + res.data.Biz_Name + "&content=" +
+					res.data.Biz_Address + "&output=html&wxref=mp.weixin.qq.com";
+				$(".localtion_href").attr("href", href);
+
+				//弹出拨打电话
+				$(".tel_href").attr("href", "tel:" + res.data.Biz_Phone);
+
+				//判断优惠活动
+				if(res.data.Biz_Reduction_State == "on") {
+					var html = '<div class="activity">' +
+						'<div style="width:100%;background: white;">' +
+						'<div class="mui-input-row">' +
+						'<label><img src="img/icon/notice.svg" style="margin-top: -3px;color: #2AC845;"/></label>' +
+						'<label class="qiao_notice">优惠活动：</span>下单立减' + res.data.Order_Reduction_Money + '元,名额有限,先到先得。</label>' +
+						'</div></div></div>';
+					$("#qiao_notice").html(html);
+				}
+
+				//显示房间部分
+				var html = "";
+				$.each(res.data.rooms, function(k, item) {
+
+					//判斷是否顯示價格，顯示就剔除價格外的房間(room_price[0]最小價格 room_price[1]最大價格)
+					var room_price = string_split(urlString);
+					if(room_price) {
+						//先判断价格条件是不是**元以上
+						if(room_price[1] > room_price[0]) {
+							if(item.Products_PriceX > room_price[1] || item.Products_PriceX < room_price[0]) {
+								return true; //不滿足在a-b之間的價格就退出本次循環
+							}
+						}
+					}
+
+					//判断特价
+					var special_price = "";
+					if(item.Products_IsAct == "1") {
+						special_price += '<span style="background: red;color: white;padding: 2px;font-size: 12px;">特价</span>';
+					}
+
+					//判断是否显示均
+					var avg = "";
+					if(item.days > 1) {
+						avg = "均";
+					}
+
+					//图标显示
+					var htmlIcon = "";
+					$.each(item.icons, function(k, v) {
+						htmlIcon += '<img src="' + v + '"/>';
+					});
+
+					//判断按钮显示预定还是满房
+					var btn = "";
+					if(item.room_stat == "disable") {
+						btn = '<span class=\"room_sub_over\" style=\"\">满房</span>';
+					} else {
+						btn = '<a href="javascript:void(0);"><span class=\"room_sub\"  data-value=' + item.Products_ID + '>预定</span></a>';
+					}
+
+					var imgArr = item.ImgPath; //显示一张
+					var imgHtml = Array();
+					$.each(imgArr, function(k, imgItem) {
+						imgHtml[k] = '<img src="' + imgItem + '" />'
+					});
+
+					html += '<div class="qiao_shop_room_item">' +
+						'<div class="qiao_shop_room_img" data_abum="' + imgArr + '" data_title="' + item.Products_Name + '">' +
+						'' + imgHtml[0] + '</div>' +
+						'<div class="qiao_shop_room_content">' +
+						'<p>' + item.Products_Name + special_price + '</p>' +
+						'<p>' + item.Products_Square + "㎡ " + item.BedType + '</p>' +
+						'<p>' + htmlIcon + '</p></div>' +
+						'<div class="qiao_shop_room_sub">' +
+						'<div><span class="current_price">' + avg + '<span>￥</span> '+item.Products_PriceX+'</span></div>' +
+						'<div class="room_btn">' + btn + '</div>' +
+						'</div></div>';
+				});
+
+				$(".qiao_shop_room").html(html);
+
+				//加载完房间信息之后才能点击预定
+				clickSubmit();
+				//加载完房间信息之后才能点击跳转图片页面
+				clickShowRoomPhoto();
+			}
+
+			//將字符串切割
+			var string_split = function(urlString) {
+				var room_price = query_price(urlString, "price");
+				if(room_price == null) {
+					return false;
+				}
+				var urlArr = room_price.split("-");
+				return urlArr;
+			};
+		</script>
+	</body>
+
+</html>

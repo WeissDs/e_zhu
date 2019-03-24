@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>e住</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/base.css">
+	<link rel="stylesheet" href="css/animate.min.css">
+	<link rel="stylesheet" href="css/index_ezhu.css">
+	<style type="text/css">
+        #skip-btn {
+            display: block;
+            position: fixed;
+            z-index: 1;
+            top: 1.5em;
+            right: 1.2em;
+            padding: 0.4em 0.8em;
+            font-size: 14px;
+            color: #333;
+            text-decoration: none;
+            border: 1px solid #333;
+            border-radius: 3px;
+        }  
+    </style>
+	</head>
+	<body>
+    <a href="javascript:;" id="skip-btn">跳过 &gt;</a>
+	<div class="background">
+		<div class="top">
+			<img class="img-title rubberBand" src="http://xg-img.oss-cn-hangzhou.aliyuncs.com/ezhu/etitle.png" alt="">
+			<img class="img-yuan swing" src="http://xg-img.oss-cn-hangzhou.aliyuncs.com/ezhu/eyuan.png" alt="">
+			<img class="img-e swing" src="http://xg-img.oss-cn-hangzhou.aliyuncs.com/ezhu/e.png" alt="">
+		</div>
+		<footer>
+			<img class="img-call star" src="http://xg-img.oss-cn-hangzhou.aliyuncs.com/ezhu/call.svg" alt="">
+			<img class="img-phone" src="http://xg-img.oss-cn-hangzhou.aliyuncs.com/ezhu/ephone.png" alt="">
+		</footer>
+	</div>
+	<script type="text/javascript" src="js/jquery.js" ></script>
+	<script src="js/common.js"></script>
+	<script>		
+		var  url_login = getUrlParam("loginParams");
+		var  bank_id   = getUrlParam("OwnerID");
+
+		window.onresize = function() {
+			document.documentElement.style.fontSize = document.documentElement.clientWidth * 200 / 2480 + 'px';
+		}
+		window.onresize();
+		
+		//点击立即跳转
+		$("#skip-btn").click(function(){
+			window.location = "index.html?bank_id="+bank_id+"&loginParams="+url_login;
+		});
+		
+		//延迟5秒自动跳转
+		function delayer() {
+			window.location = "index.html?bank_id="+bank_id+"&loginParams="+url_login;
+		}
+		
+		jQuery(document).ready(function() {
+					setTimeout('delayer()', 5000);
+			 //这里实现延迟5秒跳转
+			});
+	</script>
+</body>
+</html>

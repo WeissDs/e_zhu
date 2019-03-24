@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+	</head>
+	<style type="text/css">
+		* {
+			touch-action: pan-y;
+		}
+		
+		#header {
+			background-color: rgba(221, 39, 38, 0.8);
+		}
+		
+		.mui-title {
+			color: white;
+		}
+		
+		.qiao_submit_wrap {
+			width: 98%;
+			margin: auto;
+			min-height: 100vh;
+			background: white;
+			margin-top: 50px;
+			border-top-right-radius: 1em;
+			border-top-left-radius: 1em;
+		}
+		
+		.qiao_hotel_info {
+			background: #DEDEDE;
+			margin-top: 20px;
+			border-top-right-radius: 1em;
+			border-top-left-radius: 1em;
+			height: 40px;
+			line-height: 40px;
+			padding: 0px 10px;
+			color: #666;
+		}
+		
+		.qiao_info_span {
+			color: #888;
+		}
+		
+		.qiao_sumit_order {
+			font-size: 16px;
+			text-align: center;
+			background: #CC4A4A;
+			height: 40px;
+			line-height: 40px;
+			border-radius: 5px;
+		}
+		
+		.mui-bar-tab .mui-tab-item.mui-active {
+			color: #FE0638;
+		}
+	</style>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">提交订单</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<div class="qiao_submit_wrap">
+
+			<form class="qiao_form_sumit">
+				<!--酒店信息-->
+				<div class="qiao_hotel_info">
+					酒店信息
+				</div>
+				<div class="mui-card" style="margin-bottom: 35px;">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">酒店名称：<span class="hotel_name" style="font-weight: bold;">月亮湾大酒店</span></li>
+						<li class="mui-table-view-cell">酒店地址：<span class="qiao_info_span hotel_address">撒大苏打实打实打算</span></li>
+						<li class="mui-table-view-cell">联系人：<span class="qiao_info_span qiao_link_person">张三</span></li>
+						<li class="mui-table-view-cell">电话：<span class="qiao_info_span qiao_link_telphone">15171571001</span></li>
+					</ul>
+				</div>
+
+				<!--房间信息-->
+				<div class="qiao_hotel_info">
+					房间信息
+				</div>
+				<div class="mui-card" style="margin-bottom: 35px;">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">房间名称（类型）：<span class="qiao_products_name">高级小床</span></li>
+						<li class="mui-table-view-cell">价格：
+							<!--<span class="qiao_room_span qiao_origin_price" style="text-decoration: line-through;color: #888;">￥220.00</span>-->
+							<span style="color: red;"><span class="qiao_room_span qiao_current_price">120.00</span></span>
+						</li>
+						<li class="mui-table-view-cell">房间详细信息：
+							<span style="color: #888;" class="qiao_room_detail"></span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="qiao_hotel_info">
+					预定信息
+				</div>
+				<div class="mui-card" style="margin-bottom: 35px;">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">入住日期：<span class="qiao_room_in_date" style="color: red;">2018-11-12</span></li>
+						<li class="mui-table-view-cell">离店日期：<span class="qiao_room_out_date" style="color: red;">2018-11-15</span></li>
+						<li class="mui-table-view-cell">入住天数： 共
+							<span style="color: red;font-size: 16px;padding: 0px 10px;" class="qiao_room_num">3</span>晚
+						</li>
+						<li class="mui-table-view-cell">
+							房间数量：
+							<div class="mui-numbox">
+								<button class="mui-btn mui-btn-numbox-minus qiao_sub_num" type="button">-</button>
+								<input name="Qty" class="mui-input-numbox qiao_room_num_info" type="number" value="1" readonly="readonly" />
+								<button class="mui-btn mui-btn-numbox-plus qiao_sub_num" type="button">+</button>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							入住人姓名：
+							<input type="text" name="Name" class="mui-input-clear qiao_nickname" style="width: 60%;margin-bottom: 2px;" placeholder="请输入真实姓名">
+							<span style="color: red;">*</span>
+						</li>
+						<li class="mui-table-view-cell">
+							手机号：
+							<input type="tel" name="Telephone" class="mui-input-clear qiao_phone" style="width: 60%;margin-left: 27px;margin-bottom: 2px;" placeholder="请输入手机号">
+							<span style="color: red;">*</span>
+						</li>
+						<li class="mui-table-view-cell">
+							备注：
+							<div class="mui-input-row" style="margin: 10px 5px;">
+								<textarea id="textarea" name="Note" class="qiao_remark" rows="5" placeholder="备注说明"></textarea>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							预定说明：
+							<input type="checkbox" class="qiao_precheckbox" />
+							<span style="color: #aaa;" class="qiao_explain"></span>
+						</li>
+
+						<li class="mui-table-view-cell">
+							<p style="text-align: right;">
+								<span style="color: #FF002C;font-size: 12px;display: none;" class="qiao_is_reduce">活动优惠:￥
+								<span class="qiao_reduce_money">1.00</span>&nbsp;&nbsp;
+								</span>
+								合计:<span style="color: red;font-size: 16px;">￥
+								<span class="qiao_total_money">1.00</span>
+								</span>
+							</p>
+						</li>
+
+						<li class="mui-table-view-cell">
+							<p class="qiao_sumit_order"><span style="color: white;">提交订单</span></p>
+						</li>
+					</ul>
+				</div>
+
+				<div style="width: 100%;height: 50px;"></div>
+				<!--产品ID-->
+				<input type="hidden" name="product_id" value="" />
+				<!--商家ID-->
+				<input type="hidden" name="BizID" value="" />
+				<!--入住日期-->
+				<input type="hidden" name="DateFrom" value="" />
+				<!--离店日期-->
+				<input type="hidden" name="DateEnd" value="" />
+				<!--入住天数-->
+				<input type="hidden" name="numDate" value="" />
+				<!--总价格-->
+				<input type="hidden" name="totalPrice" value="" />
+			</form>
+
+		</div>
+
+		<!--底部菜单栏-->
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" id="qiao_index">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" id="qiao_select">
+				<span class="mui-icon mui-icon mui-icon-search"></span>
+				<span class="mui-tab-label">筛选</span>
+			</a>
+			<a class="mui-tab-item" id="qiao_me">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		<!--底部菜单栏-->
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js"></script>
+		<script>
+			//请求预定页面接口
+			var urlString = window.location.search; //获取跳转过来的参数
+			var Biz_ID = getUrlParam("BizID");
+
+			//绑定点击事件函数(再加载订单完成之后显示)
+			var bindClickSubmitOrder = function(res, data) {
+				//合计应付金额钱数(点击增加房间数量或者减少房间数量时变化)
+				$(".qiao_sub_num").click(function() {
+					var qiao_room_num = $(".qiao_room_num_info").val();
+					if(qiao_room_num <= 1) {
+						$(".qiao_room_num_info").val(1);
+					}
+					//总金额
+					$(".qiao_total_money").text(totalMoney(res, data));
+				});
+				//点击提交按钮
+				$(".qiao_sumit_order").click(function() {
+					//验证用户是否填写完信息
+					var flag = checkInfo();
+					if(!flag) {
+						return false;
+					}
+					//数据加载中
+					mui.showLoading("订单提交中..", "div");
+					//ajax请求提交订单
+					formData(res, data);
+					var params = $(".qiao_form_sumit").serialize();
+					$.post("/Home/UserOrder/GenerateOrder", params, function(res) {
+
+						if(res.code == "200") {
+							$info = "请求正常";
+							//跳转
+							var orderState = 0; //0.待付款 2.待确认 3.已确认 6.已取消 8.延时订单关闭
+							window.location.href = "myorder.html?status=" + orderState;
+
+						} else if(res.code == "403") {
+							$info = "登陆失败";
+							mui.hideLoading(callback($info, false));
+							mui.alert($info, function() {
+								hybrid_app.back();
+							});
+						} else {
+							mui.toast("请求异常");
+						}
+						mui.hideLoading(callback("暂无数据", false));
+					}, "json").error(function() {
+						mui.toast("网络异常");
+					});
+				});
+			};
+
+			//设置入住日期
+			if(sessionStorage.getItem("inDate")) {
+				var start_date = sessionStorage.getItem("inDate");
+				var end_date = sessionStorage.getItem("outDate");
+				$(".qiao_room_in_date").html(start_date);
+				$(".qiao_room_out_date").html(end_date);
+				//计算共多少晚
+				sum = DateDiff(end_date.replace(/-/g, '/'), start_date.replace(/-/g, '/'));
+				$(".qiao_room_num").text(sum);
+			} else {
+				var b = new Date();
+				var ye = b.getFullYear();
+				var mo = b.getMonth() + 1;
+				mo = mo < 10 ? "0" + mo : mo;
+				var da = b.getDate();
+				da = da < 10 ? "0" + da : da;
+				$('.qiao_room_in_date').val(ye + '-' + mo + '-' + da);
+				b = new Date(b.getTime() + 24 * 3600 * 1000);
+				var ye = b.getFullYear();
+				var mo = b.getMonth() + 1;
+				mo = mo < 10 ? "0" + mo : mo;
+				var da = b.getDate();
+				da = da < 10 ? "0" + da : da;
+				$('.qiao_room_out_date').val(ye + '-' + mo + '-' + da);
+				//计算共多少晚
+				sum = DateDiff(end_date, start_date);
+				$(".qiao_room_num").text(sum);
+			}
+
+			//设置总价
+			//兩個接口同時請求成功
+			mui.showLoading("数据加载中..", "div"); //数据加载中
+			$.get("/Home/Hotel/getShopBizInfo?BizID=" + Biz_ID, function(res) {
+				if(res.code == "200") {
+
+					$(".hotel_name").text(res.data.Biz_Name); //酒店名称
+					$(".hotel_address").text(res.data.Biz_Address); //酒店地址
+					$(".qiao_link_person").text(res.data.Biz_Contact); //联系人
+					$('.qiao_link_telphone').text(res.data.Biz_Phone); //联系电话
+
+					if(res.data.Biz_PreIntroduce == null) {
+						$(".qiao_explain").text("预付订单一经确认无法取消，取消需要扣除相应手续费");
+					} else {
+						$(".qiao_explain").text(res.data.Biz_PreIntroduce);
+					}
+
+					//判断是否显示优惠信息
+					if(res.data.Biz_Reduction_State == "on") {
+						$(".qiao_is_reduce").css("display", "block");
+						$(".qiao_reduce_money").text(res.data.Order_Reduction_Money);
+					}
+
+					$.get("/Home/Hotel/getShopProductInfo" + urlString, function(data) {
+
+						if(data.code == "200") {
+
+							//如果房间数量大于一显示均字
+							if(data.data.days > 1) {
+								data.data.Products_PriceX = "均￥" + data.data.Products_PriceX;
+							} else {
+								data.data.Products_PriceX = "￥" + data.data.Products_PriceX;
+							}
+
+							totalMoney(res, data); //设置总金额
+							$(".qiao_products_name").text(data.data.Products_Name); //房间类型名称
+							//$(".qiao_origin_price").text(data.data.Products_PriceY); //原价
+							$(".qiao_current_price").html(data.data.Products_PriceX); //现价
+							$(".qiao_room_detail").text(data.data.Products_Description); //详情
+							//$(".qiao_total_money").text(totalMoney(res, data)); //总金额展示
+							mui.hideLoading(callback("加载数据成功", false));
+						} else if(data.code == "403") {
+							$info = "登陆信息失效";
+							mui.hideLoading(callback($info, false));
+							mui.alert($info, function() {
+								hybrid_app.back();
+							});
+						} else {
+							mui.toast("请求异常");
+						}
+						//加载绑定点击事件函数
+						bindClickSubmitOrder(res, data);
+					}, "json").error(function() {
+						mui.toast("网络异常");
+					});
+
+				} else {
+					$info = "网络异常";
+				}
+			}, "json").error(function() {
+				mui.toast("网络异常");
+			});
+
+			//计算总金额
+			var totalMoney = function(res, data) {
+				//				alert(JSON.stringify(data)); // 前端判断总价逻辑
+				//				alert(JSON.stringify(res));
+				//				总金额
+				//				var totalMoney = 0.00;
+				//				//先判断是否有优惠
+				//				var freeMoney = 0.00;
+				//				if(res.data.Biz_Reduction_State == "on") {
+				//					freeMoney = parseFloat(res.data.Order_Reduction_Money);
+				//				}
+				//				//再看居住几晚
+				//				var day_nums = parseInt($(".qiao_room_num").text());
+				//				var room_nums = parseInt($('.qiao_room_num_info').val());
+				//				totalMoney = parseFloat(data.data.Products_PriceX) * day_nums * room_nums - freeMoney;
+				//				totalMoney = (Math.round(totalMoney * 100) / 100).toFixed(2);
+
+				var room_num = $(".qiao_room_num_info").val();
+				var sub_data = {
+					"product_id": data.data.Products_ID,
+					"BizID": data.data.Biz_ID,
+					"Qty": room_num,
+					"DateFrom": sessionStorage.getItem("inDate"),
+					"DateEnd": sessionStorage.getItem("outDate")
+				};
+
+				mui.showLoading("数据加载中..", "div"); //数据加载中
+				$.post("/Home/UserOrder/SumTotal", sub_data, function(res) {
+					if(res.code == "200") {
+						$info = "请求成功";
+						$(".qiao_total_money").text(res.data);
+					} else if(res.code == "403") {
+						$info = "登陆信息失效";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求失败";
+					}
+					mui.hideLoading(callback($info, false));
+				}, "json").error(function() {
+					mui.hideLoading(callback("请求出错", true));
+				});
+			};
+
+			//统一设置form表单值		
+			var formData = function(res, data) {
+				$("input[name='product_id']").val(data.data.Products_ID);
+				$("input[name='BizID']").val(data.data.Biz_ID);
+				$("input[name='numDate']").val($(".qiao_room_num").text());
+				$("input[name='DateFrom']").val(sessionStorage.getItem("inDate"));
+				$("input[name='DateEnd']").val(sessionStorage.getItem("outDate"));
+				$("input[name='totalPrice']").val($(".qiao_total_money").text());
+			};
+
+			//前端验证用户是否填写完表单必填信息
+			var checkInfo = function() {
+				//判断预定说明按钮是否选中
+				if(!$(".qiao_precheckbox").is(":checked")) {
+					mui.toast("请勾选预定说明");
+					return false;
+				}
+				//验证姓名
+				var username = $(".qiao_nickname").val();
+				//验证手机号
+				var telphone = $(".qiao_phone").val();
+				if($.trim(username).length == 0) {
+					mui.toast("姓名必须填写");
+					return false;
+				} else {
+					if(isChinaName($.trim(username)) == false) {
+						mui.toast("姓名不正确");
+						return false;
+					}
+				}
+				if($.trim(telphone).length == 0) {
+					mui.toast("手机号必须填写");
+					return false;
+				} else {
+					if(isPhoneNo($.trim(telphone)) == false) {
+						mui.toast("号码不正确");
+						return false;
+					}
+				}
+
+				return true;
+			};
+		</script>
+	</body>
+
+</html>

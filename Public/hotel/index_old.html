@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<!-- 新时间选择 引入-->
+		<link rel="stylesheet" href="css/calendar.css">
+		<link rel="stylesheet" href="css/icons-extra.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/index.css?a=3" />
+		<link rel="stylesheet" href="css/swiper.min.css" />
+		<script>
+			window.onresize = function(){
+				document.documentElement.style.fontSize = document.documentElement.clientWidth*100/750+'px';
+			}
+			window.onresize();
+		</script>
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">酒店助手</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<!--轮播图-->
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+				</div>
+				<div class="swiper-slide">
+				</div>
+			</div>
+			<!-- 如果需要分页器 -->
+			<div class="swiper-pagination"></div>
+		</div>
+		<!--轮播图-->
+
+		<!--form 表单提交数据-->
+		<div class="qiao_index_wrap">
+			<form id="qiao_index_form">
+				<!-- 时间选择 代码 -->
+				<div id="checkinout">
+					<div id="firstSelect" style="width:100%;">
+						<div class="Date_lr" style="float:left;">
+							<P>入住</p>
+							<input id="startDate" type="text" value="" readonly>
+						</div>
+						<div class="Date_lr" style="float:right;">
+							<p>离店</p>
+							<input id="endDate" type="text" value="" readonly>
+						</div>
+						<span class="span21">共 <span class="NumDate">1</span> 晚</span>
+					</div>
+				</div>
+				<div class="mask_calendar">
+					<div class="calendar"></div>
+				</div>
+				<!-- 时间选择 代码 -->
+
+				<!--input输入栏部分-->
+				<div class="qiao_input">
+					<!--占位作用-->
+				</div>
+
+				<div class="qiao_inut_info">
+					<div class="mui-input-row">
+						<label><img src="img/icon/index_location.svg" width="20"/></label>
+						<input type="text" id="areaname" class="mui-input hotel_area" value="" readonly="readonly" placeholder="我的位置">
+					</div>
+					<div class="mui-input-row">
+						<label><img src="img/icon/index_search.svg"width="20" /></label>
+						<input type="text" class="mui-input-clear" name="title" id="qiao_hotel_name" placeholder="酒店名称">
+					</div>
+					<div class="mui-input-row">
+						<label><img src="img/icon/index_price.svg" width="20"/></label>
+						<input type="text" id="qiao_show_price" readonly="readonly" placeholder="价格/星级">
+					</div>
+				</div>
+				<!--input输入栏部分-->
+
+				<div class="search_form">
+					<label class="mui-btn mui-btn-danger">查询</label>
+				</div>
+
+				<input type="hidden" name="price" id="search_price" />
+				<input type="hidden" name="level" id="search_level" />
+				<input type="hidden" name="areaid" id="areaid" value="330100" />
+			</form>
+		</div>
+		<!--form 表单数据-->
+
+		<!--商家列表-->
+		<div class="qiao_inut_shopinfo">
+			<div class="qiao_shop_list">
+				<p>推荐商家</p>
+			</div>
+			<div class="qiao_shop_content">
+				<div class="qiao_shop_item">
+					<!--酒店列表-->
+				</div>
+			</div>
+			<div class="loading_more">
+				<p>点击加载更多</p>
+			</div>
+		</div>
+		<!--商家列表-->
+
+		<!--隐藏分页数据-->
+		<input type="hidden" id="page" value="2" />
+		<!--隐藏分页数据-->
+
+		<!-- 城市选择 开始 -->
+		<div id="home_city" class="city_show">
+			<div class="home_nav">
+				<header id="header" class="mui-bar mui-bar-nav">
+					<a class="qiao_back_out mui-icon mui-icon-left-nav mui-pull-left " style="color: white;"></a>
+					<h1 class="mui-title">酒店助手</h1>
+				</header>
+			</div>
+			<!--显示点击的是哪一个字母-->
+			<!--<div id="showLetter" class="showLetter"><span>A</span></div>-->
+			<!--城市索引查询-->
+			<div class="letter"></div>
+			<div class="container"></div>
+		</div>
+		<!-- 城市选择 结束 -->
+
+		<!--价格/星级-->
+		
+		<div class="price-start-popup">
+			<div class="star-select">
+				<p>星级</p>
+				<div class="mui-row">
+					<!--星际列表-->
+				</div>
+			</div>
+			<div class="price_select">
+				<p>价格</p>
+				<ul class="popup-price-section">
+					<li>
+						<p class="red">不限</p>
+						<span class="red"></span>
+					</li>
+					<li>
+						<p>100</p>
+						<span></span>
+					</li>
+					<li>
+						<p>200</p>
+						<span></span>
+					</li>
+					<li>
+						<p>300</p>
+						<span></span>
+					</li>
+					<li>
+						<p>400</p>
+						<span></span>
+					</li>
+					<li>
+						<p>500</p>
+						<span></span>
+					</li>
+					<li>
+						<p>600</p>
+						<span></span>
+					</li>
+					<li>
+						<p class="red">1000</p>
+						<span class="red"></span>
+					</li>
+				</ul>
+				<div class="mui-input-row mui-input-range popup-price-bar">
+					<input type="range" min="0" max="1000" id="rangel" value="0">
+				</div>
+			</div>
+			<div class="popup-bottom">
+				<button id="index_popup_re" class="popup-re">重置</button>
+				<button id="index_popup_sub" class="popup-sub">完成</button>
+			</div>
+		</div>
+		<!--价格/星级-->
+
+		<!--底部菜单栏-->
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" id="qiao_index">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" id="qiao_select">
+				<span class="mui-icon mui-icon mui-icon-search"></span>
+				<span class="mui-tab-label">筛选</span>
+			</a>
+			<a class="mui-tab-item" id="qiao_me">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		<!--底部菜单栏-->
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/city.js"></script>
+		<script type="text/javascript" src="js/date.js"></script>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/swiper.min.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js"></script>
+		<script type="text/javascript" src="js/index.js?a=3"></script>
+
+		<script>
+			//设置加载更多的全局标识
+			var flag = true;
+
+			//地区号
+			var area_id = $("#areaid").val();
+			if(sessionStorage.getItem("area_id")) {
+				area_id = sessionStorage.getItem("area_id");
+			} else {
+				sessionStorage.setItem("area_id", area_id);
+			}
+
+			//判断用户所属城市是否缓存
+			if(sessionStorage.getItem("area_id") && sessionStorage.getItem("area_name")) {
+				$("#areaname").val(sessionStorage.getItem('area_name'));
+				$("#areaid").val(sessionStorage.getItem("area_id"));
+			} else {
+
+				//弹出定位信息让用户定位所在城市
+			}
+
+			//所属银行编号
+			var bank_id = getUrlParam("bank_id");
+			if(bank_id > 0) {
+				sessionStorage.setItem("bank_id", bank_id);
+			} else {
+				bank_id = sessionStorage.getItem("bank_id");
+			}
+
+			//登陆加密参数
+			var loginParams = getUrlParam("loginParams");
+
+			//点击退出系统
+			$("#header").on("tap", function() {
+				hybrid_app.back();
+			});
+
+
+			//获取登陆参数
+			var dataLogin = { 
+				"loginParams": loginParams,
+				"bankId": bank_id
+			};
+
+			//判断传过来的参数是否从首页进入
+			if(loginParams && !sessionStorage.getItem("entry_init")) {
+
+				sessionStorage.setItem("entry_init", true);
+				//ajax 登陆验证
+				mui.showLoading("登陆验证中..", "div"); //数据加载中
+				$.post("/Home/Icbc/Certification", dataLogin, function(res) {
+
+					if(res.code == 200) {
+						$("#areaid").val(res.data.User_City_Code);
+						$("#areaname").val(res.data.User_City);
+						sessionStorage.setItem("area_name", res.data.User_City);
+						sessionStorage.setItem("area_id", res.data.User_City_Code);
+						sessionStorage.setItem("User_Longitude", res.data.User_Longitude);
+						sessionStorage.setItem("User_Latitude", res.data.User_Latitude);
+						sessionStorage.setItem("User_ID", res.data.User_ID);
+						$info = '登陆成功';
+						mui.hideLoading(callback($info, false));
+					} else if(res.code == 403) {
+						$info = "登陆失败";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					}
+
+					//显示商家信息
+					showShopInfo();
+
+				}, "json").error(function(){
+						mui.hideLoading(callback("请求异常", true));
+				});
+			} else {
+
+				$("#areaid").val(sessionStorage.getItem("area_id"));
+				$("#areaname").val(sessionStorage.getItem("area_name"));
+				
+					//显示商家信息
+					showShopInfo();
+			}
+
+			//显示商家信息
+			function showShopInfo() {
+				//跳转商家详情页
+				$(".qiao_shop_content").on("tap", ".qiao_shop_item", function() {
+					var Biz_ID = $(this).attr("Biz_ID");
+					var start_date = sessionStorage.getItem('inDate');
+					var end_date = sessionStorage.getItem('outDate');
+					window.location.href = "detail.html?BizID=" + Biz_ID + "&start_date=" + start_date + "&end_date=" + end_date;
+				});
+
+				//請求商家列表,将数据保存sessionStorage
+				$(".search_form").click(function() {
+					var data = $("#qiao_index_form").serialize();
+					sessionStorage.setItem("index_form_data", data);
+					window.location.href = "hotel_list.html?send=index";
+				});
+
+				//ajax 请求获取星级
+				mui.get("/Home/Index/getStarLevel", function(res) {
+
+					if(res.code == "200") {
+						console.log(res.data)
+						var html = '<span data-value="0" class="star-item-clear" id="star_item_clear">不限</span>';
+						$.each(res.data, function(k, item) {
+							html += '<span data-value="' + item.Star_ID + '" class="star-item">' + item.Star_Name + '</span>';
+						});
+						$(".star-select .mui-row").html(html);
+					} else if(res.code == 403) {
+						$info = "登陆失败";
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					}
+					bindClick(); //绑定事件一系列函数
+				}, "json");
+
+				//请求轮播图接口
+				mui.post("/Home/Index/getCarouselFigure", {
+					bank_id: bank_id
+				}, function(res) {
+
+					var inDate = null;
+					var outDate = null;
+					if(sessionStorage.getItem("inDate")) {
+						var b = new Date();
+						var ye = b.getFullYear();
+						var mo = b.getMonth() + 1;
+						mo = mo < 10 ? "0" + mo : mo;
+						var da = b.getDate();
+						da = da < 10 ? "0" + da : da;
+						inDate = ye + '-' + mo + '-' + da;
+
+						b = new Date(b.getTime() + 24 * 3600 * 1000);
+						var ye = b.getFullYear();
+						var mo = b.getMonth() + 1;
+						mo = mo < 10 ? "0" + mo : mo;
+						var da = b.getDate();
+						da = da < 10 ? "0" + da : da;
+						outDate = ye + '-' + mo + '-' + da;
+					} else {
+
+						inDate = sessionStorage.getItem("inDate");
+						outDate = sessionStorage.getItem("outDate");
+					}
+
+					var html = "";
+					$.each(res.data, function(k, v) {
+						html += '<div class="swiper-slide"><a href="javascript:;" data-href="' +
+							v.Url + '"><img src="' + v.ImgPath + '"/></a></div>';
+					});
+					$(".swiper-wrapper").html(html);
+					mySwiper.update();
+
+					//点击跳转详情
+					swiperClick(inDate, outDate);
+				}, "json");
+
+				//点击跳转详情
+				var swiperClick = function(inDate, outDate) {
+					$(".swiper-slide a").on("tap", function() {
+						var href_url = $(this).attr("data-href");
+						if(!href_url == null || !href_url.length == 0) {
+							window.location.href = href_url + "&start_date=" + inDate + "&end_date=" + outDate;
+						}
+					});
+				};
+
+				//请求商家列表
+				mui.showLoading("数据加载中..", "div"); //数据加载中
+				mui.post('/Home/Index/getRecommend', {
+					areaid: area_id,
+					bank_id: bank_id,
+					page: "1"
+				}, function(res) {
+
+					//如果数量只有一页
+					if(res.data.pagenum == 1) {
+						if(res.data.items.length > 0) {
+							flag = false;
+							$(".loading_more p").html('<span style="color:#aaa">已加载全部</span>');
+						} else {
+							flag = false;
+							$(".loading_more p").html('<span style="color:#aaa">暂无相关数据</span>');
+						}
+					}
+
+					if(res.code == "200") {
+						var html = "";
+						mui.hideLoading(callback("请求正常", false));
+						var arr = ['facilities_1.svg','facilities_2.svg','facilities_8.svg','facilities_3.svg', 'facilities_4.svg'];
+						$.each(res.data.items, function(k, item) {
+
+							//商家图标
+							var img = '';
+							$.each(arr, function(key, arri){
+								img += '<img src="img/icon/'+arri+'"/>';
+								$.each(item.icons, function(k1, v1){
+									if(v1.indexOf(arri)!=-1){
+										let str = '<img src="img/icon/' + arri + '"/>';
+										img = img.replace(new RegExp(str), '<img src="' + v1 + '"/>');
+									}
+								})
+							})
+
+							//测试我的经纬度写死的，放在服务器上改过来
+							var distance = getFriendDistance(sessionStorage.getItem("User_Longitude"), sessionStorage.getItem("User_Latitude"), parseFloat(item.Biz_PrimaryLng), parseFloat(item.Biz_PrimaryLat));
+
+							html += '<div class="qiao_shop_item" Biz_ID="' + item.Biz_ID + '">' +
+								'<div class="shop_item_img">' +
+								'<img src="' + item.Biz_ImgPath + '" style="width: 100%;min-height: 80px;" /></div>' +
+								'<div class="shop_item_content">' +
+								'<span>' + item.Biz_Name + '</span>' +
+								'<p>' + item.Category_Name + '<p/>' +
+								'<p>' + img +
+								'</p></div>' +
+								'<div class="shop_item_price">' +
+								'<p><span style="color: red;">￥' + item.Biz_MinPrice + '</span>起</p>' +
+								'<p>' + distance + '</p></div></div>';
+						});
+
+						$(".qiao_shop_content").html(html);
+					} else {
+
+						flag = false;
+						$(".qiao_shop_content").append('<p style="color:#aaa;text-align:center;">暂无相关数据</p>');
+						$(".loading_more").hide();
+					}
+					mui.hideLoading(callback("暂无数据", false));
+
+				}, "json");
+
+				//点击加载更多
+				mui(".loading_more").on("tap", "p", function() {
+					//如果已加载全部则不在请求接口
+					if(!flag) {
+						return false;
+					}
+
+					//当前页
+					var p = parseInt($("#page").val());
+					mui.showLoading("数据加载中..", "div"); //数据加载中
+					mui.post('/Home/Index/getRecommend', {
+						areaid: area_id,
+						bank_id: bank_id,
+						page: p
+					}, function(res) {
+						//加载成功当前页加1
+						$("#page").val(p + 1);
+						//判断当前页是否大于最后页
+						if(p > res.data.pagenum) {
+							return false; //直接返回
+						} else {
+
+							//当前页等于最后页
+							if(p == res.data.pagenum) {
+								flag = false;
+								$(".loading_more p").html('<span style="color:#aaa">已加载全部</span>');
+							}
+
+							if(res.code == 200) {
+								var html = "";
+								$.each(res.data.items, function(k, item) {
+									//商家图标
+									var img = "";
+									$.each(item.icons, function(k1, v1) {
+										img += '<img src="' + v1 + '" />';
+									});
+									//测试我的经纬度写死的，放在服务器上改过来
+									var distance = getFriendDistance(sessionStorage.getItem("User_Longitude"), sessionStorage.getItem("User_Latitude"), parseFloat(item.Biz_PrimaryLng), parseFloat(item.Biz_PrimaryLat));
+
+									html += '<div class="qiao_shop_item" Biz_ID="' + item.Biz_ID + '">' +
+										'<div class="shop_item_img">' +
+										'<img src="' + item.Biz_ImgPath + '" style="width: 100%;min-height: 80px;" /></div>' +
+										'<div class="shop_item_content">' +
+										'<span>' + item.Biz_Name + '</span>' +
+										'<p>' + item.Category_Name + '<p/>' +
+										'<p>' + img +
+										'</p></div>' +
+										'<div class="shop_item_price">' +
+										'<p><span style="color: red;">￥' + item.Biz_MinPrice + '</span>起</p>' +
+										'<p>' + distance + '</p></div></div>';
+								});
+								$(".qiao_shop_content").append(html);
+							} else {
+								flag = false;
+								$(".qiao_shop_content").append('<p style="color:#aaa;text-align:center;">暂无相关数据</p>');
+								$(".loading_more").hide();
+							}
+						}
+						mui.hideLoading(callback("暂无数据", false));
+					}, 'json');
+				});
+			};
+
+			//返回首页
+			$('#header a').click(function() {
+				$('#home_city').hide();
+			})
+		</script>
+	</body>
+
+</html>

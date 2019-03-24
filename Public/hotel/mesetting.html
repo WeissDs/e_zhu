@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>酒店助手</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<link rel="stylesheet" href="css/mui.min.css">
+	<link rel="stylesheet" href="css/mui_extends_loading.css" />
+	<link rel="stylesheet" href="css/hotel_abum_photos.css" />
+	<script>
+		window.onresize = function(){
+			document.documentElement.style.fontSize = document.documentElement.clientWidth*100/750+'px';
+		}
+		window.onresize();
+	</script>
+	<style>
+		/*头部导航*/
+		.me-header{ width: 100%; height: .88rem; background-color: rgba(221,39,38,0.8); position: fixed; z-index: 999; }
+		.me-header .me-back{ display: inline-block; line-height: 0; position: absolute; left: .09rem; top: 50%; transform: translateY(-50%);}
+		.me-header a img{ height: .6rem;}
+		.me-header h2{ font-size: .36rem; color: #fff; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-weight:normal;
+		 }
+
+		 /*内容*/
+	
+		.mesetting-content{ width: 100%; overflow: hidden; }
+			/*头像上传*/
+			.mesetting-content .image-upload{ margin-top: 1.13rem; position: relative; }
+			.mesetting-content .image-upload .fileinput-button{ width: 100%; height: 1.54rem; background-color: #fff; overflow: hidden; display: inline-block;  line-height: 1.54rem; }
+			.mesetting-content .image-upload .fileinput-button input{ width: 100%; height: 1.54rem; position: absolute; right: 0px; top: 0; opacity: 0; outline: none; }
+			.mesetting-content .image-upload .fileinput-button .image-upload-show{ border-radius: 12px; width: 1.14rem; height: 1.14rem; position: absolute; top: 50%; transform: translateY(-50%); right: .7rem;}
+			.mesetting-content .image-upload .fileinput-button .me-right{ width: .4rem; float: right; right: .21rem; margin-top: .6rem; margin-right: .21rem; }
+			.mesetting-content .image-upload .image-upload-txt{ font-size: .32rem; position: absolute; left: .48rem; top: 50%; transform: translateY(-50%); color: #444; }
+			/*昵称*/
+			.mesetting-content .me-text{ width: 100%; height: .88rem; background-color: #fff; margin-top: .08rem; font-size: .32rem; color: #444; line-height: .88rem; }
+			.mesetting-content .me-text label{ margin-left: .48rem; }
+			.mesetting-content .me-text input{ width: 70%; border: none; font-size: .24rem; }
+			.mesetting-content .me-text #me_name{ margin-left: .9rem; }
+			.mesetting-content .me-text #me_sign{ margin-left: .27rem; }
+			/*个性签名*/
+			.mesetting-content .setting-commit{ width: 6rem; height: .88rem; font-size: .3rem; background-color: #cc4a4a; color: #fff; border-radius: 8px; margin: 3.88rem auto; text-align: center; line-height: .88rem; }
+
+			/*修改个人资料弹框*/
+			.new-window { width: 100%; height: 10rem; background-color: #ccc; position: fixed; bottom: 0;z-index: 999; display: none; }
+
+	</style>
+</head>
+<body>
+
+	<header class="me-header"  style="overflow: hidden;">
+		<a class="me-back"><img src="img/icon/me_back.svg" alt=""></a>
+		<h2>个人信息</h2>
+	</header>
+
+	<form id="upForm" class="mesetting-content">
+		<div class="image-upload">
+			<div class="fileinput-button">
+				<span class="image-upload-txt">头像</span>
+				<!-- <input id="dai_person_img" name="file" accept="image/*" capture="camcorder" type="file"> -->
+				<input id="dai_person_img" name="file" type="file" accept="image/*" capture="camcorder">
+				<img class="image-upload-show" src="img/icon/userimg.svg" id="Image">
+				<img class="me-right" src="img/icon/me_right.svg">
+				<input type="hidden" name="User_HeadImg" value="" />
+				<input type="hidden" name="User_ID" value="" />
+			</div>
+		</div>
+
+		<div id="me_name_box" class="me-text"><label for="me_name">昵称</label><input type="text" id="me_name" name="User_NickName" placeholder="Kiva"></div>
+		<div id="me_sign_box" class="me-text"><label for="me_sign">个性签名</label><input id="me_sign" type="text" name="User_Remarks" placeholder="人生的道路一旦选定，就要勇敢的走到尽头"></div>
+
+		<div type="button" class="setting-commit">确认</div>
+	</form>
+
+	<!-- <div class="new-window">
+		
+	</div> -->
+	
+
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/hybrid_app.js"></script>
+	<script src="js/mui.min.js"></script>
+	<!-- 此mui_extends_loading.js会造成label标签for属性无法绑定 -->
+	<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="js/mui.zoom.js"></script>
+	<script type="text/javascript" src="js/mui.previewimage.js"></script>
+	<script type="text/javascript" src="js/exif.js"></script>
+
+	<script>
+
+		$(function(){
+			//返回事件
+			$(".me-back").on('tap', function(){
+				window.history.go(-1);
+			})
+
+			//修改个人资料弹框
+			// document.onclick=function(){
+			// 	$('.new-window').css('display', 'none');
+			// }
+			// function newWindow(textname){
+			// 	$('.new-window').on('click', function(ev){
+			// 		ev.stopPropagation();
+			// 	})
+			// 	$('.new-window').css('display', 'block');
+			// 	$('.new-window').html("")
+			// 	var oDiv = document.createElement('div');
+			// 	var al = '<label for="me_name">'+textname+'修改</label><input type="text" id="me_name" name="User_NickName" placeholder="Kiva" value=""><div><button>保存</button><button>取消</button></div>'
+			// 	oDiv.innerHTML=al;
+			// 	$('.new-window').append(oDiv);
+			// 	$()
+			// }
+			// $("#me_name_box").on("click", function(ev){
+			// 	ev.stopPropagation();
+			// 	newWindow('昵称');
+			// });
+
+			// $("#me_name_box").bind("click", 
+			// 	function(event){
+			// 　　　　event.stopPropagation();
+			// 		var 
+			// 		$('.new-window').css('display', 'block');
+			// 		$('.new-window').html("")
+			// 		var oDiv = document.createElement('div');
+			// 		var al = '<label for="me_name">昵称</label><input type="text" id="me_name" name="User_NickName" placeholder="Kiva" value=""><div><button>保存</button><button>取消</button></div>'
+			// 		oDiv.innerHTML=al;
+			// 		$('.new-window').append(oDiv)
+			// 　　}
+			// );
+			
+			//显示图片
+        	let oPersonImg = document.getElementById('dai_person_img');
+        	oPersonImg.onchange = function(){
+        		console.log(this.files)
+        		getUrl(this.files);
+        	}
+    		//判断是ios还是安卓，匹配调取相册功能
+    	    //解决上传图片时capture="camera"在安卓与IOS的兼容性问题（在IOS只能拍照，不能选相册）
+    	    // var ua = navigator.userAgent.toLowerCase();//获取浏览器的userAgent,并转化为小写——注：userAgent是用户可以修改的
+    	    // var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
+    	    // if (isIos) {
+    	    // 	alert('ios');
+    	    //     $("oPersonImg").removeAttr("capture");
+    	    // }else{
+    	    // 	alert('no ios');
+    	    // }
+
+
+        	//设置用户UserID
+        	// sessionStorage.setItem("User_ID", 2);
+        	if(sessionStorage.getItem("User_ID")) {
+        		$("input[name=User_ID]").val(sessionStorage.getItem("User_ID"));
+        	} else {
+        		$info = "登陆失败";
+        		mui.hideLoading(callback($info, false));
+        		mui.alert($info, function() {
+        			hybrid_app.back();
+        		});
+        	}
+
+
+			//显示用户信息
+			var user_ID = sessionStorage.getItem("User_ID");
+			mui.get("/Home/Main/userInfo?User_ID=" + user_ID, function(res) {
+				if(res.code == "200") {
+					console.log(res.data);
+					if(res.data.User_HeadImg != null) {
+						$(".image-upload-show").attr("src", res.data.User_HeadImg); //浮层的			
+					}else{
+						$(".image-upload-show").attr("src", "img/icon/userimg.svg"); //浮层的		
+					}
+					$("input[name=User_Remarks]").val(res.data.User_Remarks);
+					$("input[name=User_NickName]").val(res.data.User_NickName);
+				}
+			}, "json");
+
+
+
+			//提交信息
+			mui("#upForm").on("tap", ".setting-commit", function() {
+				//判断用户名是否为空
+				var qiao_username = $("input[name=User_NickName]").val();
+				if(qiao_username == null || qiao_username == undefined || qiao_username == "") {
+					mui.toast("用户名不能为空");
+					return false;
+				}
+				//判断input file是否为空
+				var formData = $("#upForm").serialize();
+				var data='';
+				if(!$("input[name=file]").val()){
+					data=formData.replace(/User_HeadImg=/,'User_HeadImg='+sessionStorage.getItem('User_img'));
+				}else{
+					data = formData
+				}
+				//数据加载中
+				mui.showLoading("信息提交中..", "div");
+				//发送修改信息
+				$.post("/Home/Main/updateInfo", data, function(res) {
+					if(res.code == "200") {
+						$("input[name=User_HeadImg]").val(res.data.User_HeadImg); //隐藏域的
+						sessionStorage.setItem('User_img', res.data.User_HeadImg);
+						$info = "请求成功";
+						mui.hideLoading(callback($info, false));
+						mui.toast("修改信息成功");
+						mui.openWindow({
+							url: "me.html",
+							createNew: false,
+							show: {
+								autoShow: true,
+								duration: 100
+							},
+							waiting: {
+								autoShow: true,
+								title: '正在加载...', 
+							}
+						});
+					} else if(res.code == "403") {
+						$info = "登陆失败";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "修改信息失败";
+						mui.hideLoading(callback($info, true));
+					}
+				}, "json").error(function() {
+					mui.hideLoading(callback("请求异常", true));
+				});
+			});
+
+			//文件(js裁剪)上传
+			$('#dai_person_img').on("change", function(e) {
+				var files = e.target.files || e.dataTransfer.files;
+				if(files && files.length > 0) {
+					var file = files[0];
+
+					resizeImage(file).then(function(result) {
+						return typeof result === 'string' ? convertToBlob(result, file.type) : result;
+					}).then(function(blob) {
+						// 构建FormData
+						var formData = new FormData();
+						//注意：此处第3个参数最好传入一个带后缀名的文件名，否则很有可能被后台认为不是有效的图片文件
+						formData.append("file", blob, file.name);
+						// 上传文件
+						$.ajax({
+							url: "/Home/Main/UpdateImg",
+							type: 'POST',
+							data: formData,
+							dataType: "json",
+							//这两个设置项必填
+							contentType: false,
+							processData: false,
+							success: function(data) {
+								if(data.status == 1) {
+									$info = "请求成功";
+									mui.hideLoading(callback($info, false));
+									$(".image-upload-show").attr("src", data.path.info.url);
+									$("input[name=User_HeadImg]").val(data.path.info.url);
+									mui.toast(data.info);
+								} else {
+									mui.toast(data.info.info); //提示错误信息
+								}
+							},
+							error: function(res) {
+								mui.hideLoading(callback("请求异常", true));
+							}
+						});
+					});
+				}
+			});
+			mui.previewImage();
+		})
+
+
+
+
+		// 函数封装
+
+		//上传图片显示
+        function getUrl(file) {
+		var photo_data =  document.getElementById("dai_person_img");
+		// var file_name =  document.getElementById("file_name");
+            var img = document.getElementById("Image");
+            for (var intI = 0; intI < file.length; intI++) {//图片回显
+			// console.log(file.length);
+                var tmpFile = file[intI];
+				// file_name.value = tmpFile.name;
+                var reader = new FileReader();
+                reader.readAsDataURL(tmpFile);
+                reader.onload = function (e) {
+                    var url = e.target.result;
+                    img.src = url;
+					photo_data.value = url;
+                }
+            }
+        }
+
+		/**
+		 * 压缩裁剪图片
+		 */
+		function resizeImage(file) {
+			return new Promise(function(resolve, reject) {
+				var Orientation = null;
+				//获取照片方向角属性，用户旋转控制
+				EXIF.getData(file, function() {
+					// alert(EXIF.pretty(this));
+					EXIF.getAllTags(this);
+					Orientation = EXIF.getTag(this, 'Orientation');
+				});
+
+				var reader = new FileReader();
+
+				reader.onload = function() {
+					var img = new Image();
+
+					img.onload = function() {
+						var w = this.naturalWidth;
+						var h = this.naturalHeight;
+						var maxW = 900;
+						var maxH = 400;
+
+						// 如果图片尺寸小于最大限制，则不压缩直接上传
+						if(w <= maxW && h <= maxH) {
+							resolve(file);
+							return;
+						}
+
+						var level = 0.6;
+						var multiple = Math.max(w / maxW, h / maxH);
+						var resizeW = w / multiple;
+						var resizeH = h / multiple;
+
+						var canvas = document.createElement("canvas");
+
+						canvas.width = resizeW;
+						canvas.height = resizeH;
+
+						var ctx = canvas.getContext("2d");
+						//修复ios拍照旋转问题
+						if(Orientation == 6) {
+							// 位移x轴距离
+							var x = canvas.width / 2;
+							// 位移Y轴距离
+							var y = canvas.height / 2;
+							ctx.translate(x, y); //往x轴正方向移动1/2图片宽度位移,往y轴正方向移动1/2图片高度位移
+							ctx.rotate((Math.PI / 180) * 90); //顺时针旋转90度
+							ctx.translate(-x, -y); ////往x轴反方向移动1/2图片宽度位移,往y轴反方向移动1/2图片高度位移
+						}
+
+						ctx.drawImage(img, 0, 0, resizeW, resizeH);
+
+						var base64Img = canvas.toDataURL(file.type, level);
+						var arr = base64Img.split(",");
+
+						resolve(arr[1]);
+					};
+
+					img.src = this.result;
+				};
+
+				reader.readAsDataURL(file);
+			});
+		}
+
+		/**
+		 * 将图片的base64字符串转换为Blob对象
+		 */
+		function convertToBlob(base64Str, fileType) {
+			var base64 = window.atob(base64Str);
+			var len = base64.length;
+			var buff = new ArrayBuffer(len);
+			var uarr = new Uint8Array(buff);
+
+			for(var i = 0; i < len; i++) {
+				uarr[i] = base64.charCodeAt(i);
+			}
+
+			var blob = null;
+
+			try {
+				blob = new Blob([buff], {
+					type: fileType
+				});
+			} catch(e) {
+				var BlobBuilder = window.BlobBuilder = (
+					window.BlobBuilder ||
+					window.WebKitBlobBuilder ||
+					window.MozBlobBuilder ||
+					window.MSBlobBuilder
+				);
+
+				if(e.name === "TypeError" && BlobBuilder) {
+					var builder = new BlobBuilder();
+					builder.append(buff);
+					blob = builder.getBlob(fileType);
+				}
+			}
+
+			return blob;
+		}
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<style>
+			* {
+				touch-action: pan-y;
+			}
+			
+			#header {
+				background-color: rgba(221, 39, 38, 0.8);
+			}
+			
+			.mui-title {
+				color: white;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #FE0638;
+			}
+			/*商家列表*/
+			
+			.qiao_inut_shopinfo {
+				background: white;
+				width: 96%;
+				margin: auto;
+				border-top-right-radius: 1em;
+				border-top-left-radius: 1em;
+				margin-top: 50px;
+				margin-bottom: 60px;
+			}
+			
+			.qiao_shop_list {
+				background: #DEDEDE;
+				margin-top: 20px;
+				border-top-right-radius: 1em;
+				border-top-left-radius: 1em;
+			}
+			
+			.qiao_shop_list p {
+				color: #666;
+				height: 40px;
+				font-size: 18px;
+				padding-left: 10px;
+				line-height: 40px;
+			}
+			
+			.qiao_shop_content {
+				background: white;
+			}
+			
+			.qiao_shop_content span {
+				color: #333;
+				font-size: 14px;
+			}
+			
+			.qiao_shop_item {
+				width: 100%;
+				display: flex;
+				margin-bottom: 10px;
+				border-bottom: 1px solid #F1F1F6;
+			}
+			
+			.qiao_shop_item .shop_item_img {
+				width: 30%;
+				margin-left: 5px;
+				height: 79px;
+				overflow: hidden;
+				border-radius: 5px;
+			}
+			
+			.qiao_shop_item .shop_item_content {
+				width: 45%;
+				padding: 5px 0px 5px 10px;
+				box-sizing: border-box;
+			}
+			.qiao_shop_item .shop_item_content p:nth-of-type(3) img{ width: 15px; margin-left: 4px; }
+			
+			.qiao_shop_item .shop_item_price {
+				width: 25%;
+				margin-top: 20px;
+			}
+			
+			#loading_more p {
+				color: #2AC845;
+				text-align: center;
+				width: 100%;
+				height: 40px;
+				font-size: 16px;
+				line-height: 40px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">商家列表</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<!--商家列表-->
+		<div class="qiao_inut_shopinfo">
+			<div class="qiao_shop_list">
+				<p>酒店列表</p>
+			</div>
+			<div class="qiao_shop_content">
+				<div class="qiao_shop_item">
+					<!--酒店列表-->
+				</div>
+			</div>
+			<div id="loading_more">
+				<p>点击加载更多</p>
+			</div>
+		</div>
+		<!--商家列表-->
+
+		<!--隐藏分页数据-->
+		<input type="hidden" id="page" value="2" />
+		<!--隐藏分页数据-->
+
+		<!--底部菜单栏-->
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" id="qiao_index">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" id="qiao_select">
+				<span class="mui-icon mui-icon mui-icon-search"></span>
+				<span class="mui-tab-label">筛选</span>
+			</a>
+			<a class="mui-tab-item" id="qiao_me">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		<!--底部菜单栏-->
+
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js"></script>
+		<script>
+			//设置加载更多的全局标识
+			var flag = true;
+
+			//由首页点击查询传过来的参数，ajax请求商家列表
+			var data = "";
+			var urlsendForm = getUrlParam("send"); //判断是首页传过来的参数还是筛选页传过来的参数
+			if(urlsendForm == "index") {
+				data = sessionStorage.getItem("index_form_data");
+			} else if(urlsendForm = "select") {
+				data = sessionStorage.getItem("selectShopList");
+			}
+
+			console.log(data);
+
+			//跳转商家详情页
+			$(".qiao_shop_content").on("click", ".qiao_shop_item", function() {
+				var Biz_ID = $(this).attr("Biz_ID");
+				var start_date = sessionStorage.getItem('inDate');
+				var end_date = sessionStorage.getItem('outDate');
+				//判断是否查询了价格
+				var price = query_price(data, "price");
+
+				window.location.href = "detail.html?BizID=" + Biz_ID + "&start_date=" +
+					start_date + "&end_date=" + end_date + "&price=" + price;
+			});
+
+			//数据加载中
+			mui.showLoading("数据加载中..", "div");
+			$.post("/Home/Hotel/getShopList", data, function(res) {
+
+				//如果数量只有一页
+				if(res.data.pagenum == 1) {
+					if(res.data.items.length > 0) {
+						flag = false;
+						$("#loading_more p").html('<span style="color:#aaa">已加载全部</span>');
+					} else {
+						flag = false;
+						$("#loading_more p").html('<span style="color:#aaa">暂无相关数据</span>');
+					}
+				}
+
+				if(res.code == "200") {
+					var html = "";
+					$toast = '已加载最新信息';
+					mui.hideLoading(callback($toast, true));
+					var arr = ['facilities_1.svg','facilities_2.svg','facilities_8.svg','facilities_3.svg', 'facilities_4.svg'];
+					$.each(res.data.items, function(k, item) {
+
+						//商家图标
+						var img = "";
+						$.each(arr, function(key, arri){
+							img += '<img src="img/icon/'+arri+'"/>';
+							$.each(item.icons, function(k1, v1){
+								if(v1.indexOf(arri)!=-1){
+									let str = '<img src="img/icon/' + arri + '"/>';
+									img = img.replace(new RegExp(str), '<img src="' + v1 + '"/>');
+								}
+							})
+						})
+
+						//测试我的经纬度写死的，放在服务器上改过来
+						var distance = getFriendDistance(sessionStorage.getItem("User_Longitude"), sessionStorage.getItem("User_Latitude"), parseFloat(item.Biz_PrimaryLng), parseFloat(item.Biz_PrimaryLat));
+
+						html += '<div class="qiao_shop_item" Biz_ID="' + item.Biz_ID + '">' +
+							'<div class="shop_item_img">' +
+							'<img src="' + item.Biz_ImgPath + '" style="width: 100%;min-height: 80px;" /></div>' +
+							'<div class="shop_item_content">' +
+							'<span>' + item.Biz_Name + '</span>' +
+							'<p>' + item.Category_Name + '<p/>' +
+							'<p>' + img +
+							'</p></div>' +
+							'<div class="shop_item_price">' +
+							'<p><span style="color: red;">￥' + item.Biz_MinPrice + '</span>起</p>' +
+							'<p>' + distance + '</p></div></div>';
+					});
+
+					$(".qiao_shop_content").html(html);
+				} else if(res.code == "403") {
+					$info = "登陆失败";
+					mui.hideLoading(callback($info, false));
+					mui.alert($info, function() {
+						hybrid_app.back();
+					});
+				} else {
+					flag = false;
+					$(".qiao_shop_content").append('<p style="color:#aaa;text-align:center;">暂无相关数据</p>');
+					mui.hideLoading(callback("暂无数据", false));
+					$("#loading_more").hide();
+				}
+			}, "json").error(function() {
+				mui.toast("网络异常");
+			});
+
+			//点击加载更多
+			$("#loading_more").click(function() {
+
+				//如果已加载全部则不在请求接口
+				if(!flag) {
+					return false;
+				}
+
+				//当前页
+				var p = parseInt($("#page").val());
+				//数据加载中
+				mui.showLoading("数据加载中..", "div");
+				data = data + "&page=" + p;
+				$.post('/Home/Hotel/getShopList', data, function(res) {
+
+					console.log(res);
+
+					//加载成功当前页加1
+					$("#page").val(p + 1);
+					//判断当前页是否大于最后页
+					if(p > res.data.pagenum) {
+						return false; //直接返回
+					} else {
+
+						//当前页等于最后页
+						if(p == res.data.pagenum) {
+							flag = false;
+							$("#loading_more p").html('<span style="color:#aaa">已加载全部</span>');
+						}
+
+						if(res.code == 200) {
+
+							var html = "";
+							mui.hideLoading(callback("请求完成", false));
+							$.each(res.data.items, function(k, item) {
+								//商家图标
+								var img = "";
+								$.each(item.icons, function(k1, v1) {
+									img += '<img src="' + v1 + '" />';
+								});
+
+								//测试我的经纬度写死的，放在服务器上改过来
+								var distance = getFriendDistance(sessionStorage.getItem("User_Longitude"), sessionStorage.getItem("User_Latitude"), parseFloat(item.Biz_PrimaryLng), parseFloat(item.Biz_PrimaryLat));
+
+								html += '<div class="qiao_shop_item" Biz_ID="' + item.Biz_ID + '">' +
+									'<div class="shop_item_img">' +
+									'<img src="' + item.Biz_ImgPath + '" style="width: 100%;min-height: 80px;" /></div>' +
+									'<div class="shop_item_content">' +
+									'<span>' + item.Biz_Name + '</span>' +
+									'<p>' + item.Category_Name + '<p/>' +
+									'<p>' + img +
+									'</p></div>' +
+									'<div class="shop_item_price">' +
+									'<p><span style="color: red;">￥' + item.Biz_MinPrice + '</span>起</p>' +
+									'<p>' + distance + '</p></div></div>';
+							});
+							$(".qiao_shop_content").append(html);
+						} else if(res.code == "403") {
+							$info = "登陆失败";
+							mui.hideLoading(callback($info, false));
+							mui.alert($info, function() {
+								hybrid_app.back();
+							});
+						} else {
+							flag = false;
+							$(".qiao_shop_content").append('<p style="color:#aaa;text-align:center;">暂无相关数据</p>');
+							mui.hideLoading(callback("暂无数据", false));
+							$("#loading_more").hide();
+						}
+					}
+				}, 'json').error(function() {
+					mui.toast("网络异常");
+				});
+			});
+		</script>
+
+	</body>
+
+</html>

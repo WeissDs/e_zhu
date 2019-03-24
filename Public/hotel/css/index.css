@@ -1,0 +1,283 @@
+	* {
+		touch-action: pan-y;
+	}
+	
+	#header {
+		background-color: rgba(221, 39, 38, 0.8);
+	}
+	
+	.mui-title {
+		color: white;
+	}
+	
+	.mui-slider .mui-slider-group .mui-slider-item img {
+		width: 100%;
+		height: 250px;
+		overflow: hidden;
+	}
+	
+	#search_index #search_form .search_items input {
+		margin-bottom: 0px;
+	}
+	
+	input.date-popup {
+		margin-bottom: 0px;
+		border: 1px solid #ddd;
+	}
+	
+	.Date_lr {
+		width: 40%;
+		text-align: center;
+	}
+	
+	.span21 {
+		position: absolute;
+		top: 40%;
+		left: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		font-size: 14px;
+		color: #666;
+		border: 1px solid #e5e5e5;
+		padding: 2px 8px;
+		line-height: 30px;
+		border-radius: 10%;
+		background-color: #F0F0F5;
+	}
+	
+	#checkinout {
+		height: 40px;
+		line-height: 40px;
+		position: relative;
+		margin: 0px 0px 20px;
+		padding: 2px 0;
+		display: -webkit-box;
+		display: flex;
+		background-color: #F0F0F5;
+	}
+	
+	#firstSelect p {
+		line-height: 18px;
+		font-size: 18px;
+	}
+	
+	#startDate {
+		border: 0;
+		position: absolute;
+		left: 0;
+		margin: 0px auto;
+		width: 40%;
+		font-size: 16px;
+		color: #CC4A4A;
+		background: #F0F0F5;
+		text-align: center;
+	}
+	
+	#endDate {
+		border: 0;
+		position: absolute;
+		right: 0;
+		margin: 0px auto;
+		width: 40%;
+		font-size: 16px;
+		color: #CC4A4A;
+		background: #F0F0F5;
+		text-align: center;
+	}
+	
+	.animated {
+		animation-duration: 1s;
+		animation-fill-mode: both;
+	}
+	
+	@keyframes slideInDown {
+		from {
+			transform: translate3d(0, -100%, 0);
+			visibility: visible;
+		}
+		to {
+			transform: translate3d(0, 0, 0);
+		}
+	}
+	
+	.slideInDown {
+		animation-name: slideInDown;
+	}
+	/*输入框部分*/
+	
+	.qiao_input {
+		background: #F0F0F5;
+		width: 90%;
+		margin: auto;
+		height: 20px;
+	}
+	
+	.qiao_inut_info {
+		background: white;
+		width: 96%;
+		margin: auto;
+	}
+	
+	.mui-input-row {
+		border-bottom: 1px solid #eee;
+		height: 40px;
+		text-align: center;
+	}
+	
+	.mui-input-row label {
+		width: 70px;
+		text-align: center;
+	}
+	/*商家列表*/
+	
+	.qiao_inut_shopinfo {
+		background: white;
+		width: 96%;
+		margin: auto;
+		border-top-right-radius: 1em;
+		border-top-left-radius: 1em;
+		margin-bottom: 55px;
+
+	}
+	
+	.qiao_shop_list {
+		background: #DEDEDE;
+		margin-top: 20px;
+		border-top-right-radius: 1em;
+		border-top-left-radius: 1em;
+	}
+	
+	.qiao_shop_list p {
+		color: #666;
+		height: 40px;
+		font-size: 18px;
+		padding-left: 10px;
+		line-height: 40px;
+	}
+	
+	.mui-bar-tab .mui-tab-item.mui-active {
+		color: #FE0638;
+	}
+	
+	.qiao_shop_content {
+		background: white;
+	}
+	
+	.qiao_shop_content span{
+		color: #333;
+		font-size: 14px;
+	}
+	
+	.qiao_shop_item {
+		width: 100%;
+		display: flex;
+		margin-top: 5px;
+		padding: 5px 0px ;
+		border-bottom: 1px solid #F1F1F6;
+	}
+	
+	.qiao_shop_item .shop_item_img {
+		width: 30%;
+		margin-left: 5px;
+		height: 90px;
+		overflow: hidden;
+		border-radius: 5px;
+	}
+	
+	.qiao_shop_item .shop_item_content {
+		width: 45%;
+		padding: 5px 0px 5px 10px;
+		box-sizing: border-box;
+	}
+
+	.qiao_shop_item .shop_item_content p:nth-of-type(3) img{ width: 15px; margin-left: 4px; }
+	
+	.qiao_shop_item .shop_item_price {
+		width: 25%;
+		margin-top: 20px;
+	}
+	
+	.qiao_index_wrap {
+		width: 96%;
+		margin: auto;
+		margin-top: 0px;
+		box-shadow: 2px 2px 4px #ccc;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	
+	.search_form label {
+		margin-top: 20px;
+		width: 80%;
+		height: 40px;
+		line-height: 30px;
+		margin-left: 10%;
+		border-radius: 5px;
+		background: #CC4A4A;
+		font-size: 18px;
+	}
+	
+	.swiper-container {
+		margin-top: 40px;
+		height: 224px;
+		margin: auto;
+	}
+	
+	.swiper-slide a img {
+		width: 100%;
+		border: 0;
+		margin-top: 45px;
+	}
+	
+	.loading_more p {
+		color: #2AC845;
+		text-align: center;
+		width: 100%;
+		height: 40px;
+		font-size: 16px;
+		line-height: 40px;
+	}
+
+/*星级价格选择弹出层*/
+/*dai*/
+
+	.price-start-popup{ width: 6.5rem;/* height: 4.9rem;*/ background-color: #fff; border-radius: 8px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 999; display: none; }
+	.price-start-popup p{ font-size: .3rem; color: #000; font-weight: bold; margin: 0 0 .2rem .09rem; }
+	/*弹出层 星级和价格选择*/
+	.price-start-popup .star-select{ padding: .3rem; }
+	.price-start-popup .price_select{ padding: 0 .3rem; margin-top: .3rem; }
+	.price-start-popup .price_select{ padding-top:0; }
+	.price-start-popup .price_select .popup-price-section{ height: .8rem; text-align: center; padding-top: .08rem; }
+	.price-start-popup .price_select .popup-price-section::after{ content: ''; height: 0; display: inline-block; clear: both; visibility:hidden;  }
+	.price-start-popup .price_select .popup-price-section li{ float: left; margin-left: .31rem; }
+	.price-start-popup .price_select .popup-price-section li:nth-child(1){ margin-left: .15rem; }
+	.price-start-popup .price_select .popup-price-section li p.red{ color: #dd2726; }
+	.price-start-popup .price_select .popup-price-section li span.red{ background-color: #dd2726; }
+	.price-start-popup .price_select .popup-price-section li p{ font-size: .24rem; margin: 0; line-height: .3rem; }
+	.price-start-popup .price_select .popup-price-section span{ width: .02rem; height: .2rem; background-color: #000; display: inline-block; }
+	.price-start-popup .price_select .popup-price-bar{ border: none; }
+	.price-start-popup .star-item,.price-start-popup .star-item-clear{ width: 1.3rem; height: .6rem; border: 1px solid #d2d2d2; border-radius: 2px; color: #666;margin: 0 .086rem .12rem .086rem; font-size: .26rem; text-align: center; line-height: .6rem; display: inline-block; }
+	.price-start-popup .active{ border: 1px solid #dd2726; }
+	/*弹出层 底部*/
+	.price-start-popup .popup-bottom{ height: 1.18rem; background-color: #fafafa; border-radius: 0 0 8px 8px;  padding: 0 .3rem; }
+	.price-start-popup .popup-bottom .popup-re{ width: 1.38rem; height: .6rem; font-size: .26rem; color: #666; border-radius: 4px; border: 1px solid #d2d2d2; margin-top: .3rem; float: left; }
+	.price-start-popup .popup-bottom .popup-sub{ width: 1.38rem; height: .6rem; font-size: .26rem; border-radius: 4px; background-color: #dd2726; color: #fff;  margin-top: .3rem; float: right; }
+
+	/*重写mui样式*/
+		.price-start-popup .price_select{ padding-right: 0; }
+		/*去掉价格选择滑块弹出层*/
+		.mui-input-range .mui-tooltip{
+			display: none;
+		}
+		/*修改价格选择滑块按钮*/
+		.price-start-popup .price_select input[type="range"]{ background-color: #dd2726; height: .12rem; width: 96%; margin: 0 0 .1rem .1rem; }
+		.price-start-popup .price_select input[type="range"]::-webkit-slider-thumb {
+		    /*-webkit-appearance: none;*/
+		    height: .45rem;
+		    width: .45rem;
+		    /*margin-top: -0.1rem; 使滑块超出轨道部分的偏移量相等*/
+		    background: #ffffff; 
+		    border-radius: 50%; 
+		    border: solid 0.125em rgba(205, 224, 230, 0.8); /*设置边框*/
+		    box-shadow: 0 .125em .125em #f0f0f0; /*添加底部阴影*/
+		}

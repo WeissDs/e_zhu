@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<link rel="stylesheet" href="css/hotel_abum_photos.css?b=4" />
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">房间图片</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<div class="show_abum_photos">
+			<!--相册图片-->
+		</div>
+
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/mui.zoom.js"></script>
+		<script type="text/javascript" src="js/mui.previewimage.js"></script>
+		<script>
+			
+			$(function(){
+				//获取详情页传过来的sessionStorage保存的数据
+				var room_info = sessionStorage.getItem("room_photos");
+				var jsonData = JSON.parse(room_info);// 转成JSON格式
+				//设置标题
+				var imgTitle = jsonData.data_title;
+				$("#header .mui-title").text(imgTitle);
+				
+				//获得图片
+				var imgArr = jsonData.data_abum.split(",");
+				var html ="";
+				$.each(imgArr, function(k,item) {
+					html+='<img src="'+item+'" data-preview-src="" data-preview-group="1" />';
+				});
+				
+				$(".show_abum_photos").html(html);
+				
+				mui.previewImage();
+			});
+
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<style type="text/css">
+			* {
+				touch-action: pan-y;
+			}
+			
+			#header {
+				background-color: rgba(221, 39, 38, 0.8);
+			}
+			
+			.mui-title {
+				color: white;
+			}
+			
+			.qiao_order_info {
+				width: 96%;
+				margin: auto;
+				margin-top: 50px;
+				padding: 10px;
+				background: white;
+				border-radius: 5px;
+			}
+			
+			.order_info_title {
+				font-size: 16px;
+				font-weight: bold;
+				color: #333;
+				border-bottom: 1px solid #eee;
+				padding-bottom: 10px;
+			}
+			
+			.qiao_person_info {
+				width: 96%;
+				margin: auto;
+				margin-top: 10px;
+				padding: 10px;
+				background: white;
+				border-radius: 5px;
+			}
+			
+			.qiao_room_info {
+				width: 96%;
+				margin: auto;
+				margin-top: 10px;
+				padding: 10px;
+				background: white;
+				border-radius: 5px;
+			}
+			
+			.qiao_shop_info {
+				height: 170px;
+				width: 96%;
+				margin: auto;
+				margin-top: 10px;
+				padding: 10px;
+				background: white;
+				margin-bottom: 10px;
+			}
+			
+			.qiao_shop_infos {
+				display: flex;
+			}
+			
+			.shop_img {
+				width: 35%;
+				background: #FAEAED;
+			}
+			
+			.shop_img img {
+				width: 100%;
+				border-radius: 5px;
+			}
+			
+			.shop_content {
+				width: 65%;
+				padding: 5px;
+			}
+			
+			.shop_content p {
+				padding-left: 5px;
+				padding: 0px;
+				margin: 0px;
+				/*overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;*/
+			}
+			
+			#qiao_shop_no{
+				font-size: 13px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">订单详情</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<div class="qiao_wrap">
+
+			<!--訂單信息-->
+			<div class="qiao_order_info">
+				<p class="order_info_title">订单信息</p>
+				<p>订单号：<span id="qiao_order_no"></span></p>
+				<p class="qiao_order_code" style="display: none;">
+					消费确认码：<span id="order_code" style="color: #CC4A4A;"></span>
+					<span class="mui-badge mui-badge-warning qiao_copy">
+						使用时出示该消费码
+					</span>
+				</p>
+				<p class="qiao_cancel_info" style="display: none;">
+					订单说明：<span id="cancel_info" style="color: #CC4A4A;"></span>
+				</p>
+				
+				<p class="order_cancel_info" style="display: none;">
+					拒绝原因：<span id="reject_order_info" style="color: #CC4A4A;"></span>
+				</p>
+				
+				<p>商户订单号：<span id="qiao_shop_no"></span></p>
+				<p>预定日期：<span id="qiao_readtime"></span></p>
+				<p>订单状态：<span id="qiao_order_state"></span></p>
+				<p>支付方式:<span id="qiao_pay_method" style="color: #CC4A4A;font-size: 16px;"></span></p>
+				<p><span id="qiao_pay_time"></span></p>
+			</div>
+			<!--訂單信息-->
+
+			<!--入住人信息-->
+			<div class="qiao_person_info">
+				<p class="order_info_title">入住信息</p>
+				<p>入住人：<span id="qiao_username"></span></p>
+				<p>联系电话：<span id="qiao_telphone"></span></p>
+			</div>
+			<!--入住人信息-->
+
+			<!--房间信息-->
+			<div class="qiao_room_info">
+				<p class="order_info_title">房型详情</p>
+				<p>建筑面积：<span id="qiao_room_mm"></span>㎡</p>
+				<p>入住人数：<span id="qiao_able_num"></span></p>
+				<p>房型信息：<span id="qiao_room_detail"></span></p>
+			</div>
+			<!--房间信息-->
+
+			<!--酒店信息-->
+			<div class="qiao_shop_info">
+				<p class="order_info_title">酒店信息</p>
+				<div class="qiao_shop_infos">
+					<div class="shop_img">
+						<img src="img/1.jpg" />
+					</div>
+
+					<div class="shop_content">
+						<p style="color: black;" id="qiao_hotel_title">月亮湾大酒店</p>
+						<p>酒店电话：<span id="qiao_hotel_phone"></span></p>
+						<p id="back_show_qiao">
+							<span class="qiao_back_order_status"></span>&nbsp;&nbsp;
+							<label class="qiao_chexiao mui-btn mui-btn-warning" style="color: white;">
+							撤销详情
+							</label>
+						</p>
+					</div>
+				</div>
+			</div>
+			<!--酒店信息-->
+		</div>
+
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<!--<script type="text/javascript" src="js/clipboard.min.js"></script>-->
+		<script>
+			//ajax请求加载数据
+			mui.showLoading("数据加载中..", "div");
+			//订单ID
+			var orderId = getUrlParam("OrderID");
+			$.get("/Home/UserOrder/GetOrderDetail?OrderID=" + orderId, function(res) {
+
+				if(res.code = "200") {
+					$info = "请求正常";
+					$("#qiao_order_no").text(res.data.orderDetailID);
+					$("#qiao_shop_no").text(res.data.Out_Trade_No);
+					$("#qiao_readtime").text(res.data.Order_CreateTime);
+					$("#qiao_order_state").text(orderStateText(parseInt(res.data.Order_Status)));
+					$("#qiao_pay_method").text(payStatus(parseInt(res.data.OrderPaymentMethodStat)) + "金额：￥" + res.data.total_price);
+					$("#qiao_pay_time").text(res.data.Order_Remark);
+					$("#qiao_username").text(res.data.Address_Name);
+					$("#qiao_telphone").text(res.data.Address_Mobile);
+					$("#qiao_room_mm").text(res.data.Products_Square);
+					$("#qiao_able_num").text(res.data.Products_People);
+					$("#qiao_room_detail").text(roomType(res.data.facilities));
+					$("#qiao_hotel_title").text(res.data.Biz_Name);
+					$("#qiao_hotel_phone").text(res.data.Biz_Phone);
+					$(".shop_img img").attr("src", res.data.ImgPath);
+
+					//状态3和4显示消费确认码/状态6为撤销
+					if(res.data.Order_Status == 3 || res.data.Order_Status == 4) {
+						$(".qiao_cancel_info").css("display", "block");
+						$("#cancel_info").text(res.data.Extras);
+						$(".qiao_order_code").css("display", "block");
+						$("#order_code").text(res.data.order_code);
+					} else if(res.data.Order_Status == 6) {
+						$(".qiao_cancel_info").css("display", "block");
+						$("#cancel_info").text(res.data.Extras);
+					}
+					
+					//0.申请中 4.已完成 5.拒绝原因
+					if(res.data.Back_Status==5){
+						$(".order_cancel_info").css("display","block");
+						$("#reject_order_info").text(res.data.detail);
+					}
+
+					//判断是否显示撤消信息
+					if(parseInt(res.data.Is_Backup) == 1) {
+
+						var showBackBadge = "";
+
+						if(res.data.Back_Status == "0") {
+							showBackBadge = '<span class="mui-badge mui-badge-warning" style="padding: 5px;margin-top: 6px;">申请中</span>';
+						} else if(res.data.Back_Status == "4") {
+							showBackBadge = '<span class="mui-badge mui-badge-success" style="padding: 5px;margin-top: 6px;">完成</span>';
+						} else if(res.data.Back_Status == "5") {
+							showBackBadge = '<span class="mui-badge mui-badge-danger" style="padding: 5px;margin-top: 6px;">卖家拒绝</span>';
+						}
+
+						$(".qiao_back_order_status").html(showBackBadge);
+						$("#back_show_qiao").show();
+						var urlInfo = "myback_detail.html?backid=" + res.data.Back_ID;
+						$(".qiao_chexiao").click(function() {
+							window.location.href = urlInfo;
+						});
+					} else {
+						$("#back_show_qiao").hide();
+					}
+
+				} else if(res.code == "403") {
+					$info = "登陆失败";
+					mui.hideLoading(callback($info, false));
+					mui.alert($info, function() {
+						hybrid_app.back();
+					});
+				} else {
+					$info = "请求异常";
+				}
+
+				mui.hideLoading(callback($info, false));
+			}, "json").error(function() {
+				mui.toast("网络异常");
+			});
+
+			//撤销单状态封装
+			var BackStateText = function(status) {
+				var StateText = "";
+				switch(status) {
+					case 0:
+						StateText = "申请中";
+						break;
+					case 4:
+						StateText = "已完成";
+						break;
+					case 5:
+						StateText = "卖家拒绝";
+						break;
+					default:
+						StateText = "未知";
+						break;
+				}
+
+				return StateText;
+			};
+
+			//订单状态封装
+			var orderStateText = function(status) {
+				var StateText = "";
+				switch(status) {
+					case 0:
+						StateText = "待付款";
+						break;
+					case 2:
+						StateText = "待确认";
+						break;
+					case 3:
+						StateText = "已确认";
+						break;
+					case 4:
+						StateText = "已完成";
+						break;
+					case 6:
+						StateText = "已取消";
+						break;
+					case 8:
+						StateText = "延时订单关闭";
+						break;
+					default:
+						StateText = "未知";
+						break;
+				}
+
+				return StateText;
+			};
+
+			//房型信息
+			var roomType = function(facilities) {
+				var str = "";
+				if($.isArray(facilities)) {
+					if(facilities.length > 1) {
+						$.each(facilities, function(k, v) {
+							str += v.Facilities_Name + " | ";
+						});
+						str = str.substr(0, str.length - 2);
+					} else if(facilities.length == 1) {
+						str = facilities[0]['Facilities_Name'];
+					}
+				}
+				return str;
+			}
+			//支付状态
+			var payStatus = function(OrderPaymentMethodStat) {
+				var payStatus = "";
+				if(OrderPaymentMethodStat == 0) {
+					payStatus = "到店付";
+				} else if(OrderPaymentMethodStat == 1) {
+					payStatus = "E支付";
+
+				} else if(OrderPaymentMethodStat == 2) {
+					//					payStatus = '其他支付方式';
+				}
+
+				return payStatus;
+			};
+		</script>
+
+	</body>
+
+</html>

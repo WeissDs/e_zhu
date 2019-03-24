@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<style type="text/css">
+			* {
+				touch-action: pan-y;
+			}
+			
+			#header {
+				background-color: rgba(221, 39, 38, 0.8);
+			}
+			
+			.mui-title {
+				color: white;
+			}
+			
+			.qiao_wrap {
+				width: 98%;
+				height: 130px;
+				background: white;
+				margin: auto;
+				margin-top: 50px;
+			}
+			
+			.qiao_wrap_p {
+				font-size: 18px;
+				font-weight: bold;
+				color: black;
+				padding: 10px;
+				border-bottom: 1px solid #eee;
+			}
+			
+			.qiao_wrap_pay {
+				font-weight: bold;
+				color: black;
+				padding: 10px;
+				font-size: 16px;
+			}
+			
+			.qiao_wrap p {
+				padding-left: 10px;
+			}
+			
+			.qiao_select_pay {
+				width: 98%;
+				height: 200px;
+				background: white;
+				margin: auto;
+				margin-top: 10px;
+			}
+			
+			.qiao_select_pay a {
+				width: 90%;
+				margin-left: 5%;
+				margin-top: 20px;
+			}
+			
+			#qiao_epay {
+				height: 40px;
+				line-height: 30px;
+			}
+			
+			#qiao_paymoney {
+				height: 40px;
+				line-height: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">确认支付</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<!--提交订单-->
+		<div class="qiao_wrap" style="display: none;">
+			<p class="qiao_wrap_p">订单提交成功！！！</p>
+			<p>订单编号：<span id="orderNo"></span></p>
+			<p>订单总价：<span style="color: red;font-weight: bold;" id="totalMoney">￥20.00</span></p>
+		</div>
+		<!--提交订单-->
+
+		<!--选择支付方式-->
+		<div class="qiao_select_pay">
+			<p class="qiao_wrap_pay">选择支付方式</p>
+			<a href="javascript:;" class="mui-btn mui-btn-danger" id="qiao_epay">e支付</a>
+			<a href="javascript:;" class="mui-btn mui-btn-success" id="qiao_paymoney">到店付</a>
+		</div>
+		<!--选择支付方式-->
+
+		<!--e支付页面-->
+		<div id="qiao_payment" style="display: none;"></div>
+		<!--e支付页面-->
+
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script>
+			//ajax返订单提交结果
+			mui.showLoading("数据加载中..", "div");
+			var urlString = getUrlParam("OrderID");
+			$.get("/Home/User/Payment?OrderID=" + urlString, function(res) {				
+				if(res.code = "200") {
+					$(".qiao_wrap").css("display","block");
+					$info = "请求正常";
+					$("#orderNo").text(res.data.ordersn);
+					$("#totalMoney").text(res.data.Order_TotalPrice);
+
+					//判斷是开启了到店付
+					if(res.data.PayLaterSwitch == "on") {
+						$("#qiao_paymoney").show();
+					} else {
+						$("#qiao_paymoney").hide();
+						$(".qiao_select_pay").css("height", "100px");
+					}
+
+				} else if(res.code == "403") {
+					$info = "登陆失败";
+					mui.hideLoading(callback($info, false));
+					mui.alert($info, function() {
+						hybrid_app.back();
+					});
+				} else {
+					$info = "请求异常";
+				}
+				mui.hideLoading(callback($info, false));
+			}, "json").error(function() {
+				mui.toast("网络异常");
+			});
+
+			//e支付
+			$("#qiao_epay").on("tap", function() {
+				mui.showLoading("请求加载中..", "div");
+				$.post("/Home/User/Pay", {
+					"OrderID": urlString
+				}, function(res) {
+
+//					alert(JSON.stringify(res));
+
+					if(res.code = "200") {
+						$info = "请求正常";
+						//						window.location.href = "payment_success.html?out_trade_no=" + res.data;
+						$("#qiao_payment").html(res.data);
+					} else if(res.code == "403") {
+						$info = "登陆失败";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+					}
+					mui.hideLoading(callback($info, false));
+				}, "json").error(function() {
+					mui.toast("网络异常");
+				});
+			});
+
+			//到店付
+			$("#qiao_paymoney").on("tap", function() {
+				mui.showLoading("请求加载中..", "div");
+				$.post("/Home/User/PayLater", {
+					"OrderID": urlString
+				}, function(res) {
+
+					if(res.code = "200") {
+						$info = "请求正常";
+						console.log(res);
+						window.location.href = "myorder.html?status=2&comfirmPay=daodianfu";
+					} else if(res.code == "403") {
+						$info = "登陆失败";
+						mui.hideLoading(callback($info, false));
+						mui.alert($info, function() {
+							hybrid_app.back();
+						});
+					} else {
+						$info = "请求出错";
+					}
+					mui.hideLoading(callback($info, false));
+				}, "json").error(function() {
+					mui.toast("网络异常");
+				});
+			});
+		</script>
+	</body>
+
+</html>

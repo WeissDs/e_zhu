@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>酒店助手</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/mui_extends_loading.css" />
+		<style type="text/css">
+			* {
+				touch-action: pan-y;
+			}
+			
+			#header {
+				background-color: rgba(221, 39, 38, 0.8);
+			}
+			
+			.mui-title {
+				color: white;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #FE0638;
+			}
+			
+			.qiao_shop_wrap {
+				background: white;
+				width: 100%;
+				margin-top: 50px;
+				padding: 10px;
+				box-sizing: border-box;
+				min-height: 90vh;
+			}
+			
+			.shop_head {
+				width: 100%;
+				display: flex;
+				/*margin-left: 3%;*/
+				padding: 10px;
+				box-shadow: .4px .4px 0.2px 0.2px #888888;
+			}
+			
+			.qiao_head_img {
+				width: 40%;
+				margin-bottom: 10px solid red;
+			}
+			
+			.qiao_head_img img {
+				width: 100%;
+				border-radius: 5px;
+			}
+			
+			.qiao_shop_content {
+				width: 60%;
+				padding: 0px 0px 0px 10px;
+			}
+			
+			.qiao_shop_content h4 {
+				font-size: 14px;
+			}
+			
+			.shop_content {
+				width: 100%;
+				margin: 10px 0px;
+				min-height: 200px;
+				box-shadow: .4px .4px 0.2px 0.2px #888888;
+			}
+			
+			.content_info {
+				padding: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--头部导航栏-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title">撤消单详情</h1>
+		</header>
+		<!--头部导航栏-->
+
+		<div class="qiao_shop_wrap">
+			<div class="shop_head">
+				<div class="qiao_head_img">
+					<img src="img/1.jpg" />
+				</div>
+				<div class="qiao_shop_content">
+					<h4></h4>
+					<p class="qiao_address"></p>
+					<p class="qiao_date"></p>
+
+				</div>
+			</div>
+
+			<div class="shop_content">
+				<div class="content_info">
+					<p>退款编号：<span class="qiao_back_no"></span></p>
+					<p>退款时间：<span class="qiao_back_time"></span></p>
+					<p>退款金额：<span class="qiao_back_money"></span></p>
+					<p>退款状态：<span class="qiao_back_status"></span></p>
+					<p>退款详情：<span class="qiao_back_detai"></span></p>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/mui.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/hybrid_app.js"></script>
+		<script type="text/javascript" src="js/mui_extends_loading.js"></script>
+		<script>
+			//请求酒店简介页
+			var urlString = window.location.search; //获取跳转过来的参数
+			mui.showLoading("数据加载中..", "div"); //数据加载中
+			$.get("/Home/UserOrder/GetUserBackOrderDetail" + urlString, function(res) {
+			
+				if(res.code == "200") {
+					$info = "请求正常";
+					$('.qiao_head_img img').attr('src', res.data.ImgPath);
+					$(".qiao_shop_content h4").text(res.data.Biz_Name);
+					$(".qiao_address").text(res.data.Biz_Address);
+					$(".qiao_date").text(res.data.DateFrom + " 至 " + res.data.DateEnd + " " + res.data.days + "晚" + res.data.ProductsName);
+					$(".qiao_back_no").text(res.data.Back_Sn);
+					$(".qiao_back_money").html('<span style="color:red;">￥' + res.data.Back_Amount + '</span>');
+					$(".qiao_back_time").text(res.data.Back_CreateTime);
+					var back_text = backStatus(parseInt(res.data.Back_Status));
+					$(".qiao_back_status").html(back_text);
+					var back_detail = backDetail(res.data.Back_CreateTime, parseInt(res.data.Back_Status));
+					$(".qiao_back_detai").html(back_detail);
+
+				} else if(res.code == "403") {
+					$info = "登陆失败";
+					mui.hideLoading(callback($info, false));
+					mui.alert($info, function() {
+						hybrid_app.back();
+					});
+				} else {
+					$info = "请求异常";
+				}
+				mui.hideLoading(callback($info, false));
+			}, "json").error(function() {
+				mui.hideLoading(callback("请求异常", true));
+				setTimeout(function() {
+					window.history.back(); //退回上一頁
+				}, 3000);
+			});
+
+			//退款详情描述
+			var backDetail = function(readtime, Back_Status) {
+
+				var back_status_text = "";
+
+				switch(Back_Status) {
+					case 0:
+						back_status_text = '<span class="mui-badge mui-badge-warning">' + readtime + '买家提出退款申请，等待商家处理中...</span>';
+						break;
+					case 4:
+						back_status_text = '<span class="mui-badge mui-badge-success">' + readtime + ' 商户已同意退款给买家</span>';
+						break;
+					case 5:
+						back_status_text = '<span class="mui-badge mui-badge-danger">' + readtime + '商户拒绝退款给买家</span>';
+						break;
+					default:
+						break;
+				}
+				return back_status_text;
+			};
+
+			//撤消单状态值
+			var backStatus = function(Back_Status) {
+
+				var back_status_text = "";
+
+				switch(Back_Status) {
+					case 0:
+						back_status_text = '<span class="mui-badge mui-badge-warning">申请中</span>';
+						break;
+					case 4:
+						back_status_text = '<span class="mui-badge mui-badge-success">完成</span>';
+						break;
+					case 5:
+						back_status_text = '<span class="mui-badge mui-badge-danger">卖家拒绝</span>';
+						break;
+					default:
+						break;
+				}
+				return back_status_text;
+			};
+		</script>
+
+	</body>
+
+</html>
