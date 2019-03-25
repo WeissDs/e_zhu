@@ -3,18 +3,19 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// element-ui导入和初始化
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI)
-// vuex
 import Vuex from 'vuex'
 
-import './common/base.css'
-import './common/style.css'
-import './common/index.css'
+import './common/css/base.css'
+// import './common/style.css'
+// import './common/js/jquery.js'
+import './common/js/base.js'
+
 
 Vue.config.productionTip = false
+// element-ui导入和初始化
+Vue.use(ElementUI)
 
 /* eslint-disable no-new */
 new Vue({

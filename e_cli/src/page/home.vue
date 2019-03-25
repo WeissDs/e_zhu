@@ -1,9 +1,10 @@
 <template>
   <div class="home">
     <!--头部导航栏-->
-    </top>
+    <top></top>
+    
     <!--轮播图-->
-    <el-carousel :interval="6000" height="200px" class="home-banner">
+    <el-carousel :interval="6000" height="4rem" class="home-banner">
         <el-carousel-item v-for="item in imgList" :key="item.id">
           <img :src="item.idView" class="" alt="">
         </el-carousel-item>
@@ -13,6 +14,8 @@
     <!--form 表单提交数据-->
     <div class="qiao_index_wrap">
       <form id="qiao_index_form">
+
+        <calendar></calendar>
         <!-- 时间选择 代码 -->
         <div id="checkinout">
           <div id="firstSelect" style="width:100%;">
@@ -39,15 +42,15 @@
 
         <div class="qiao_inut_info">
           <div class="mui-input-row">
-            <label><img src="img/icon/index_location.svg" width="20"/></label>
+            <label><img src="../../static/img/icon/index_location.svg" width="20"/></label>
             <input type="text" id="areaname" class="mui-input hotel_area" value="" readonly="readonly" placeholder="我的位置">
           </div>
           <div class="mui-input-row">
-            <label><img src="img/icon/index_search.svg"width="20" /></label>
+            <label><img src="../../static/img/icon/index_search.svg"width="20" /></label>
             <input type="text" class="mui-input-clear" name="title" id="qiao_hotel_name" placeholder="酒店名称">
           </div>
           <div class="mui-input-row">
-            <label><img src="img/icon/index_price.svg" width="20"/></label>
+            <label><img src="../../static/img/icon/index_price.svg" width="20"/></label>
             <input type="text" id="qiao_show_price" readonly="readonly" placeholder="价格/星级">
           </div>
         </div>
@@ -101,7 +104,6 @@
     <!-- 城市选择 结束 -->
 
     <!--价格/星级-->
-    
     <div class="price-start-popup">
       <div class="star-select">
         <p>星级</p>
@@ -178,8 +180,9 @@
 // import {Carousel} from 'element-ui'
 // this.ues(ElementUI)
 import top from '@/components/cmp-top.vue'
+import calendar from '@/components/cmp-calendar'
 export default {
-components: { top },
+components: { top, calendar },
 data() {
   return {
     imgList: [
@@ -188,6 +191,9 @@ data() {
               {id: 2, name: '推荐', idView: require('../../static/img/photo-1527142879-95b61a0b8226.jpg')}
             ]
   }
+methods: {
+
+}
 }
 
 }
@@ -195,4 +201,7 @@ data() {
 
 <style>
   .home-banner img{ width: 100% }
+  .el-input__inner{
+    width: 3rem;
+  }
 </style>
