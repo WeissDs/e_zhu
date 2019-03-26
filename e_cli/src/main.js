@@ -9,9 +9,7 @@ import Vuex from 'vuex'
 
 import './common/css/base.css'
 // import './common/style.css'
-// import './common/js/jquery.js'
 import './common/js/base.js'
-
 
 Vue.config.productionTip = false
 // element-ui导入和初始化

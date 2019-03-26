@@ -14,25 +14,25 @@
     <!--form 表单提交数据-->
     <div class="qiao_index_wrap">
       <form id="qiao_index_form">
-
-        <calendar></calendar>
         <!-- 时间选择 代码 -->
-        <div id="checkinout">
-          <div id="firstSelect" style="width:100%;">
-            <div class="Date_lr" style="float:left;">
-              <P>入住</p>
-              <input id="startDate" type="text" value="" readonly>
+        <calendar></calendar>
+          <!-- <div id="checkinout">
+            <div id="firstSelect" style="width:100%;">
+              <div class="Date_lr" style="float:left;">
+                <P>入住</p>
+                <input id="startDate" type="text" value="" readonly>
+              </div>
+              <div class="Date_lr" style="float:right;">
+                <p>离店</p>
+                <input id="endDate" type="text" value="" readonly>
+              </div>
+              <span class="span21">共 <span class="NumDate">1</span> 晚</span>
             </div>
-            <div class="Date_lr" style="float:right;">
-              <p>离店</p>
-              <input id="endDate" type="text" value="" readonly>
-            </div>
-            <span class="span21">共 <span class="NumDate">1</span> 晚</span>
           </div>
-        </div>
-        <div class="mask_calendar">
-          <div class="calendar"></div>
-        </div>
+          <div class="mask_calendar">
+            <div class="calendar"></div>
+          </div> -->
+
         <!-- 时间选择 代码 -->
 
         <!--input输入栏部分-->
