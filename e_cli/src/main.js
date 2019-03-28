@@ -14,6 +14,13 @@ import './common/js/base.js'
 Vue.config.productionTip = false
 // element-ui导入和初始化
 Vue.use(ElementUI)
+// 将axios给到全局vue变量的prototype中，在组件中就不用重新初始化了
+Vue.prototype.axios = axios.create({
+  // 服务器所在地址 通用前缀
+  baseURL: 'http://localhost:8090/api/',
+  // 请求超时时间（毫秒）
+  timeout: 1000
+})
 
 /* eslint-disable no-new */
 new Vue({
