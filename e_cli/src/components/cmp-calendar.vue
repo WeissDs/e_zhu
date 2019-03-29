@@ -23,7 +23,7 @@
 import '../common/js/jquery.js'
 import '../common/js/date.js'
 export default {
-  created: function(){
+  mounted: function(){
     $('#firstSelect').on('click',function () {
       $('.mask_calendar').show();
     });

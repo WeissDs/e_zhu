@@ -12,8 +12,12 @@
     <!--轮播图-->
 
     <!--form 表单提交数据-->
-    <div class="">
+    <div class="home-form-warp">
       <form id="">
+        <div class="form-input position" @click='fn()'>
+          <label><img src="../../static/img/icon/index_location.svg" width="20"/></label>
+          <input type="text" id="areaname" class="mui-input hotel_area" value="我的位置" readonly="readonly">
+        </div>
         <!-- 时间选择 代码 -->
         <calendar></calendar>
 
@@ -23,15 +27,12 @@
         </div>
 
         <div class="qiao_inut_info">
-          <div class="mui-input-row">
-            <label><img src="../../static/img/icon/index_location.svg" width="20"/></label>
-            <input type="text" id="areaname" class="mui-input hotel_area" value="" readonly="readonly" placeholder="我的位置">
-          </div>
-          <div class="mui-input-row">
+          
+          <div class="form-input">
             <label><img src="../../static/img/icon/index_search.svg"width="20" /></label>
             <input type="text" class="mui-input-clear" name="title" id="qiao_hotel_name" placeholder="酒店名称">
           </div>
-          <div class="mui-input-row">
+          <div class="form-input">
             <label><img src="../../static/img/icon/index_price.svg" width="20"/></label>
             <input type="text" id="qiao_show_price" readonly="readonly" placeholder="价格/星级">
           </div>
@@ -173,17 +174,66 @@ data() {
               {id: 2, name: '推荐', idView: require('../../static/img/photo-1527142879-95b61a0b8226.jpg')}
             ]
   }
+},
 methods: {
-
-}
+  fn(){
+    alert(11111)
+  }
 }
 
 }
 </script>
 
-<style>
-  .home-banner img{ width: 100% }
-  .el-input__inner{
-    width: 3rem;
+<style lang="less">
+.home{
+  .home-banner{
+    img {
+      width: 100%;
+    } 
+    .el-input__inner{
+      width: 3rem;
+    }
   }
+
+  .home-form-warp{
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    position: relative;
+    margin-top: -1rem;
+    background-color: #fff;
+    border-radius: 15px;
+    z-index: 5;
+    font-size:0;
+    overflow: hidden;
+
+    .form-input{
+      margin-left: auto;
+      margin-right: auto;
+      width: 90%;
+      height: 1rem;
+      position: relative;
+      margin-top: .3rem;
+      border-bottom: 1px solid #999;
+
+    }
+    .form-input input{
+      border: none;
+      width: 100%;
+      height: 1rem;
+      font-size: .3rem;
+      font-weight: bold;
+      color: #333;
+      padding-left: .9rem;
+    }
+    .form-input label{
+      position: absolute;
+      left: .5rem;
+    }
+
+    
+    
+  }
+}
+
 </style>
