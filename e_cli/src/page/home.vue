@@ -4,7 +4,7 @@
     <top></top>
     
     <!--轮播图-->
-    <el-carousel :interval="6000" height="4rem" class="home-banner">
+    <el-carousel :interval="6000" height="5rem" class="home-banner">
         <el-carousel-item v-for="item in imgList" :key="item.id">
           <img :src="item.idView" class="" alt="">
         </el-carousel-item>
@@ -21,22 +21,20 @@
         <!-- 时间选择 代码 -->
         <calendar></calendar>
 
+        <div class="form-input">
+          <label><img src="../../static/img/icon/index_search.svg"width="20" /></label>
+          <input type="text" name="title" id="qiao_hotel_name" value="酒店名称">
+        </div>
+        <div class="form-input">
+          <label><img src="../../static/img/icon/index_price.svg" width="20"/></label>
+          <input type="text" id="qiao_show_price" readonly="readonly" value="价格/星级">
+        </div>
+
         <!--input输入栏部分-->
         <div class="">
           <!--占位作用-->
         </div>
 
-        <div class="qiao_inut_info">
-          
-          <div class="form-input">
-            <label><img src="../../static/img/icon/index_search.svg"width="20" /></label>
-            <input type="text" class="mui-input-clear" name="title" id="qiao_hotel_name" placeholder="酒店名称">
-          </div>
-          <div class="form-input">
-            <label><img src="../../static/img/icon/index_price.svg" width="20"/></label>
-            <input type="text" id="qiao_show_price" readonly="readonly" placeholder="价格/星级">
-          </div>
-        </div>
         <!--input输入栏部分-->
 
         <div class="search_form">
@@ -185,7 +183,13 @@ methods: {
 </script>
 
 <style lang="less">
+@font-face{
+  font-family: PingFangSC;
+  src: url(../../static/font/PingFangSC-Medium.woff.ttf)
+}
+
 .home{
+  background-color: #efefef;
   .home-banner{
     img {
       width: 100%;
@@ -198,14 +202,14 @@ methods: {
   .home-form-warp{
     margin-left: auto;
     margin-right: auto;
-    width: 90%;
+    width: 100%;
     position: relative;
-    margin-top: -1rem;
-    background-color: #fff;
-    border-radius: 15px;
+    border-radius: 37px 37px 0 0;
     z-index: 5;
     font-size:0;
     overflow: hidden;
+    background-color: #fff;
+    margin-top: -.24rem;
 
     .form-input{
       margin-left: auto;
@@ -213,8 +217,7 @@ methods: {
       width: 90%;
       height: 1rem;
       position: relative;
-      margin-top: .3rem;
-      border-bottom: 1px solid #999;
+      /* border-bottom: 1px solid #999; */
 
     }
     .form-input input{
@@ -222,13 +225,16 @@ methods: {
       width: 100%;
       height: 1rem;
       font-size: .3rem;
-      font-weight: bold;
+      // font-weight: bold;
+      font-family: PingFangSC;
       color: #333;
       padding-left: .9rem;
     }
     .form-input label{
       position: absolute;
       left: .5rem;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
     
