@@ -7,16 +7,22 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      let title = '酒店助手'
+export default {
+  data () {
+    let title = '酒店助手'
 
-      return { title }
-    }
+    return { title }
   }
+}
 </script>
 
 <style lang="less">
+  @redColor: #FF4356;
+  @font-face{
+    font-family: memecha;
+    src: url(../../static/font/他夏了夏天中文.ttf)
+  }
+
   .center{
     position: absolute;
     left: 50%;
@@ -31,15 +37,16 @@
   .cmp-top {
     width: 100%;
     height: .7rem;
-    font-size: .18rem;
+    font-size: .2rem;
     text-align: center;
-    font-family: '微软雅黑';
+    // font-family: '微软雅黑';
+    font-family: memecha;
     font-weight: normal;
-    background-color: rgba(200,0,20,0.6);
-    color: #eee;
-    position: fixed;
+    // background-color: rgba(200,0,20,0.6);
+    color: @redColor;
+    position: relative;
     top: 0;
-    z-index: 999;
+    // z-index: 999;
     a{
       left: 0;
       font-size: .5rem;

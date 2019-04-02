@@ -2,15 +2,8 @@
   <div class="home">
     <!--头部导航栏-->
     <top></top>
-    
     <!--轮播图-->
-    <el-carousel :interval="6000" height="5rem" class="home-banner">
-        <el-carousel-item v-for="item in imgList" :key="item.id">
-          <img :src="item.idView" class="" alt="">
-        </el-carousel-item>
-    </el-carousel>
-    <!--轮播图-->
-
+    <banner></banner>
     <!--form 表单提交数据-->
     <div class="home-form-warp">
       <form id="">
@@ -19,8 +12,8 @@
           <input type="text" id="areaname" class="mui-input hotel_area" value="我的位置" readonly="readonly">
         </div>
         <!-- 时间选择 代码 -->
-        <calendar></calendar>
-
+        <calendar class="home-calendar"></calendar>
+        <!-- 时间选择 代码 -->
         <div class="form-input">
           <label><img src="../../static/img/icon/index_search.svg"width="20" /></label>
           <input type="text" name="title" id="qiao_hotel_name" value="酒店名称">
@@ -29,18 +22,14 @@
           <label><img src="../../static/img/icon/index_price.svg" width="20"/></label>
           <input type="text" id="qiao_show_price" readonly="readonly" value="价格/星级">
         </div>
-
         <!--input输入栏部分-->
         <div class="">
           <!--占位作用-->
         </div>
-
         <!--input输入栏部分-->
-
         <div class="search_form">
           <label class="mui-btn mui-btn-danger">查询</label>
         </div>
-
         <input type="hidden" name="price" id="search_price" />
         <input type="hidden" name="level" id="search_level" />
         <input type="hidden" name="areaid" id="areaid" />
@@ -162,17 +151,9 @@
 // this.ues(ElementUI)
 import top from '@/components/cmp-top.vue'
 import calendar from '@/components/cmp-calendar'
+import banner from '@/components/cmp-banner.vue'
 export default {
-components: { top, calendar },
-data() {
-  return {
-    imgList: [
-              {id: 0, idView: require('../../static/img/nik-lanus-41808-unsplash.jpg')},
-              {id: 1, name: '详情', idView: require('../../static/img/photo-1520285774798-2f1616131a68.jpg')},
-              {id: 2, name: '推荐', idView: require('../../static/img/photo-1527142879-95b61a0b8226.jpg')}
-            ]
-  }
-},
+components: { top, calendar, banner },
 methods: {
   fn(){
     alert(11111)
@@ -189,16 +170,12 @@ methods: {
 }
 
 .home{
-  background-color: #efefef;
-  .home-banner{
-    img {
-      width: 100%;
-    } 
-    .el-input__inner{
-      width: 3rem;
-    }
+  padding: 0 .2rem;
+  .home-calendar{
+    z-index: 9999999;
   }
-
+  
+  /* 表单部分开始 */
   .home-form-warp{
     margin-left: auto;
     margin-right: auto;
@@ -218,14 +195,13 @@ methods: {
       height: 1rem;
       position: relative;
       /* border-bottom: 1px solid #999; */
-
     }
     .form-input input{
       border: none;
       width: 100%;
       height: 1rem;
       font-size: .3rem;
-      // font-weight: bold;
+      /* font-weight: bold; */
       font-family: PingFangSC;
       color: #333;
       padding-left: .9rem;
@@ -236,10 +212,8 @@ methods: {
       top: 50%;
       transform: translateY(-50%);
     }
-
-    
-    
   }
+  /* 表单部分结束 */
 }
 
 </style>

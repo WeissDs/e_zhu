@@ -23,14 +23,14 @@
 import '../common/js/jquery.js'
 import '../common/js/date.js'
 export default {
-  mounted: function(){
-    $('#firstSelect').on('click',function () {
-      $('.mask_calendar').show();
+  mounted: function () {
+    $('#firstSelect').on('click', function () {
+      $('.mask_calendar').show()
     });
-    $('.mask_calendar').on('click',function (e) {
+    $('.mask_calendar').on('click', function (e) {
       if(e.target.className == "mask_calendar"){
-        $('.calendar').slideUp(200);
-        $('.mask_calendar').fadeOut(200);
+        $('.calendar').slideUp(200)
+        $('.mask_calendar').fadeOut(200)
       }
     })
     $('#firstSelect').calendarSwitch({
