@@ -184,7 +184,6 @@ methods: {
     border-radius: 37px 37px 0 0;
     z-index: 5;
     font-size:0;
-    overflow: hidden;
     background-color: #fff;
     margin-top: -.24rem;
 
