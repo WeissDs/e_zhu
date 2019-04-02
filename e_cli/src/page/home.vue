@@ -3,17 +3,26 @@
     <!--头部导航栏-->
     <top></top>
     <!--轮播图-->
+    <!-- 遮罩 -->
+    
     <banner></banner>
     <!--form 表单提交数据-->
     <div class="home-form-warp">
+      <div class="form-title">
+        酒店预订
+        <span class="red">hotel booking</span>
+      </div>
       <form id="">
+        <div class="line"></div>
+        <!-- 时间选择 代码 -->
+        <calendar class="home-calendar"></calendar>
+        <!-- 时间选择 代码 -->
+        <div class="line"></div>
+
         <div class="form-input position" @click='fn()'>
           <label><img src="../../static/img/icon/index_location.svg" width="20"/></label>
           <input type="text" id="areaname" class="mui-input hotel_area" value="我的位置" readonly="readonly">
         </div>
-        <!-- 时间选择 代码 -->
-        <calendar class="home-calendar"></calendar>
-        <!-- 时间选择 代码 -->
         <div class="form-input">
           <label><img src="../../static/img/icon/index_search.svg"width="20" /></label>
           <input type="text" name="title" id="qiao_hotel_name" value="酒店名称">
@@ -164,16 +173,13 @@ methods: {
 </script>
 
 <style lang="less">
+@redColor: #FF4356;
 @font-face{
   font-family: PingFangSC;
   src: url(../../static/font/PingFangSC-Medium.woff.ttf)
 }
 
 .home{
-  padding: 0 .2rem;
-  .home-calendar{
-    z-index: 9999999;
-  }
   
   /* 表单部分开始 */
   .home-form-warp{
@@ -181,12 +187,31 @@ methods: {
     margin-right: auto;
     width: 100%;
     position: relative;
-    border-radius: 37px 37px 0 0;
-    z-index: 5;
     font-size:0;
     background-color: #fff;
-    margin-top: -.24rem;
-
+    margin-top: .4rem;
+    /*时间选择*/
+    .home-calendar{
+      /* margin-top: .3rem; */
+    }
+    /*分割线*/
+    .line{
+      width: 87%;
+      background-color: #ddd;
+      height: .02rem;
+      margin: .2rem auto 0;
+    }
+    /*酒店预订title*/
+    .form-title{
+      font-size: .35rem;
+      font-weight: bold;
+      color: #555;
+      margin-left: .45rem;
+      .red{
+        color: @redColor;
+      }
+    }
+    /*input*/
     .form-input{
       margin-left: auto;
       margin-right: auto;

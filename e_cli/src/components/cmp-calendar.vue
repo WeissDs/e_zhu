@@ -87,8 +87,9 @@ export default {
     display: none;
     position: fixed;
     width: 100%;
-    /* z-index: 999999999;
-    top: 0; */
+    z-index: 999999999;
+    top: 0;
+    left: 0;
     overflow: auto;
     height: 100%;
     background: #fff;
@@ -267,8 +268,8 @@ export default {
     background-color: #fff;
   }
   #firstSelect p{line-height:25px;color: #999;font-size:12px;}
-  #startDate{border:0;position: absolute;left: 0;margin: 0 auto;width: 50%;font-size: 16px;color: #05c0ad;text-align: center;}
-  #endDate{border:0;position: absolute;right: 0;margin:auto 0;width:50%;font-size: 16px;color: #05c0ad;text-align: center;}
+  #startDate{border:0;position: absolute;left: 0;margin: .15rem auto 0;width: 50%;font-size: 16px;color: #222; font-weight: bold; text-align: center;}
+  #endDate{border:0;position: absolute;right: 0;margin: .15rem auto 0;width:50%;font-size: 16px;color: #222; font-weight: bold; text-align: center;}
   .mask_calendar {
     width: 100%;
     height: 100%;

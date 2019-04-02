@@ -1,9 +1,12 @@
 <template>
-  <el-carousel :interval="6000" height="5rem" class="banner">
-      <el-carousel-item v-for="item in imgList" :key="item.id">
-        <img :src="item.idView" class="" alt="">
-      </el-carousel-item>
-  </el-carousel>
+  <div>
+    <!-- <div class="cover"></div> -->
+    <el-carousel :interval="6000" height="4rem" class="banner">
+        <el-carousel-item v-for="item in imgList" :key="item.id">
+          <img :src="item.idView" class="" alt="">
+        </el-carousel-item>
+    </el-carousel>
+  </div>
 </template>
 
 <script>
@@ -21,6 +24,13 @@ export default {
 </script>
 
 <style lang='less'>
+.cover{ 
+  width: 100%;
+  height: 4rem;
+  position: absolute;
+  z-index: 3;
+  background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.2),rgba(0,0,0,0));
+}
 .banner{
   img {
     width: 100%;

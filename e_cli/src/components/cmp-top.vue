@@ -17,12 +17,10 @@ export default {
 </script>
 
 <style lang="less">
-  @redColor: #FF4356;
   @font-face{
-    font-family: memecha;
-    src: url(../../static/font/他夏了夏天中文.ttf)
+    font-family: PingFangSC;
+    src: url(../../static/font/PingFangSC-Medium.woff.ttf)
   }
-
   .center{
     position: absolute;
     left: 50%;
@@ -34,26 +32,25 @@ export default {
     top: 50%;
     transform: translateY(-50%);
   }
+
   .cmp-top {
     width: 100%;
-    height: .7rem;
+    height: 1.2rem;
     font-size: .2rem;
     text-align: center;
-    // font-family: '微软雅黑';
-    font-family: memecha;
+    font-family: PingFangSC;
     font-weight: normal;
-    // background-color: rgba(200,0,20,0.6);
-    color: @redColor;
-    position: relative;
+    color: #fff;
+    position: fixed;
     top: 0;
-    // z-index: 999;
+    z-index: 4;
     a{
-      left: 0;
+      left: .3rem;
       font-size: .5rem;
-      .y-center
+      .y-center;
     }
     h1{
-      .center
+      .center;
     }
   }
 </style>
