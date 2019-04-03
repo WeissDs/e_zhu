@@ -1,35 +1,36 @@
 <template>
   <div class="home">
     <!--头部导航栏-->
-    <top></top>
+    <!-- <top></top> -->
+    <div class="home-back"><img src="../../static/img/icon/Icon_back.svg" alt=""></div>
     <!--轮播图-->
     <!-- 遮罩 -->
-    
     <banner></banner>
-    <!--form 表单提交数据-->
+    <!--form 表单提交数据开始-->
+    <div class="form-title">
+      酒店预订
+      <span class="red">hotel booking</span>
+    </div>
     <div class="home-form-warp">
-      <div class="form-title">
-        酒店预订
-        <span class="red">hotel booking</span>
-      </div>
-      <form id="">
-        <div class="line"></div>
+      <form @submit.prevent="submit">
         <!-- 时间选择 代码 -->
-        <calendar class="home-calendar"></calendar>
+        <calendar></calendar>
         <!-- 时间选择 代码 -->
-        <div class="line"></div>
-
-        <div class="form-input position" @click='fn()'>
-          <label><img src="../../static/img/icon/index_location.svg" width="20"/></label>
-          <input type="text" id="areaname" class="mui-input hotel_area" value="我的位置" readonly="readonly">
+        <div class="form-input">
+          <label><img src="../../static/img/icon-dai/6-地点.svg"/></label>
+          <input type="text" name="areaname" class="hotel_area" readonly="readonly" v-model="inputtext.areaname">
+          <span class="now-position"><img src="../../static/img/icon-dai/position.svg" alt=""></span>
         </div>
         <div class="form-input">
-          <label><img src="../../static/img/icon/index_search.svg"width="20" /></label>
-          <input type="text" name="title" id="qiao_hotel_name" value="酒店名称">
+          <label><img src="../../static/img/icon-dai/1-搜索.svg"/></label>
+          <input type="text" name="hotelname" v-model="inputtext.hotelname">
         </div>
         <div class="form-input">
-          <label><img src="../../static/img/icon/index_price.svg" width="20"/></label>
-          <input type="text" id="qiao_show_price" readonly="readonly" value="价格/星级">
+          <label><img src="../../static/img/icon-dai/29-星级.svg"/></label>
+          <input type="text" name="price" readonly="readonly" v-model="inputtext.price">
+        </div>
+        <div class="form-input form-submit">
+          <input type="submit" value="提 交">
         </div>
         <!--input输入栏部分-->
         <div class="">
@@ -44,20 +45,19 @@
         <input type="hidden" name="areaid" id="areaid" />
       </form>
     </div>
-    <!--form 表单数据-->
-
+    <!--form 表单数据结束-->
+    <div class="home-line"></div>
     <!--商家列表-->
-    <div class="qiao_inut_shopinfo">
-      <div class="qiao_shop_list">
-        <p>推荐商家</p>
+    <div class="home-shopinfo">
+      <div class="form-title">
+        推荐商家
+        <!-- <span class="red">hotel loveing</span> -->
       </div>
-      <div class="qiao_shop_content">
-        <div class="qiao_shop_item">
-          <!--酒店列表-->
-        </div>
-      </div>
-      <div class="loading_more">
-        <p>点击加载更多</p>
+      <div class="home-shoplist">
+        <shopItem></shopItem>
+        <shopItem></shopItem>
+        <shopItem></shopItem>
+        <shopItem></shopItem>
       </div>
     </div>
     <!--商家列表-->
@@ -65,93 +65,6 @@
     <!--隐藏分页数据-->
     <input type="hidden" id="page" value="2" />
     <!--隐藏分页数据-->
-
-    <!-- 城市选择 开始 -->
-    <div id="home_city" class="city_show">
-      <div class="home_nav">
-        <header id="header" class="mui-bar mui-bar-nav">
-          <a class="qiao_back_out mui-icon mui-icon-left-nav mui-pull-left " style="color: white;"></a>
-          <h1 class="mui-title">酒店助手</h1>
-        </header>
-      </div>
-      <!--显示点击的是哪一个字母-->
-      <!--<div id="showLetter" class="showLetter"><span>A</span></div>-->
-      <!--城市索引查询-->
-      <div class="letter"></div>
-      <div class="container"></div>
-    </div>
-    <!-- 城市选择 结束 -->
-
-    <!--价格/星级-->
-    <div class="price-start-popup">
-      <div class="star-select">
-        <p>星级</p>
-        <div class="mui-row">
-          <!--星际列表-->
-        </div>
-      </div>
-      <div class="price_select">
-        <p>价格</p>
-        <ul class="popup-price-section">
-          <li>
-            <p class="red">不限</p>
-            <span class="red"></span>
-          </li>
-          <li>
-            <p>100</p>
-            <span></span>
-          </li>
-          <li>
-            <p>200</p>
-            <span></span>
-          </li>
-          <li>
-            <p>300</p>
-            <span></span>
-          </li>
-          <li>
-            <p>400</p>
-            <span></span>
-          </li>
-          <li>
-            <p>500</p>
-            <span></span>
-          </li>
-          <li>
-            <p>600</p>
-            <span></span>
-          </li>
-          <li>
-            <p class="red">1000</p>
-            <span class="red"></span>
-          </li>
-        </ul>
-        <div class="mui-input-row mui-input-range popup-price-bar">
-          <input type="range" min="0" max="1000" id="rangel" value="0">
-        </div>
-      </div>
-      <div class="popup-bottom">
-        <button id="index_popup_re" class="popup-re">重置</button>
-        <button id="index_popup_sub" class="popup-sub">完成</button>
-      </div>
-    </div>
-    <!--价格/星级-->
-
-    <!--底部菜单栏-->
-    <nav class="mui-bar mui-bar-tab">
-      <a class="mui-tab-item mui-active" id="qiao_index">
-        <span class="mui-icon mui-icon-home"></span>
-        <span class="mui-tab-label">首页</span>
-      </a>
-      <a class="mui-tab-item" id="qiao_select">
-        <span class="mui-icon mui-icon mui-icon-search"></span>
-        <span class="mui-tab-label">筛选</span>
-      </a>
-      <a class="mui-tab-item" id="qiao_me">
-        <span class="mui-icon mui-icon-gear"></span>
-        <span class="mui-tab-label">个人中心</span>
-      </a>
-    </nav>
   </div>
 </template>
 
@@ -161,14 +74,23 @@
 import top from '@/components/cmp-top.vue'
 import calendar from '@/components/cmp-calendar'
 import banner from '@/components/cmp-banner.vue'
+import shopItem from '@/components/cmp-home-shoplistItem.vue'
 export default {
-components: { top, calendar, banner },
-methods: {
-  fn(){
-    alert(11111)
-  }
-}
+  components: { top, calendar, banner, shopItem },
+  data () {
+    let inputtext = {
+      areaname: '搜索目的地',
+      hotelname: '酒店名称',
+      price: '价格/星级'
 
+    }
+    return { inputtext }
+  },
+  methods: {
+    submit () {
+      console.log(this.inputtext)
+    }
+  }
 }
 </script>
 
@@ -180,7 +102,41 @@ methods: {
 }
 
 .home{
-  
+  /* 返回按鈕 */
+  .home-back{
+    position: absolute;
+    z-index: 4;
+    top: .2rem;
+    left: .3rem;
+    width: .7rem;
+    height: .7rem;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.2);
+    img{
+      width: 0.8rem;
+      position: absolute;
+      left: -.08rem;
+      top: -.05rem;
+    }
+  }
+  /*分割线*/
+  .home-line{
+    width: 98%;
+    background-color: #eee;
+    box-shadow: 0px 2px 5px #eee;
+    height: .025rem;
+    margin: .4rem auto 0;
+  }
+  /*酒店预订title*/
+  .form-title{
+    font-size: .35rem;
+    font-weight: bold;
+    color: #555;
+    margin: .4rem 0 .4rem .45rem;
+    .red{
+      color: @redColor;
+    }
+  }
   /* 表单部分开始 */
   .home-form-warp{
     margin-left: auto;
@@ -190,54 +146,64 @@ methods: {
     font-size:0;
     background-color: #fff;
     margin-top: .4rem;
-    /*时间选择*/
-    .home-calendar{
-      /* margin-top: .3rem; */
+    
+    /*input初始化*/
+    .input-init{
+      border: none;
+      width: 100%;
+      height: .7rem;
+      font-size: .34rem;
+      font-family: PingFangSC;
+      border-radius: .04rem;
+      outline: none
     }
-    /*分割线*/
-    .line{
-      width: 87%;
-      background-color: #ddd;
-      height: .02rem;
-      margin: .2rem auto 0;
-    }
-    /*酒店预订title*/
-    .form-title{
-      font-size: .35rem;
-      font-weight: bold;
-      color: #555;
-      margin-left: .45rem;
-      .red{
-        color: @redColor;
-      }
-    }
-    /*input*/
+    /*input输入类*/
     .form-input{
       margin-left: auto;
       margin-right: auto;
-      width: 90%;
-      height: 1rem;
+      margin-top: .2rem;
+      width: 87%;
+      height: .7rem;
       position: relative;
-      /* border-bottom: 1px solid #999; */
+      .now-position{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: .3rem;
+        img{
+          width: .43rem;
+        }
+      }
     }
     .form-input input{
-      border: none;
-      width: 100%;
-      height: 1rem;
-      font-size: .3rem;
-      /* font-weight: bold; */
-      font-family: PingFangSC;
-      color: #333;
-      padding-left: .9rem;
+      .input-init;
+      padding-left: .7rem;
+      color: #555;
+      background-color: #f1f1f1;
     }
+    /*input提交*/
+    .form-input.form-submit input{
+      .input-init;
+      padding-left: 0;
+      background-color: @redColor;
+      color: #fff;
+      margin-top: .15rem;
+    }
+    /*input中的icon*/
     .form-input label{
       position: absolute;
-      left: .5rem;
+      left: .2rem;
       top: 50%;
       transform: translateY(-50%);
+      img{
+        width: .43rem;
+      }
     }
   }
   /* 表单部分结束 */
+  .home-shoplist{
+    margin-top: -.4rem;
+  }
 }
 
 </style>

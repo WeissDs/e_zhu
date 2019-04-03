@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style lang='less'>
-.cover{ 
+.cover{
   width: 100%;
   height: 4rem;
   position: absolute;

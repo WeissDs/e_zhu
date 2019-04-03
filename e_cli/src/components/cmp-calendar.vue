@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="line"></div>
     <div id="checkinout">
       <div id="firstSelect" style="width:100%;">
         <div class="Date_lr" style="float:left;">
@@ -10,12 +11,13 @@
           <p>离店</p>
           <input id="endDate" type="text" value="" style="" readonly>
         </div>
-        <span class="span21">共<span class="NumDate">1</span>晚</span>
+        <span class="span21"><span class="NumDate">1</span>晚</span>
       </div>
     </div>
     <div class="mask_calendar">
       <div class="calendar"></div>
     </div>
+    <div class="line"></div>
   </div>
 </template>
 
@@ -83,6 +85,13 @@ export default {
 </script>
 
 <style>
+/*分割线*/
+.line{
+  width: 87%;
+  background-color: #ddd;
+  height: .02rem;
+  margin: .2rem auto 0;
+}
   .calendar{
     display: none;
     position: fixed;
@@ -246,11 +255,11 @@ export default {
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
-    font-size:14px;
+    transform: translate(-50%,-41%);
+    font-size: .23rem;
     color: #666;
-    border: 1px solid #e5e5e5;
-    padding:2px 8px;
+    /* border: 1px solid #e5e5e5;
+    padding:2px 8px; */
     line-height: 20px;
     border-radius: .2rem;
     background-color: #fff;
@@ -259,7 +268,7 @@ export default {
     height: 50px;
     line-height: 50px;
     position: relative;
-    margin: 10px;
+    margin: .15rem 0 .3rem;
     padding: 2px 0;
     display: -webkit-box;
     display: flex;
@@ -267,9 +276,9 @@ export default {
     border-radius: .02rem;
     background-color: #fff;
   }
-  #firstSelect p{line-height:25px;color: #999;font-size:12px;}
-  #startDate{border:0;position: absolute;left: 0;margin: .15rem auto 0;width: 50%;font-size: 16px;color: #222; font-weight: bold; text-align: center;}
-  #endDate{border:0;position: absolute;right: 0;margin: .15rem auto 0;width:50%;font-size: 16px;color: #222; font-weight: bold; text-align: center;}
+  #firstSelect p{line-height:25px;color: #999;font-size: .28rem;}
+  #startDate{border:0;position: absolute;left: 0;margin: .12rem auto 0;width: 50%;font-size: .29rem;color: #555; font-weight: bold; text-align: center;}
+  #endDate{border:0;position: absolute;right: 0;margin: .12rem auto 0;width:50%;font-size: .29rem;color: #555; font-weight: bold; text-align: center;}
   .mask_calendar {
     width: 100%;
     height: 100%;
