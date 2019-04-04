@@ -4,3 +4,4 @@ window.onresize = function () {
 window.onload = function () {
   window.onresize()
 }
+window.onresize()

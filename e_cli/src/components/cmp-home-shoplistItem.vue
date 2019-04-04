@@ -33,8 +33,6 @@
         width: 100%;
       }
     }
-    .shoplist-content {
-      
-    }
+    .shoplist-content {}
   }
 </style>

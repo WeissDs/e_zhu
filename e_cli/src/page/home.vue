@@ -51,7 +51,7 @@
     <div class="home-shopinfo">
       <div class="form-title">
         推荐商家
-        <!-- <span class="red">hotel loveing</span> -->
+        <span class="red">hotel loveing</span>
       </div>
       <div class="home-shoplist">
         <shopItem></shopItem>
@@ -65,18 +65,20 @@
     <!--隐藏分页数据-->
     <input type="hidden" id="page" value="2" />
     <!--隐藏分页数据-->
+    <footnav></footnav>
   </div>
 </template>
 
 <script>
 // import {Carousel} from 'element-ui'
 // this.ues(ElementUI)
-import top from '@/components/cmp-top.vue'
+import top from '@/components/cmp-top'
 import calendar from '@/components/cmp-calendar'
-import banner from '@/components/cmp-banner.vue'
-import shopItem from '@/components/cmp-home-shoplistItem.vue'
+import banner from '@/components/cmp-banner'
+import shopItem from '@/components/cmp-home-shoplistItem'
+import footnav from '@/components/cmp-footer'
 export default {
-  components: { top, calendar, banner, shopItem },
+  components: { top, calendar, banner, shopItem, footnav },
   data () {
     let inputtext = {
       areaname: '搜索目的地',
@@ -91,7 +93,7 @@ export default {
       console.log(this.inputtext)
     }
   }
-}
+};
 </script>
 
 <style lang="less">
@@ -108,15 +110,15 @@ export default {
     z-index: 4;
     top: .2rem;
     left: .3rem;
-    width: .7rem;
-    height: .7rem;
+    width: .6rem;
+    height: .6rem;
     border-radius: 50%;
     background-color: rgba(0,0,0,0.2);
     img{
-      width: 0.8rem;
+      width: 0.65rem;
       position: absolute;
-      left: -.08rem;
-      top: -.05rem;
+      left: -.062rem;
+      top: -.034rem;
     }
   }
   /*分割线*/
@@ -127,7 +129,7 @@ export default {
     height: .025rem;
     margin: .4rem auto 0;
   }
-  /*酒店预订title*/
+  /*title*/
   .form-title{
     font-size: .35rem;
     font-weight: bold;
@@ -146,7 +148,6 @@ export default {
     font-size:0;
     background-color: #fff;
     margin-top: .4rem;
-    
     /*input初始化*/
     .input-init{
       border: none;
@@ -201,9 +202,13 @@ export default {
     }
   }
   /* 表单部分结束 */
-  .home-shoplist{
-    margin-top: -.4rem;
+  /* 推荐商家开始 */
+  .home-shopinfo{
+    .home-shoplist{
+      margin-top: -.2rem;
+    }
   }
+  /* 推荐商家结束 */
 }
 
 </style>
