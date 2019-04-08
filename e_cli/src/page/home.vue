@@ -2,7 +2,7 @@
   <div class="home">
     <!--头部导航栏-->
     <!-- <top></top> -->
-    <div class="home-back"><img src="../../static/img/icon/Icon_back.svg" alt=""></div>
+    <div class="home-back" @click="back"><img src="../../static/img/icon/Icon_back.svg" alt=""></div>
     <!--轮播图-->
     <!-- 遮罩 -->
     <banner></banner>
@@ -16,10 +16,10 @@
         <!-- 时间选择 代码 -->
         <calendar></calendar>
         <!-- 时间选择 代码 -->
-        <div class="form-input">
+        <div class="form-input" id="home_area">
           <label><img src="../../static/img/icon-dai/6-地点.svg"/></label>
           <input type="text" name="areaname" class="hotel_area" readonly="readonly" v-model="inputtext.areaname">
-          <span class="now-position"><img src="../../static/img/icon-dai/position.svg" alt=""></span>
+          <span class="now-position"><img src="../../static/img/icon-dai/position.svg" alt="" @click="location"></span>
         </div>
         <div class="form-input">
           <label><img src="../../static/img/icon-dai/1-搜索.svg"/></label>
@@ -70,29 +70,48 @@
 </template>
 
 <script>
+// element-ui按需加载
 // import {Carousel} from 'element-ui'
-// this.ues(ElementUI)
 import top from '@/components/cmp-top'
 import calendar from '@/components/cmp-calendar'
 import banner from '@/components/cmp-banner'
 import shopItem from '@/components/cmp-home-shoplistItem'
 import footnav from '@/components/cmp-footer'
+// import '../common/js/city.js'
 export default {
   components: { top, calendar, banner, shopItem, footnav },
   data () {
     let inputtext = {
       areaname: '搜索目的地',
       hotelname: '酒店名称',
-      price: '价格/星级'
-
+      price: '价格/星级',
     }
     return { inputtext }
   },
   methods: {
     submit () {
       console.log(this.inputtext)
+    },
+    // 工行退出 还未导入工行js
+    back () {
+      hybrid_app.back()
+    },
+    location () {
+        
+      })
     }
-  }
+  },
+  mounted: function () {
+      let _this = this
+      AMap.plugin('AMap.CitySearch', function () {
+        var citySearch = new AMap.CitySearch()
+        citySearch.getLocalCity(function (status, result) {
+          if (status === 'complete' && result.info === 'OK') {
+            _this.inputtext.areaname = result.city
+          }
+        })
+      })
+    }
 };
 </script>
 
