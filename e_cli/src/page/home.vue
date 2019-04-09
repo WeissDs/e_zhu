@@ -98,7 +98,6 @@ export default {
     },
     location () {
         
-      })
     }
   },
   mounted: function () {
@@ -223,6 +222,11 @@ export default {
   /* 表单部分结束 */
   /* 推荐商家开始 */
   .home-shopinfo{
+    background-color: #f8f8f8;
+    .form-title{
+      margin: 0;
+      padding: 0.4rem 0 0.4rem 0.45rem;
+    }
     .home-shoplist{
       margin-top: -.2rem;
     }

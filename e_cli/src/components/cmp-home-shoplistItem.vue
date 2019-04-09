@@ -1,31 +1,56 @@
 <template>
   <div>
-    <div class="shoplist-item">
+    <div class="shoplist-item" @click="gotoDetail">
       <div class="shoplist-img">
         <img src="../../static/img/timg.jpg" />
       </div>
       <div class="shoplist-content">
-        <span></span>
-        <p><p/>
-        <p></p>
+        <p>
+          云上依人民宿
+          <span>
+            <img src="../../static/img/icon/facilities_1.svg" alt="">
+            <img src="../../static/img/icon/facilities_2.svg" alt="">
+            <img src="../../static/img/icon/facilities_3.svg" alt="">
+            <img src="../../static/img/icon/facilities_4.svg" alt="">
+            <img src="../../static/img/icon/facilities_8.svg" alt="">
+          </span>
+        </p>
+        <p><span>298.00</span> 起</p>
+        <p>约<span>558</span>km</p>
+
       </div>
     </div>
   </div>
 </template>
 
+<script>
+  import router from '../router'
+  export default {
+    data () {
+      let id='222'
+      return { id }
+    },
+    methods: {
+      gotoDetail (id) {
+        router.push(`/detail/${this.id}`)
+      }
+    }
+  };
+</script>
+
 <style lang="less">
-  .qiao_shop_content span{
-    color: #333;
-    font-size: 14px;
-  }
+@font-face{
+  font-family: PingFangSC;
+  src: url(../../static/font/PingFangSC-Medium.woff.ttf)
+}
   .shoplist-item {
     width: 90%;
-    display: flex;
     margin: .2rem auto 0;
-    border-bottom: 1px solid #F1F1F6;
+    border: 1px solid #F1F1F6;
+    border-radius: 5px;
+    box-shadow: 0 5px 20px #ccc;
     .shoplist-img {
       width: 100%;
-      margin-left: 5px;
       height: 2.6rem;
       overflow: hidden;
       border-radius: 5px;
@@ -33,6 +58,11 @@
         width: 100%;
       }
     }
-    .shoplist-content {}
+    .shoplist-content {
+      font-size: .5rem;
+      font-family: PingFangSC;
+      color: #222;
+    }
   }
+  
 </style>
