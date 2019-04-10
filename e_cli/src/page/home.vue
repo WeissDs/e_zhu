@@ -84,7 +84,7 @@ export default {
     let inputtext = {
       areaname: '搜索目的地',
       hotelname: '酒店名称',
-      price: '价格/星级',
+      price: '价格/星级'
     }
     return { inputtext }
   },
@@ -94,23 +94,21 @@ export default {
     },
     // 工行退出 还未导入工行js
     back () {
-      hybrid_app.back()
+      // hybrid_app.back()
     },
-    location () {
-        
-    }
+    location () {}
   },
   mounted: function () {
-      let _this = this
-      AMap.plugin('AMap.CitySearch', function () {
-        var citySearch = new AMap.CitySearch()
-        citySearch.getLocalCity(function (status, result) {
-          if (status === 'complete' && result.info === 'OK') {
-            _this.inputtext.areaname = result.city
-          }
-        })
+    let _this = this
+    AMap.plugin('AMap.CitySearch', function () {
+      var citySearch = new AMap.CitySearch()
+      citySearch.getLocalCity(function (status, result) {
+        if (status === 'complete' && result.info === 'OK') {
+          _this.inputtext.areaname = result.city
+        }
       })
-    }
+    })
+  }
 };
 </script>
 

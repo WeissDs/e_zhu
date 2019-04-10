@@ -24,18 +24,18 @@
 </template>
 
 <script>
-  import router from '../router'
-  export default {
-    data () {
-      let id='222'
-      return { id }
-    },
-    methods: {
-      gotoDetail (id) {
-        router.push(`/detail/${this.id}`)
-      }
+import router from '../router'
+export default {
+  data () {
+    let id = '222'
+    return { id }
+  },
+  methods: {
+    gotoDetail (id) {
+      router.push(`/detail/${this.id}`)
     }
-  };
+  }
+};
 </script>
 
 <style lang="less">
@@ -64,5 +64,4 @@
       color: #222;
     }
   }
-  
 </style>
