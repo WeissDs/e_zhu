@@ -23,14 +23,14 @@
         </div>
         <div class="form-input">
           <label><img src="../../static/img/icon-dai/1-搜索.svg"/></label>
-          <input type="text" name="hotelname" v-model="inputtext.hotelname">
+          <input type="text" name="hotelname" v-model="inputtext.hotelname" @focus="inputActive($event.target.value)" @blur="inputBlur($event.target.value)">
         </div>
         <div class="form-input">
           <label><img src="../../static/img/icon-dai/29-星级.svg"/></label>
           <input type="text" name="price" readonly="readonly" v-model="inputtext.price">
         </div>
         <div class="form-input form-submit">
-          <input type="submit" value="提 交">
+          <input type="submit" value="查 询">
         </div>
         <!--input输入栏部分-->
         <div class="">
@@ -40,9 +40,6 @@
         <div class="search_form">
           <label class="mui-btn mui-btn-danger">查询</label>
         </div>
-        <input type="hidden" name="price" id="search_price" />
-        <input type="hidden" name="level" id="search_level" />
-        <input type="hidden" name="areaid" id="areaid" />
       </form>
     </div>
     <!--form 表单数据结束-->
@@ -70,8 +67,6 @@
 </template>
 
 <script>
-// element-ui按需加载
-// import {Carousel} from 'element-ui'
 import top from '@/components/cmp-top'
 import calendar from '@/components/cmp-calendar'
 import banner from '@/components/cmp-banner'
@@ -96,7 +91,20 @@ export default {
     back () {
       // hybrid_app.back()
     },
-    location () {}
+    location () {},
+    inputActive(value) {
+      if (value === '酒店名称') {
+        this.inputtext.hotelname = ''
+      }
+    },
+    inputBlur (value) {
+      if (!value) {
+        this.inputtext.hotelname = '酒店名称'
+      } else {
+        this.inputtext.hotelname = value
+      }
+    } 
+
   },
   mounted: function () {
     let _this = this
