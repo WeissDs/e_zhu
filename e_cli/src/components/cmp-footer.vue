@@ -26,7 +26,7 @@ export default {
     let showUp = 0
     return { imageArr, showUp }
   }
-};
+}
 </script>
 
 <style lang="less">

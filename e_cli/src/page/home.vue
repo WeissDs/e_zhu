@@ -51,10 +51,7 @@
         <span class="red">hotel loveing</span>
       </div>
       <div class="home-shoplist">
-        <shopItem></shopItem>
-        <shopItem></shopItem>
-        <shopItem></shopItem>
-        <shopItem></shopItem>
+        <shopItem v-for="(item,index) in shopListArr" :key="item.id" :shopData="shopListArr[index]"></shopItem>
       </div>
     </div>
     <!--商家列表-->
@@ -81,18 +78,21 @@ export default {
       hotelname: '酒店名称',
       price: '价格/星级'
     }
-    return { inputtext }
+    let shopListArr = []
+    return { inputtext, shopListArr }
   },
   methods: {
+    // 提交搜索信息
     submit () {
       console.log(this.inputtext)
     },
     // 工行退出 还未导入工行js
     back () {
-      // hybrid_app.back()
+    // hybrid_app.back()
     },
     location () {},
-    inputActive(value) {
+    // 判断酒店名称逻辑
+    inputActive (value) {
       if (value === '酒店名称') {
         this.inputtext.hotelname = ''
       }
@@ -103,10 +103,15 @@ export default {
       } else {
         this.inputtext.hotelname = value
       }
-    } 
+    },
+    // 请求酒店列表
+    async getShopList (page = 0) {
+      return (await this.axios.post('').data)
+    }
 
   },
-  mounted: function () {
+  async mounted () {
+    // 高德定位的配置
     let _this = this
     AMap.plugin('AMap.CitySearch', function () {
       var citySearch = new AMap.CitySearch()
@@ -116,8 +121,34 @@ export default {
         }
       })
     })
+
+    // 在页面挂载完成后，将请求数据穿给data中的属性
+    if (this.getShopList(0).length) {
+      this.shopListArr = await this.getShopList(0)
+    } else {
+      this.shopListArr = [
+        {
+          'id': 'asidi111',
+          'name': 'AA酒店',
+          'price': '2002.00',
+          'location': '223,667'
+        },
+        {
+          'id': 'asidi222',
+          'name': 'BB酒店',
+          'price': '299.00',
+          'location': '100,200'
+        },
+        {
+          'id': 'asidi333',
+          'name': '云上依人民宿',
+          'price': '298.00',
+          'location': '558'
+        }
+      ]
+    }
   }
-};
+}
 </script>
 
 <style lang="less">
@@ -235,6 +266,7 @@ export default {
     }
     .home-shoplist{
       margin-top: -.2rem;
+      padding-bottom: 1.4rem;
     }
   }
   /* 推荐商家结束 */
