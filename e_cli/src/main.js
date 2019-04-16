@@ -5,7 +5,8 @@ import App from './App'
 import router from './router'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { Carousel, CarouselItem, Button } from 'element-ui'
+import { Carousel, CarouselItem, Button, MessageBox, Message } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 import './common/css/base.css'
 import './common/js/base.js'
@@ -14,6 +15,11 @@ Vue.config.productionTip = false
 Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Button)
+// Vue.use(MessageBox)
+// Vue.use(Message)
+
+// Vue.prototype.$alert = MessageBox.alert
+// Vue.prototype.$message = Message
 // 将axios给到全局vue变量的prototype中，在组件中就不用重新初始化了
 Vue.prototype.axios = axios.create({
   // 服务器所在地址 通用前缀

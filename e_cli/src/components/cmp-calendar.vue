@@ -63,7 +63,7 @@ export default {
             //失败
           }
         });*/
-      }  ,   
+      }  ,
       comfireBtn:'.comfire'//确定按钮的class或者id
     });
     var b=new Date();
@@ -160,7 +160,7 @@ export default {
     color: #555;
     background-color: #FAFAFA;
     border-bottom:1px solid #ddd;
-    font-size: 15px;    
+    font-size: 15px;
     line-height: 28px;
   }
   .dateTable td{

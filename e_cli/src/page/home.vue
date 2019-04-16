@@ -25,7 +25,7 @@
           <label><img src="../../static/img/icon-dai/1-搜索.svg"/></label>
           <input type="text" name="hotelname" v-model="inputtext.hotelname" @focus="inputActive($event.target.value)" @blur="inputBlur($event.target.value)">
         </div>
-        <div class="form-input">
+        <div class="form-input" @click="showstar">
           <label><img src="../../static/img/icon-dai/29-星级.svg"/></label>
           <input type="text" name="price" readonly="readonly" v-model="inputtext.price">
         </div>
@@ -61,7 +61,7 @@
     <!--隐藏分页数据-->
     <footnav></footnav>
     <!-- 星级选择 -->
-    <Star></Star>
+    <Star v-if="this.show"></Star>
   </div>
 </template>
 
@@ -82,9 +82,23 @@ export default {
       price: '价格/星级'
     }
     let shopListArr = []
-    return { inputtext, shopListArr }
+    let show = false
+    return { inputtext, shopListArr, show }
   },
   methods: {
+    showstar() {
+      // this.$alert(, {
+        // confirmButtonText: '确定',
+        // callback: action => {
+        //   this.$message({
+        //     type: 'info',
+        //     message: `action: ${ action }`
+        //   });
+        // }
+      // });
+        this.show = !this.show
+
+     },
     // 提交搜索信息
     submit () {
       console.log(this.inputtext)
@@ -114,6 +128,13 @@ export default {
 
   },
   async mounted () {
+    console.log(this.show)
+    window.onclick = function(){
+      console.log(this.show)
+      if(this.show){
+        this.show = !this.show
+      }
+    }
     // 高德定位的配置
     let _this = this
     AMap.plugin('AMap.CitySearch', function () {

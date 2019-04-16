@@ -53,6 +53,14 @@
   </div>
 </template>
 
+<script>
+export default {
+  methods: {
+
+  }
+}
+</script>
+
 <style>
   .price-start-popup{ width: 6.5rem; /* height: 4.9rem; */ background-color: #fff; border-radius: 8px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 999;  }
 	.price-start-popup p{ font-size: .3rem; color: #000; font-weight: bold; margin: 0 0 .2rem .09rem; }
