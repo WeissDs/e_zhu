@@ -60,6 +60,8 @@
     <input type="hidden" id="page" value="2" />
     <!--隐藏分页数据-->
     <footnav></footnav>
+    <!-- 星级选择 -->
+    <Star></Star>
   </div>
 </template>
 
@@ -69,9 +71,10 @@ import calendar from '@/components/cmp-calendar'
 import banner from '@/components/cmp-banner'
 import shopItem from '@/components/cmp-home-shoplistItem'
 import footnav from '@/components/cmp-footer'
+import Star from '@/components/cmp-star-choice'
 // import '../common/js/city.js'
 export default {
-  components: { top, calendar, banner, shopItem, footnav },
+  components: { top, calendar, banner, shopItem, footnav, Star },
   data () {
     let inputtext = {
       areaname: '搜索目的地',
@@ -106,7 +109,7 @@ export default {
     },
     // 请求酒店列表
     async getShopList (page = 0) {
-      return (await this.axios.post('').data)
+      return (await this.axios.get('http://192.168.8.114:8080/#/').data)
     }
 
   },
@@ -126,6 +129,7 @@ export default {
     if (this.getShopList(0).length) {
       this.shopListArr = await this.getShopList(0)
     } else {
+      // 记得有数据后删掉
       this.shopListArr = [
         {
           'id': 'asidi111',
