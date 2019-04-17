@@ -25,9 +25,9 @@
           <label><img src="../../static/img/icon-dai/1-搜索.svg"/></label>
           <input type="text" name="hotelname" v-model="inputtext.hotelname" @focus="inputActive($event.target.value)" @blur="inputBlur($event.target.value)">
         </div>
-        <div class="form-input" @click="showstar">
+        <div class="form-input">
           <label><img src="../../static/img/icon-dai/29-星级.svg"/></label>
-          <input type="text" name="price" readonly="readonly" v-model="inputtext.price">
+          <input type="text" name="price" readonly="readonly" v-model="inputtext.price"  @click.stop="showstar">
         </div>
         <div class="form-input form-submit">
           <input type="submit" value="查 询">
@@ -48,11 +48,12 @@
     <div class="home-shopinfo">
       <div class="form-title">
         推荐商家
-        <span class="red">hotel loveing</span>
+        <span class="red">hotel loveing{{star}}</span>
       </div>
       <div class="home-shoplist">
         <shopItem v-for="(item,index) in shopListArr" :key="item.id" :shopData="shopListArr[index]"></shopItem>
       </div>
+
     </div>
     <!--商家列表-->
 
@@ -61,7 +62,8 @@
     <!--隐藏分页数据-->
     <footnav></footnav>
     <!-- 星级选择 -->
-    <Star v-if="this.show"></Star>
+    <!-- 向子组件传递 props -->
+    <Star v-if="this.$store.state.star"></Star>
   </div>
 </template>
 
@@ -72,6 +74,8 @@ import banner from '@/components/cmp-banner'
 import shopItem from '@/components/cmp-home-shoplistItem'
 import footnav from '@/components/cmp-footer'
 import Star from '@/components/cmp-star-choice'
+// vuex语法糖
+import {mapActions, mapGetters} from 'vuex'
 // import '../common/js/city.js'
 export default {
   components: { top, calendar, banner, shopItem, footnav, Star },
@@ -85,29 +89,36 @@ export default {
     let show = false
     return { inputtext, shopListArr, show }
   },
+  computed: {
+    ...mapGetters(['star'])
+  },
   methods: {
+    // 星级、价格弹出层控制
     showstar() {
-      // this.$alert(, {
-        // confirmButtonText: '确定',
-        // callback: action => {
-        //   this.$message({
-        //     type: 'info',
-        //     message: `action: ${ action }`
-        //   });
-        // }
-      // });
-        this.show = !this.show
-
-     },
-    // 提交搜索信息
-    submit () {
-      console.log(this.inputtext)
+      console.log(this.show)
+      this.show = true
+      console.log(this.show)
     },
     // 工行退出 还未导入工行js
     back () {
     // hybrid_app.back()
     },
-    location () {},
+    // 提交搜索信息
+    submit () {
+      console.log(this.inputtext)
+    },
+    // 高德定位
+    location () {
+      let _this = this
+      AMap.plugin('AMap.CitySearch', function () {
+        var citySearch = new AMap.CitySearch()
+        citySearch.getLocalCity(function (status, result) {
+          if (status === 'complete' && result.info === 'OK') {
+            _this.inputtext.areaname = result.city
+          }
+        })
+      })
+    },
     // 判断酒店名称逻辑
     inputActive (value) {
       if (value === '酒店名称') {
@@ -125,27 +136,10 @@ export default {
     async getShopList (page = 0) {
       return (await this.axios.get('http://192.168.8.114:8080/#/').data)
     }
-
   },
   async mounted () {
-    console.log(this.show)
-    window.onclick = function(){
-      console.log(this.show)
-      if(this.show){
-        this.show = !this.show
-      }
-    }
-    // 高德定位的配置
     let _this = this
-    AMap.plugin('AMap.CitySearch', function () {
-      var citySearch = new AMap.CitySearch()
-      citySearch.getLocalCity(function (status, result) {
-        if (status === 'complete' && result.info === 'OK') {
-          _this.inputtext.areaname = result.city
-        }
-      })
-    })
-
+    console.log(_this.$store.state.star)
     // 在页面挂载完成后，将请求数据穿给data中的属性
     if (this.getShopList(0).length) {
       this.shopListArr = await this.getShopList(0)

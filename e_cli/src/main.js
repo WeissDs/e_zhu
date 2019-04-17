@@ -3,18 +3,35 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Vuex from 'vuex'
+// import Vuex from 'vuex'
 import axios from 'axios'
 import { Carousel, CarouselItem, Button, MessageBox, Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 import './common/css/base.css'
 import './common/js/base.js'
+import store from './store/store.js'
 
 Vue.config.productionTip = false
 Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Button)
+// Vue.use(Vuex)
+
+// 为什么 store 不存在啊啊啊啊啊好气啊！！！！！！
+// const store = new Vuex.Store({
+//   state: {
+//     satr: false
+//   },
+//   mutations: {
+//     show (star) {
+//       star = true
+//     },
+//     close (star) {
+//       star = false
+//     }
+//   }
+// })
 // Vue.use(MessageBox)
 // Vue.use(Message)
 
@@ -32,6 +49,7 @@ Vue.prototype.axios = axios.create({
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
