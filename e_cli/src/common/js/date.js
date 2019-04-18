@@ -50,14 +50,14 @@
                     "height": "26px",
                     "line-height": "26px",
                     "width": "50px",
-                    "color": "#2EB6A8",
+                    "color": "#FF4356",
                     "position": "absolute",
                     "right": "10px",
                     "text-align": "center",
                     "font-size": "14px",
                     "cursor": "pointer",
                     "top": "11px",
-                    "border": "1px solid #2EB6A8",
+                    "border": "1px solid #FF4356",
                     "border-radius": "4px"
                 });
                 for (var q = 0; q < me.index; q++) {
@@ -393,7 +393,7 @@
                         if (sum == 0) {
                             sum = 1;
                         }
-                        
+
                         if (first < second) {
                             $(this).append('<p class="rz">离店</p>')
                             first = first + 1;
@@ -469,7 +469,7 @@
                         })
                         me._slider('firstSelect')
 
-                        
+
                         var myweek = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
 
                         var st = new Date($('#startDate').val());
@@ -564,7 +564,7 @@ $(function(){
                     //失败
                 }
             });*/
-        }  ,   
+        }  ,
         comfireBtn:'.comfire'//确定按钮的class或者id
     });
     var b=new Date();

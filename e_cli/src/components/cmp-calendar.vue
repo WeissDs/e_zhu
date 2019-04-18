@@ -43,9 +43,9 @@ export default {
       animateFunction : "slideToggle",        //动画效果
       controlDay:true,//知否控制在daysnumber天之内，这个数值的设置前提是总显示天数大于90天
       daysnumber : "200",     //控制天数
-      comeColor : "#2EB6A8",       //入住颜色
-      outColor : "#2EB6A8",      //离店颜色
-      comeoutColor : "#E0F4F2",        //入住和离店之间的颜色
+      comeColor : "#999",       //入住颜色
+      outColor : "#999",      //离店颜色
+      comeoutColor : "#efefef",        //入住和离店之间的颜色
       callback :function(){//回调函数
         $('.mask_calendar').fadeOut(200);
         var startDate = $('#startDate').val();  //入住的天数
@@ -146,7 +146,7 @@ export default {
     font-size: 14px;
   }
   .dateZone .colo{
-    color:#fa967f;
+    color:#FF4356;
   }
   .dateTable{
     width:99.4%;

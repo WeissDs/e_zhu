@@ -5,17 +5,21 @@ import App from './App'
 import router from './router'
 // import Vuex from 'vuex'
 import axios from 'axios'
-import { Carousel, CarouselItem, Button, MessageBox, Message } from 'element-ui'
+import { Carousel, CarouselItem, Button, MessageBox, Message, Upload } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 import './common/css/base.css'
 import './common/js/base.js'
 import store from './store/store.js'
+// import Amap from 'Amap'
 
 Vue.config.productionTip = false
 Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Button)
+Vue.use(Upload)
+Vue.component(Message.name, Message)
+Vue.component(MessageBox.name, MessageBox)
 // Vue.use(Vuex)
 
 // 为什么 store 不存在啊啊啊啊啊好气啊！！！！！！

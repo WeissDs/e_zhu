@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 // 为什么 store 不存在啊啊啊啊啊好气啊！！！！！！
 const store = new Vuex.Store({
@@ -18,4 +18,4 @@ const store = new Vuex.Store({
   }
 })
 
-export default store;
+export default store

@@ -48,7 +48,7 @@
     <div class="home-shopinfo">
       <div class="form-title">
         推荐商家
-        <span class="red">hotel loveing{{star}}</span>
+        <span class="red">hotel loveing</span>
       </div>
       <div class="home-shoplist">
         <shopItem v-for="(item,index) in shopListArr" :key="item.id" :shopData="shopListArr[index]"></shopItem>
@@ -63,7 +63,7 @@
     <footnav></footnav>
     <!-- 星级选择 -->
     <!-- 向子组件传递 props -->
-    <Star v-if="this.$store.state.star"></Star>
+    <Star v-if="this.show" @shadShow = "closestar($emit)"></Star>
   </div>
 </template>
 
@@ -75,7 +75,8 @@ import shopItem from '@/components/cmp-home-shoplistItem'
 import footnav from '@/components/cmp-footer'
 import Star from '@/components/cmp-star-choice'
 // vuex语法糖
-import {mapActions, mapGetters} from 'vuex'
+// import { mapActions, mapGetters } from 'vuex'
+
 // import '../common/js/city.js'
 export default {
   components: { top, calendar, banner, shopItem, footnav, Star },
@@ -90,14 +91,15 @@ export default {
     return { inputtext, shopListArr, show }
   },
   computed: {
-    ...mapGetters(['star'])
+    // ...mapGetters(['star'])
   },
   methods: {
     // 星级、价格弹出层控制
-    showstar() {
-      console.log(this.show)
+    showstar () {
       this.show = true
-      console.log(this.show)
+    },
+    closestar () {
+      this.show = false
     },
     // 工行退出 还未导入工行js
     back () {
@@ -139,10 +141,11 @@ export default {
   },
   async mounted () {
     let _this = this
-    console.log(_this.$store.state.star)
+    // vuex 还没搞清楚 获取不到store中的值
+    // console.log(_this.$store.state.star)
     // 在页面挂载完成后，将请求数据穿给data中的属性
-    if (this.getShopList(0).length) {
-      this.shopListArr = await this.getShopList(0)
+    if (_this.getShopList(0).length) {
+      _this.shopListArr = await _this.getShopList(0)
     } else {
       // 记得有数据后删掉
       this.shopListArr = [
@@ -172,6 +175,7 @@ export default {
 
 <style lang="less">
 @redColor: #FF4356;
+@blueColor: #2EB6A8;
 @font-face{
   font-family: PingFangSC;
   src: url(../../static/font/PingFangSC-Medium.woff.ttf)

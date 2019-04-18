@@ -25,7 +25,6 @@
 </template>
 
 <script>
-/*jshint esversion: 6 */
 import router from '../router'
 export default {
   data () {
