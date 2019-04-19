@@ -11,7 +11,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './common/css/base.css'
 import './common/js/base.js'
 import store from './store/store.js'
-// import Amap from 'Amap'
 
 Vue.config.productionTip = false
 Vue.use(Carousel)

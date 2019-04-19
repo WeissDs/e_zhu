@@ -7,7 +7,7 @@
       </div>
       <div class="shoplist-content">
         <p>
-          {{shopData.name}}
+          {{shopData? shopData.name : '还没有name'}}
           <span>
             <img src="../../static/img/icon/facilities_1.svg" alt="">
             <img src="../../static/img/icon/facilities_2.svg" alt="">
@@ -16,8 +16,8 @@
             <img src="../../static/img/icon/facilities_8.svg" alt="">
           </span>
         </p>
-        <p><span>{{shopData.price}}</span> 起</p>
-        <p>约<span>{{shopData.locarion}}</span>km</p>
+        <p><span>{{shopData?shopData.price:'还没有name'}}</span> 起</p>
+        <p>约<span>{{shopData?shopData.locarion:''}}</span>km</p>
 
       </div>
     </div>

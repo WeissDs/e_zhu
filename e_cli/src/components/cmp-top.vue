@@ -1,7 +1,7 @@
 <template>
   <header id="header" class="cmp-top">
     <!-- <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button> -->
-    <a class="el-icon-arrow-left"></a>
+    <a class="el-icon-arrow-left" @click="goback"></a>
     <h1>{{title}}</h1>
   </header>
 </template>
@@ -12,6 +12,11 @@ export default {
     let title = '酒店助手'
 
     return { title }
+  },
+  methods: {
+    goback () {
+      this.$router.go(-1)
+    }
   }
 }
 </script>

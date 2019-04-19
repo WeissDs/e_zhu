@@ -24,9 +24,6 @@ module.exports = {
   entry: {
     app: './src/main.js'
   },
-  // externals: {
-  //   'Amap': 'Amap'
-  // },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',

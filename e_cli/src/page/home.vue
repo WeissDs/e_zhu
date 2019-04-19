@@ -30,7 +30,7 @@
           <input type="text" name="price" readonly="readonly" v-model="inputtext.price"  @click.stop="showstar">
         </div>
         <div class="form-input form-submit">
-          <input type="submit" value="查 询">
+          <input type="submit" value="查 询" @click="gotoHotelList">
         </div>
         <!--input输入栏部分-->
         <div class="">
@@ -74,6 +74,7 @@ import banner from '@/components/cmp-banner'
 import shopItem from '@/components/cmp-home-shoplistItem'
 import footnav from '@/components/cmp-footer'
 import Star from '@/components/cmp-star-choice'
+import router from '../router'
 // vuex语法糖
 // import { mapActions, mapGetters } from 'vuex'
 
@@ -108,6 +109,10 @@ export default {
     // 提交搜索信息
     submit () {
       console.log(this.inputtext)
+    },
+    // 查询后跳转hotel-list页面
+    gotoHotelList(){
+      router.push(`/hotelList/a`)
     },
     // 高德定位
     location () {
