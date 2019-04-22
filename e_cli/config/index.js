@@ -14,7 +14,7 @@ module.exports = {
 
     // Various Dev Server settings
     // 每次记得换端口号 也可以写localhost 但是ip方便移动端调试
-    host: '192.168.8.114', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

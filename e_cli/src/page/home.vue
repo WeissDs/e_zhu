@@ -92,7 +92,9 @@ export default {
     return { inputtext, shopListArr, show }
   },
   computed: {
-    // ...mapGetters(['star'])
+    star () {
+      // return store.state.star
+    }
   },
   methods: {
     // 星级、价格弹出层控制
@@ -146,8 +148,10 @@ export default {
   },
   async mounted () {
     let _this = this
-    // vuex 还没搞清楚 获取不到store中的值
-    // console.log(_this.$store.state.star)
+    // 改变vuex stroe中的值 && 取值
+    _this.$store.commit('close')
+    console.log(_this.$store.state.star)
+
     // 在页面挂载完成后，将请求数据穿给data中的属性
     if (_this.getShopList(0).length) {
       _this.shopListArr = await _this.getShopList(0)
@@ -156,20 +160,20 @@ export default {
       this.shopListArr = [
         {
           'id': 'asidi111',
-          'name': 'AA酒店',
-          'price': '2002.00',
+          'name': 'AAAAAAAAAAAAAAAAAAASSSSS酒店',
+          'price': '2002',
           'location': '223,667'
         },
         {
           'id': 'asidi222',
           'name': 'BB酒店',
-          'price': '299.00',
+          'price': '299',
           'location': '100,200'
         },
         {
           'id': 'asidi333',
           'name': '云上依人民宿',
-          'price': '298.00',
+          'price': '298',
           'location': '558'
         }
       ]

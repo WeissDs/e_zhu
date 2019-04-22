@@ -6,16 +6,21 @@ Vue.use(Vuex)
 // 为什么 store 不存在啊啊啊啊啊好气啊！！！！！！
 const store = new Vuex.Store({
   state: {
-    satr: 'false'
+    star: false
   },
   mutations: {
-    show (star) {
-      star = true
+    show (state) {
+      state.star = true
     },
-    close (star) {
-      star = false
+    close (state) {
+      state.star = false
     }
   }
 })
+
+store.commit('show')
+console.log(store.state.star)
+// store.commit('close')
+// console.log(store.state.star)
 
 export default store
