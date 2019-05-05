@@ -1,6 +1,5 @@
 <template>
   <header id="header" class="cmp-top">
-    <!-- <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button> -->
     <a class="el-icon-arrow-left" @click="goback"></a>
     <h1>{{title}}</h1>
   </header>
@@ -40,7 +39,8 @@ export default {
 
   .cmp-top {
     width: 100%;
-    height: 1.2rem;
+    height: .8rem;
+    background-color: rgba(0,0,0,0.6);
     font-size: .2rem;
     text-align: center;
     font-family: PingFangSC;

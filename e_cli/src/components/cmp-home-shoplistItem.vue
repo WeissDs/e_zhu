@@ -2,6 +2,7 @@
   <div>
     <div class="shoplist-item" @click="gotoDetail(shopData.id)">
       <div class="shoplist-img">
+        <img class="like" :src="likeImg" alt="" @click.stop="addLike">
         <img src="../../static/img/timg.jpg" />
       </div>
       <div class="shoplist-content">
@@ -25,10 +26,22 @@
 <script>
 import router from '../router'
 export default {
+  data(){
+    let likeImg = '../../static/img/icon-dai/bottom-like3.svg'
+    return {likeImg}
+  },
   methods: {
     // 点击shoplist，跳转到 shop详情
     gotoDetail (id) {
       router.push(`/detail/${id}`)
+    },
+    // 点击爱心收藏
+    addLike (){
+      if(this.likeImg == '../../static/img/icon-dai/bottom-like2.svg'){
+        this.likeImg = '../../static/img/icon-dai/bottom-like3.svg'
+      }else{
+        this.likeImg = '../../static/img/icon-dai/bottom-like2.svg'
+      }
     }
   },
   props: ['shopData']
@@ -56,6 +69,12 @@ export default {
     height: 2.6rem;
     overflow: hidden;
     border-radius: 5px;
+    .like{
+      width: .5rem;
+      position: absolute;
+      top: .2rem;
+      right: .2rem;
+    }
     img{
       width: 100%;
     }

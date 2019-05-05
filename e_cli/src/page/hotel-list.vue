@@ -1,18 +1,11 @@
 <template>
   <div>
-    <Top></Top>
-    <!-- 一个页面中的分页 -->
-    <div @click="btnClick('a')">1</div>
-    <div @click="btnClick('b')">2</div>
-    <div @click="btnClick('c')">3</div>
-    <ShopList v-if="type=='a'"></ShopList>
-    <div class="2" v-if="type=='b'">
-     222
+    <Top v-show="show"></Top>
+    <div class="hotel-list">
+      <ShopList/>
+      <ShopList/>
+      <ShopList/>
     </div>
-    <div class="2" v-if="type=='c'">
-     333
-    </div>
-
   </div>
 </template>
 
@@ -23,18 +16,24 @@ import router from '../router'
 export default {
   components: { ShopList, Top },
   data () {
-    let type = this.$route.params['type']
-    return { type }
+    let show = true;
+    return {show}
   },
   methods: {
-    btnClick (id) {
-      console.log(id, this.type)
-      router.push(`/hotelList/${id}`)
-      this.type = id
-      console.log(id, this.type)
-    }
   },
   async mounted () {
+    let _this = this;
+    window.onscroll = function() {
+      let scrollT = document.documentElement.scrollTop
+      if (scrollT>=100) {
+        _this.show = false;
+      }else{
+        _this.show = true;
+      }
+    }
   }
 }
 </script>
+<style lang="less">
+  .hotel-list{ margin-top: .9rem; }
+</style>

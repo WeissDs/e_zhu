@@ -6,7 +6,7 @@
     </router-link>
     <router-link class="foot-item" to="/select">
       <img :src="'select'===this.$router.history.current.name?imageArr[1][1]:imageArr[1][0]" alt="">
-      <div>筛选</div>
+      <div>收藏</div>
     </router-link>
     <router-link class="foot-item" to="/me">
       <img :src="'me'===this.$router.history.current.name?imageArr[2][1]:imageArr[2][0]" alt="">
@@ -20,7 +20,7 @@ export default {
   data () {
     let imageArr = [
       ['../../static/img/icon-dai/3-首页.svg', '../../static/img/icon-dai/3-首页active.svg'],
-      ['../../static/img/icon-dai/1-搜索.svg', '../../static/img/icon-dai/1-搜索active.svg'],
+      ['../../static/img/icon-dai/bottom-like1.svg', '../../static/img/icon-dai/bottom-like2.svg'],
       ['../../static/img/icon-dai/setting (1).svg', '../../static/img/icon-dai/setting (1)active.svg']
     ]
     let showUp = 0
