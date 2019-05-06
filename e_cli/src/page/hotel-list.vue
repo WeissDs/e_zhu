@@ -12,23 +12,22 @@
 <script>
 import Top from '@/components/cmp-top'
 import ShopList from '@/components/cmp-home-shoplistItem.vue'
-import router from '../router'
 export default {
   components: { ShopList, Top },
   data () {
-    let show = true;
+    let show = true
     return {show}
   },
   methods: {
   },
   async mounted () {
-    let _this = this;
-    window.onscroll = function() {
+    let _this = this
+    window.onscroll = function () {
       let scrollT = document.documentElement.scrollTop
-      if (scrollT>=100) {
-        _this.show = false;
-      }else{
-        _this.show = true;
+      if (scrollT >= 100) {
+        _this.show = false
+      } else {
+        _this.show = true
       }
     }
   }

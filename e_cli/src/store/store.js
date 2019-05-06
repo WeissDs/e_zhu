@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     cancelLike (state, hotelId) {
       // state.like = false
       let index = state.hotelCollect.indexOf(hotelId)
-      state.hotelCollect.splice(index,1)
+      state.hotelCollect.splice(index, 1)
     }
   }
 })

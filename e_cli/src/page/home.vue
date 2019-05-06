@@ -51,7 +51,7 @@
         <span class="red">hotel loveing</span>
       </div>
       <div class="home-shoplist">
-        <shopItem v-for="(item,index) in shopListArr" :key="item.id" :shopData="shopListArr[index]"></shopItem>
+        <shopItem v-for="(item,index) in shopListArr" :key="item.id" :shopData="item"></shopItem>
       </div>
 
     </div>
@@ -91,11 +91,6 @@ export default {
     let show = false
     return { inputtext, shopListArr, show }
   },
-  computed: {
-    star () {
-      // return store.state.star
-    }
-  },
   methods: {
     // 星级、价格弹出层控制
     showstar () {
@@ -113,14 +108,14 @@ export default {
       console.log(this.inputtext)
     },
     // 查询后跳转hotel-list页面
-    gotoHotelList(){
+    gotoHotelList () {
       router.push(`/hotelList/a`)
     },
     // 高德定位
     location () {
       let _this = this
       AMap.plugin('AMap.CitySearch', function () {
-        var citySearch = new AMap.CitySearch()
+        var citySearch = new AMap.CitySearch ()
         citySearch.getLocalCity(function (status, result) {
           if (status === 'complete' && result.info === 'OK') {
             _this.inputtext.areaname = result.city

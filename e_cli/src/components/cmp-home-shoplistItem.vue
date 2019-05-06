@@ -26,7 +26,7 @@
 <script>
 import router from '../router'
 export default {
-  data(){
+  data () {
     let likeImg = '../../static/img/icon-dai/bottom-like3.svg'
     return {likeImg}
   },
@@ -36,14 +36,14 @@ export default {
       router.push(`/detail/${id}`)
     },
     // 点击爱心收藏 将收藏酒店id传入store
-    addLike (){
-      if(this.likeImg == '../../static/img/icon-dai/bottom-like2.svg'){
+    addLike () {
+      if (this.likeImg === '../../static/img/icon-dai/bottom-like2.svg') {
         this.likeImg = '../../static/img/icon-dai/bottom-like3.svg'
-        this.$store.commit('cancelLike', this.shopData.id)
+        this.$store.commit('cancelLike', this.shopData)
         console.log(this.$store.state.hotelCollect)
-      }else{
+      } else {
         this.likeImg = '../../static/img/icon-dai/bottom-like2.svg'
-        this.$store.commit('addLike', this.shopData.id)
+        this.$store.commit('addLike', this.shopData)
         console.log(this.$store.state.hotelCollect)
       }
     }
