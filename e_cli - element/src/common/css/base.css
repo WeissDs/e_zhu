@@ -1,0 +1,23 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{
+    margin:0;padding:0;
+}
+ul li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+html,body{ width: 100%; height: 100%; }
+*{ box-sizing: border-box; }
+
+/*禁止滚动条，都没有用*/
+::-webkit-scrollbar{width:0;height:1px}
+::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 5px rgba(0,0,0,.2);background:rgba(0,0,0,.2)}
+
+.el-scrollbar__thumb {
+display: none;
+}
+.el-scrollbar__wrap {
+overflow-x: hidden;
+overflow-y: auto;
+}

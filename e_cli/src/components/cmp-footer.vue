@@ -4,8 +4,8 @@
       <img :src="'home'===this.$router.history.current.name?imageArr[0][1]:imageArr[0][0]" alt="">
       <div>首页</div>
     </router-link>
-    <router-link class="foot-item" to="/select">
-      <img :src="'select'===this.$router.history.current.name?imageArr[1][1]:imageArr[1][0]" alt="">
+    <router-link class="foot-item" to="/like">
+      <img :src="'like'===this.$router.history.current.name?imageArr[1][1]:imageArr[1][0]" alt="">
       <div>收藏</div>
     </router-link>
     <router-link class="foot-item" to="/me">

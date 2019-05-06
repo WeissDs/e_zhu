@@ -35,12 +35,16 @@ export default {
     gotoDetail (id) {
       router.push(`/detail/${id}`)
     },
-    // 点击爱心收藏
+    // 点击爱心收藏 将收藏酒店id传入store
     addLike (){
       if(this.likeImg == '../../static/img/icon-dai/bottom-like2.svg'){
         this.likeImg = '../../static/img/icon-dai/bottom-like3.svg'
+        this.$store.commit('cancelLike', this.shopData.id)
+        console.log(this.$store.state.hotelCollect)
       }else{
         this.likeImg = '../../static/img/icon-dai/bottom-like2.svg'
+        this.$store.commit('addLike', this.shopData.id)
+        console.log(this.$store.state.hotelCollect)
       }
     }
   },

@@ -1,0 +1,8 @@
+/build/
+/config/
+/dist/
+/*.js
+/test/unit/coverage/
+jquery.js
+date.js
+cmp-calendar.vue

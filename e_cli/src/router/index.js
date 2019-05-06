@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@/page/home'
-import Select from '@/page/select'
+import Like from '@/page/like'
 import Me from '@/page/me'
 import Detail from '@/page/hotel-detail'
 import HotelList from '@/page/hotel-list'
@@ -17,9 +17,9 @@ export default new Router({
       component: Home
       // children: [{},{}]
     }, {
-      path: '/select',
-      name: 'select',
-      component: Select
+      path: '/like',
+      name: 'like',
+      component: Like
     }, {
       path: '/me',
       name: 'me',

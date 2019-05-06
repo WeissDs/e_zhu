@@ -3,24 +3,25 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-// 为什么 store 不存在啊啊啊啊啊好气啊！！！！！！
 const store = new Vuex.Store({
   state: {
-    star: false
+    // like: false,
+    hotelCollect: []
   },
   mutations: {
-    show (state) {
-      state.star = true
+    addLike (state, hotelId) {
+      // state.like = true
+      state.hotelCollect.push(hotelId)
     },
-    close (state) {
-      state.star = false
+    cancelLike (state, hotelId) {
+      // state.like = false
+      let index = state.hotelCollect.indexOf(hotelId)
+      state.hotelCollect.splice(index,1)
     }
   }
 })
 
-store.commit('show')
-console.log(store.state.star)
-// store.commit('close')
-// console.log(store.state.star)
+// store.commit('addLike')
+// console.log(store.state.like)
 
 export default store

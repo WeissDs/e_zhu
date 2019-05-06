@@ -21,25 +21,6 @@ Vue.component(Message.name, Message)
 Vue.component(MessageBox.name, MessageBox)
 // Vue.use(Vuex)
 
-// 为什么 store 不存在啊啊啊啊啊好气啊！！！！！！
-// const store = new Vuex.Store({
-//   state: {
-//     satr: false
-//   },
-//   mutations: {
-//     show (star) {
-//       star = true
-//     },
-//     close (star) {
-//       star = false
-//     }
-//   }
-// })
-// Vue.use(MessageBox)
-// Vue.use(Message)
-
-// Vue.prototype.$alert = MessageBox.alert
-// Vue.prototype.$message = Message
 // 将axios给到全局vue变量的prototype中，在组件中就不用重新初始化了
 Vue.prototype.axios = axios.create({
   // 服务器所在地址 通用前缀

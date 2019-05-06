@@ -148,9 +148,6 @@ export default {
   },
   async mounted () {
     let _this = this
-    // 改变vuex stroe中的值 && 取值
-    _this.$store.commit('close')
-    console.log(_this.$store.state.star)
 
     // 在页面挂载完成后，将请求数据穿给data中的属性
     if (_this.getShopList(0).length) {
