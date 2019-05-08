@@ -1,6 +1,6 @@
 <template>
   <div>
-  	<ShopItem v-for="item in $store.state.hotelCollect" :shopData="item" ></ShopItem>
+    <ShopItem v-for="(item,index) in $store.state.hotelCollect" :shopData="item" :key="index"></ShopItem>
     <Foot/>
   </div>
 </template>

@@ -1,6 +1,8 @@
 <template>
   <header id="header" class="cmp-top">
-    <a class="el-icon-arrow-left" @click="goback"></a>
+    <a @click="goback">
+      <img src="../../static/img/icon/back.svg" alt="">
+    </a>
     <h1>{{title}}</h1>
   </header>
 </template>
@@ -51,8 +53,9 @@ export default {
     z-index: 4;
     a{
       left: .3rem;
-      font-size: .5rem;
+      font-size: 0;
       .y-center;
+      img{ width: .6rem; }
     }
     h1{
       .center;

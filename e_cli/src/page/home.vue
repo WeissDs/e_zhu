@@ -51,7 +51,7 @@
         <span class="red">hotel loveing</span>
       </div>
       <div class="home-shoplist">
-        <shopItem v-for="(item,index) in shopListArr" :key="item.id" :shopData="item"></shopItem>
+        <shopItem v-for="item in shopListArr" :key="item.id" :shopData="item"></shopItem>
       </div>
 
     </div>
@@ -115,7 +115,7 @@ export default {
     location () {
       let _this = this
       AMap.plugin('AMap.CitySearch', function () {
-        var citySearch = new AMap.CitySearch ()
+        var citySearch = new AMap.CitySearch()
         citySearch.getLocalCity(function (status, result) {
           if (status === 'complete' && result.info === 'OK') {
             _this.inputtext.areaname = result.city

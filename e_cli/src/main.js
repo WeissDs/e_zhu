@@ -3,23 +3,21 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import Vuex from 'vuex'
 import axios from 'axios'
-import { Carousel, CarouselItem, Button, MessageBox, Message, Upload } from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import { Swipe, SwipeItem, Button } from 'mint-ui'
+import 'mint-ui/lib/style.css'
 
 import './common/css/base.css'
 import './common/js/base.js'
 import store from './store/store.js'
 
 Vue.config.productionTip = false
-Vue.use(Carousel)
-Vue.use(CarouselItem)
-Vue.use(Button)
-Vue.use(Upload)
-Vue.component(Message.name, Message)
-Vue.component(MessageBox.name, MessageBox)
-// Vue.use(Vuex)
+// mitui 初始化
+// 轮播
+Vue.component(Swipe.name, Swipe)
+Vue.component(SwipeItem.name, SwipeItem)
+// button
+Vue.component(Button.name, Button)
 
 // 将axios给到全局vue变量的prototype中，在组件中就不用重新初始化了
 Vue.prototype.axios = axios.create({

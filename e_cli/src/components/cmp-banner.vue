@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-- <div class="cover"></div> -->
-    <el-carousel :interval="6000" height="4rem" class="banner" arrow="never">
-        <el-carousel-item v-for="item in imgList" :key="item.id">
-          <img :src="item.idView" class="" alt="">
-        </el-carousel-item>
-    </el-carousel>
+    <mt-swipe :auto="4000" class="banner">
+      <mt-swipe-item v-for="item in imgList" :key="item.id" >
+        <img :src="item.idView" alt="">
+      </mt-swipe-item>
+    </mt-swipe>
   </div>
 </template>
 
@@ -32,11 +32,9 @@ export default {
   background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.2),rgba(0,0,0,0));
 }
 .banner{
+  height: 4rem;
   img {
     width: 100%;
-  }
-  .el-input__inner{
-    width: 3rem;
   }
 }
 </style>
