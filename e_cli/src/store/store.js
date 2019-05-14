@@ -6,6 +6,9 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     // like: false,
+    // 酒店列表
+    // shopListArr: [],
+    // 收藏的酒店列表
     hotelCollect: []
   },
   mutations: {

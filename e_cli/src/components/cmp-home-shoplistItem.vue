@@ -2,7 +2,7 @@
   <div>
     <div class="shoplist-item" @click="gotoDetail(shopData.id)">
       <div class="shoplist-img">
-        <img class="like" :src="likeImg" alt="" @click.stop="addLike">
+        <img class="like" :src="likeImg?'./static/img/icon-dai/bottom-like2.svg':'./static/img/icon-dai/bottom-like3.svg'" alt="" @click.stop="addLike">
         <img src="../../static/img/timg.jpg" />
       </div>
       <div class="shoplist-content">
@@ -27,8 +27,11 @@
 import router from '../router'
 export default {
   data () {
-    let likeImg = '../../static/img/icon-dai/bottom-like3.svg'
+    let likeImg = this.shopData.likeImg
     return {likeImg}
+  },
+  computed: {
+
   },
   methods: {
     // 点击shoplist，跳转到 shop详情
@@ -37,12 +40,14 @@ export default {
     },
     // 点击爱心收藏 将收藏酒店id传入store
     addLike () {
-      if (this.likeImg === '../../static/img/icon-dai/bottom-like2.svg') {
-        this.likeImg = '../../static/img/icon-dai/bottom-like3.svg'
+      if (this.shopData.likeImg) {
+        this.likeImg = './static/img/icon-dai/bottom-like3.svg'
+        this.shopData['likeImg'] = false
         this.$store.commit('cancelLike', this.shopData)
         console.log(this.$store.state.hotelCollect)
       } else {
-        this.likeImg = '../../static/img/icon-dai/bottom-like2.svg'
+        this.likeImg = './static/img/icon-dai/bottom-like2.svg'
+        this.shopData['likeImg'] = true
         this.$store.commit('addLike', this.shopData)
         console.log(this.$store.state.hotelCollect)
       }

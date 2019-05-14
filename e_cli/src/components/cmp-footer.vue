@@ -19,9 +19,9 @@
 export default {
   data () {
     let imageArr = [
-      ['../../static/img/icon-dai/3-首页.svg', '../../static/img/icon-dai/3-首页active.svg'],
-      ['../../static/img/icon-dai/bottom-like1.svg', '../../static/img/icon-dai/bottom-like2.svg'],
-      ['../../static/img/icon-dai/setting (1).svg', '../../static/img/icon-dai/setting (1)active.svg']
+      ['./static/img/icon-dai/3-首页.svg', './static/img/icon-dai/3-首页active.svg'],
+      ['./static/img/icon-dai/bottom-like1.svg', './static/img/icon-dai/bottom-like2.svg'],
+      ['./static/img/icon-dai/setting (1).svg', './static/img/icon-dai/setting (1)active.svg']
     ]
     let showUp = 0
     return { imageArr, showUp }
