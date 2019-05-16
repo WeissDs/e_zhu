@@ -1,6 +1,7 @@
 <template>
   <div>
     <Top v-show="show"></Top>
+    <Calendar></Calendar>
     <div class="hotel-list">
       <ShopList/>
       <ShopList/>
@@ -11,9 +12,11 @@
 
 <script>
 import Top from '@/components/cmp-top'
-import ShopList from '@/components/cmp-home-shoplistItem.vue'
+import Calendar from '@/components/cmp-calendar.vue'
+import ShopList from '@/components/cmp-shoplist-shoplistItem.vue'
+
 export default {
-  components: { ShopList, Top },
+  components: { ShopList, Top, Calendar },
   data () {
     let show = true
     return {show}
@@ -34,5 +37,5 @@ export default {
 }
 </script>
 <style lang="less">
-  .hotel-list{ margin-top: .9rem; }
+  .calendar-outbox{ margin-top: .9rem; }
 </style>

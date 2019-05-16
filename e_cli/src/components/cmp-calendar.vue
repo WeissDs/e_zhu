@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="calendar-outbox">
     <div class="line"></div>
     <div id="checkinout">
       <div id="firstSelect" style="width:100%;">
@@ -51,6 +51,10 @@ export default {
         var startDate = $('#startDate').val();  //入住的天数
         var endDate = $('#endDate').val();      //离店的天数
         var NumDate = $('.NumDate').text();    //共多少晚
+        console.log(window)
+        window.sessionStorage.setItem('choice-startDate', startDate)
+        window.sessionStorage.setItem('choice-endDate', endDate)
+
         console.log(startDate);
         console.log(endDate);
         console.log(NumDate);
@@ -72,14 +76,27 @@ export default {
     mo = mo<10?"0"+mo:mo;
     var da=b.getDate();
     da = da<10?"0"+da:da;
-    $('#startDate').val(ye+'-'+mo+'-'+da);
+    // let a = window.sessionStorage.getItem('choice-startDate')
+    // let b = window.sessionStorage.getItem('choice-endDate')
+    if(window.sessionStorage.getItem('choice-startDate')){
+      $('#startDate').val(window.sessionStorage.getItem('choice-startDate'));
+    }else{
+      $('#startDate').val(ye+'-'+mo+'-'+da);
+    }
     b=new Date(b.getTime()+24*3600*1000);
     var ye=b.getFullYear();
     var mo=b.getMonth()+1;
     mo = mo<10?"0"+mo:mo;
     var da=b.getDate();
     da = da<10?"0"+da:da;
-    $('#endDate').val(ye+'-'+mo+'-'+da);
+    if(window.sessionStorage.getItem('choice-endDate')){
+      $('#endDate').val(window.sessionStorage.getItem('choice-endDate'));
+    }else{
+      $('#endDate').val(ye+'-'+mo+'-'+da);
+    }
+  },
+  updata(){
+
   }
 }
 </script>

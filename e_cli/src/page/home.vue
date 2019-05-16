@@ -51,7 +51,7 @@
         <span class="red">hotel loveing</span>
       </div>
       <div class="home-shoplist">
-        <shopItem v-for="item in shopListArr" :key="item.id" :shopData="item"></shopItem>
+        <shopItem v-for="item in this.$store.state.shopListArr" :key="item.id" :shopData="item"></shopItem>
       </div>
 
     </div>
@@ -148,27 +148,7 @@ export default {
     if (_this.getShopList(0).length) {
       _this.shopListArr = await _this.getShopList(0)
     } else {
-      // 记得有数据后删掉
-      this.shopListArr = [
-        {
-          'id': 'asidi111',
-          'name': 'AAAAAAAAAAAAAAAAAAASSSSS酒店',
-          'price': '2002',
-          'location': '223,667'
-        },
-        {
-          'id': 'asidi222',
-          'name': 'BB酒店',
-          'price': '299',
-          'location': '100,200'
-        },
-        {
-          'id': 'asidi333',
-          'name': '云上依人民宿',
-          'price': '298',
-          'location': '558'
-        }
-      ]
+      // 静态模拟数据放到vuex中了 ajax获取到的值直接存入store
     }
   }
 }

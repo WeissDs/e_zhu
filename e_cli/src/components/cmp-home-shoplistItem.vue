@@ -27,7 +27,7 @@
 import router from '../router'
 export default {
   data () {
-    let likeImg = this.shopData.likeImg
+    let likeImg = this.shopData?this.shopData.likeImg : false
     return {likeImg}
   },
   computed: {
@@ -41,12 +41,12 @@ export default {
     // 点击爱心收藏 将收藏酒店id传入store
     addLike () {
       if (this.shopData.likeImg) {
-        this.likeImg = './static/img/icon-dai/bottom-like3.svg'
+        this.likeImg = false
         this.shopData['likeImg'] = false
         this.$store.commit('cancelLike', this.shopData)
         console.log(this.$store.state.hotelCollect)
       } else {
-        this.likeImg = './static/img/icon-dai/bottom-like2.svg'
+        this.likeImg = true
         this.shopData['likeImg'] = true
         this.$store.commit('addLike', this.shopData)
         console.log(this.$store.state.hotelCollect)
