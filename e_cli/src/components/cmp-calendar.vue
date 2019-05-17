@@ -109,6 +109,7 @@ export default {
   height: .02rem;
   margin: .2rem auto 0;
 }
+.calendar-outbox{ background-color:#fff; }
   .calendar{
     display: none;
     position: fixed;

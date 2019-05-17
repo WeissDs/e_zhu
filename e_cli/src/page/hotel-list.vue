@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="hotel-list-outbox">
     <Top v-show="show"></Top>
     <Calendar></Calendar>
     <div class="hotel-list">
@@ -37,5 +37,9 @@ export default {
 }
 </script>
 <style lang="less">
+  .hotel-list-outbox{
+    width: 100%;
+    background-color: #f5f9fc;
+  }
   .calendar-outbox{ margin-top: .9rem; }
 </style>

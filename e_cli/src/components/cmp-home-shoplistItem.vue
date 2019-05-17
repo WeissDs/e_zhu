@@ -14,7 +14,7 @@
           <img src="../../static/img/icon/facilities_4.svg" alt="">
           <img src="../../static/img/icon/facilities_8.svg" alt="">
         </p>
-        <p class="hotel-price"><span>￥</span><span>{{shopData?shopData.price:'还没有name'}}</span> 起</p>
+        <p class="hotel-price"><span>￥</span><span>{{shopData?shopData.price:''}}</span> 起</p>
         <p class="hotel-description" style="">酒店描述*酒店描述*酒店描述*酒店描述*酒店描述*酒店描述*酒店描述酒店描述*酒店描述*酒店描述*酒店描述*酒店描述*酒店描述*酒店描述</p>
         <p class="hotel-location">约 <span>{{shopData?shopData.location:''}}</span> km</p>
 
@@ -40,6 +40,7 @@ export default {
     },
     // 点击爱心收藏 将收藏酒店id传入store
     addLike () {
+      console.log(this.shopData['likeImg'])
       if (this.shopData.likeImg) {
         this.likeImg = false
         this.shopData['likeImg'] = false
