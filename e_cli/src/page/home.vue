@@ -63,7 +63,7 @@
     <footnav></footnav>
     <!-- 星级选择 -->
     <!-- 向子组件传递 props -->
-    <Star v-if="this.show" @shadShow = "closestar($emit)"></Star>
+    <Star v-show="this.show" @shadShow = "closestar($emit)"></Star>
   </div>
 </template>
 

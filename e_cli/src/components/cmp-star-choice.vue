@@ -43,13 +43,24 @@
             <span class="red"></span>
           </li>
         </ul>
+        <div style="clear:both;">
+
+        </div>
         <div class="popup-price-bar">
-          <input type="range" min="0" max="1000" id="rangel" value="0">
+          <!-- <input type="range" min="0" max="1000" id="rangel" value="0"> -->
+          <div>{{cRangeValue}}</div>
+          <mt-range
+            v-model="rangeValue"
+            :min="0"
+            :max="70"
+            :step="1"
+            :bar-height="5">
+          </mt-range>
         </div>
       </div>
       <div class="popup-bottom">
-        <button id="index_popup_re" class="popup-re">重置</button>
-        <button id="index_popup_sub" class="popup-sub">完成</button>
+        <button id="index_popup_re" class="popup-re" @click="refresh()">重置</button>
+        <button id="index_popup_sub" class="popup-sub" @click="close()">完成</button>
       </div>
     </div>
     <div class="shad" @click="close"></div>
@@ -58,19 +69,37 @@
 
 <script>
 export default {
-  // data(){
-  // let show1 = true
-  // return {show1}
-  // },
+  data(){
+  // range滑块mintUI的value值
+  let rangeValue = 0
+  // range滑块计算后的balue值
+  let resultRangeValue = 0
+  return { rangeValue, resultRangeValue }
+  },
+  computed: {
+    cRangeValue: {
+      get: function(){
+        if(this.rangeValue>60){
+          this.resultRangeValue=1000
+        }else{
+          this.resultRangeValue=Math.floor(this.rangeValue/10)*100
+        }
+        return this.resultRangeValue
+      },
+      set: function(newVal){
+        this.resultRangeValue=newVal
+      }
+    }
+  },
   methods: {
-    // close(){
-    //   console.log(11,this.show1)
-    //   this.show1 = false
-    // },
-
+    refresh(){
+      console.log(this.resultRangeValue )
+      this.rangeValue = 0
+      this.resultRangeValue = 0
+    },
     // 使用emit 改变父组件的show的值
     close () {
-      this.$emit('shadShow', '这个参数是干嘛的噢噢噢噢')
+      this.$emit('shadShow', '可以向父组件传参')
     }
   },
   props: ['show'],
@@ -80,7 +109,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
   /* 弹出层 */
   .shad{ width: 100%; height: 100%; position: fixed; top: 0; left: 0; background-color: rgba(0,0,0,0.3); z-index: 998; }
   .price-start-popup{ width: 92%; /* height: 4.9rem; */ background-color: #fff; border-radius: 8px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 999;  }
@@ -89,15 +118,16 @@ export default {
   .price-start-popup .star-select{ padding: .3rem; }
   .price-start-popup .price_select{ padding: 0 .3rem; margin-top: .3rem; }
   .price-start-popup .price_select{ padding-top:0; }
-  .price-start-popup .price_select .popup-price-section{ height: .8rem; text-align: center; padding-top: .08rem; }
+  .price-start-popup .price_select .popup-price-section{ height: .8rem; text-align: center; padding-top: .08rem; font-size: 0; }
   .price-start-popup .price_select .popup-price-section::after{ content: ''; height: 0; display: inline-block; clear: both; visibility:hidden;  }
-  .price-start-popup .price_select .popup-price-section li{ float: left; margin-left: .31rem; }
+  .price-start-popup .price_select .popup-price-section li{ float: left; margin-left: .3rem; }
   .price-start-popup .price_select .popup-price-section li:nth-child(1){ margin-left: .15rem; }
   .price-start-popup .price_select .popup-price-section li p.red{ color: #dd2726; }
   .price-start-popup .price_select .popup-price-section li span.red{ background-color: #dd2726; }
   .price-start-popup .price_select .popup-price-section li p{ font-size: .24rem; margin: 0; line-height: .3rem; }
-  .price-start-popup .price_select .popup-price-section span{ width: .02rem; height: .2rem; background-color: #000; display: inline-block; }
-  .price-start-popup .price_select .popup-price-bar{ border: none; }
+  .price-start-popup .price_select .popup-price-section span{ margin-top: .3rem; width: .02rem; height: .2rem; background-color: #000; display: inline-block; }
+  .price-start-popup .price_select .popup-price-bar{ border: none; width: 95%; margin: .2rem auto; }
+
   .price-start-popup .star-item,.price-start-popup .star-item-clear{ width: 1.3rem; height: .6rem; border: 1px solid #d2d2d2; border-radius: 2px; color: #666;margin: 0 .086rem .12rem .086rem; font-size: .26rem; text-align: center; line-height: .6rem; display: inline-block; }
   .price-start-popup .active{ border: 1px solid #dd2726; }
   /* 弹出层 底部 */

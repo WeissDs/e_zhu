@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="gotoDetail('11111')">
     <div class="serrch-shoplist-item">
       <div class="shoplist-img">
         <img src="../../static/img/timg.jpg" />
@@ -33,7 +33,14 @@
 </template>
 
 <script>
+// import router from '../router'
 export default {
+methods: {
+  gotoDetail(id){
+    // 不引入router， 用vue的全局对象也可以
+    this.$router.push(`detail/${id}`)
+  }
+},
 props: ['shopData']
 }
 </script>

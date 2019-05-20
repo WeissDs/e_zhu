@@ -4,7 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import { Swipe, SwipeItem, Button } from 'mint-ui'
+import { Swipe, SwipeItem, Button, Range, Navbar, TabItem } from 'mint-ui'
+
 import 'mint-ui/lib/style.css'
 
 import './common/css/base.css'
@@ -18,6 +19,11 @@ Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)
 // button
 Vue.component(Button.name, Button)
+// 滑块
+Vue.component(Range.name, Range)
+// 选项卡
+Vue.component(Navbar.name, Navbar);
+Vue.component(TabItem.name, TabItem);
 
 // 将axios给到全局vue变量的prototype中，在组件中就不用重新初始化了
 Vue.prototype.axios = axios.create({
