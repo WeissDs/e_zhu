@@ -18,12 +18,12 @@
         <!-- 时间选择 代码 -->
         <div class="form-input" id="home_area">
           <label><img src="../../static/img/icon-dai/6-地点.svg"/></label>
-          <input type="text" name="areaname" class="hotel_area" readonly="readonly" v-model="inputtext.areaname">
+          <input type="text" name="areaname" class="hotel_area" v-model="inputtext.areaname" @focus="inputActive($event.target, '搜索目的地')" @blur="inputBlur($event.target, '搜索目的地')">
           <span class="now-position"><img src="../../static/img/icon-dai/position.svg" alt="" @click="location"></span>
         </div>
         <div class="form-input">
           <label><img src="../../static/img/icon-dai/1-搜索.svg"/></label>
-          <input type="text" name="hotelname" v-model="inputtext.hotelname" @focus="inputActive($event.target.value)" @blur="inputBlur($event.target.value)">
+          <input type="text" name="hotelname" v-model="inputtext.hotelname" @focus="inputActive($event.target, '酒店名称')" @blur="inputBlur($event.target, '酒店名称')">
         </div>
         <div class="form-input">
           <label><img src="../../static/img/icon-dai/29-星级.svg"/></label>
@@ -123,17 +123,41 @@ export default {
         })
       })
     },
-    // 判断酒店名称逻辑
-    inputActive (value) {
-      if (value === '酒店名称') {
-        this.inputtext.hotelname = ''
+    // 判断input是否填入逻辑
+    // 点击获取焦点时
+    inputActive (e, oldValue) {
+      console.log(e.value, oldValue, e.name)
+      if (e.value === oldValue) {
+        switch(e.name){
+          case 'hotelname':
+            this.inputtext.hotelname = ''
+            break
+          case 'areaname':
+            this.inputtext.areaname = ''
+            break
+        }
       }
     },
-    inputBlur (value) {
-      if (!value) {
-        this.inputtext.hotelname = '酒店名称'
+    // 点击失去焦点时
+    inputBlur (e, oldValue) {
+      if (!e.value) {
+        switch(e.name){
+          case 'hotelname':
+            this.inputtext.hotelname = oldValue
+            break
+          case 'areaname':
+            this.inputtext.areaname = oldValue
+            break
+        }
       } else {
-        this.inputtext.hotelname = value
+        switch(e.name){
+          case 'hotelname':
+            this.inputtext.hotelname = e.value
+            break
+          case 'areaname':
+            this.inputtext.earename = e.value
+            break
+        }
       }
     },
     // 请求酒店列表

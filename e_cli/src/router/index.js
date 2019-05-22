@@ -7,6 +7,8 @@ import Me from '@/page/me'
 import Detail from '@/page/hotel-detail'
 import HotelList from '@/page/hotel-list'
 
+import Test from '@/page/testDrag'
+
 Vue.use(Router)
 
 export default new Router({
@@ -32,6 +34,10 @@ export default new Router({
       path: '/hotelList/:type',
       name: 'hotelList',
       component: HotelList
+    }, {
+      path: '/test',
+      name: 'test',
+      component: Test
     }
   ]
 })
