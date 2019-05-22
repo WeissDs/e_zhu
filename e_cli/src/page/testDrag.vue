@@ -9,6 +9,8 @@
 
 <script>
 import TestDragRight from '@/components/Drag/testDrag-right.vue'
+// var obj = null
+// Object.freeze(obj)
 export default {
   components: { TestDragRight },
   data () {
