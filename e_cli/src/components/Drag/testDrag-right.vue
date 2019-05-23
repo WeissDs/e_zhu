@@ -4,6 +4,7 @@
     <label for="input1">姓名: </label><input id="input1" type="text" name="" value="" v-model="cTable.name"><br/>
     <label for="input2">年龄: </label><input id="input2" type="text" name="" value="" v-model="cTable.age"><br/>
     <textarea name="name" rows="8" cols="80" v-model="cTable.text"></textarea>
+    <button type="button" name="button">蓝色</button>
   </div>
 </template>
 
@@ -43,7 +44,7 @@ export default {
     }
   },
   // mounted: {
-    
+
   // },
   props: ['fData']
 }
