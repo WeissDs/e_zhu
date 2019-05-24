@@ -25,6 +25,7 @@ Vue.component(Range.name, Range)
 Vue.component(Navbar.name, Navbar);
 Vue.component(TabItem.name, TabItem);
 
+
 // 将axios给到全局vue变量的prototype中，在组件中就不用重新初始化了
 Vue.prototype.axios = axios.create({
   // 服务器所在地址 通用前缀
